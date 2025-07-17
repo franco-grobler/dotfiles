@@ -15,4 +15,6 @@
     ];
     shell = pkgs.zsh;
   };
+
+  time.timeZone = "Africa/Johannesburg";
 }
