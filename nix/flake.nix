@@ -22,6 +22,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Patch linker for Neovim
+    nix-ld.url = "github:Mic92/nix-ld";
+    nix-ld.inputs.nixpkgs.follows = "nixpkgs";
+
     ghostty.url = "github:ghostty-org/ghostty";
   };
 
