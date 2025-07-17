@@ -20,7 +20,7 @@ let
   osConfig =
     if isDarwin then
       "darwinConfigurations"
-    else if isLinux then
+    else if isLinux || isWSL then
       "nixosConfigurations"
     else
       "homeConfigurations";
@@ -69,10 +69,8 @@ let
 
   globalPrograms = [
     (import "${currentDir}/programs/clis.nix")
-    (import "${currentDir}/programs/i3.nix" {
-      isLinux = isLinux;
-      isWSL = isWSL;
-    })
+    (import "${currentDir}/programs/i3.nix" { isLinux = isLinux; isWSL = isWSL; })
+    (import "${currentDir}/programs/nvim.nix" { isNixOsLike = isLinux || isWSL; })
     (import "${currentDir}/programs/shells.nix" { inherit shellAliases; })
     (import "${currentDir}/programs/utils.nix" {
       inherit osConfig systemName isDarwin;
@@ -123,6 +121,7 @@ in
     pkgs.podman-tui
     pkgs.python314
     pkgs.qmk
+    pkgs.python
     pkgs.ripgrep
     pkgs.rustup
     pkgs.sentry-cli
@@ -143,14 +142,11 @@ in
     pkgs._1password-gui
     pkgs.alacritty
     pkgs.podman-desktop
-  ])
-  ++ (lib.optionals (!isDarwin) [
-    pkgs.gemini-cli # macos installer not availble
-  ])
-  ++ (lib.optionals (isLinux && !isWSL) [
+  ]) ++ (lib.optionals (isLinux && !isWSL) [
     pkgs.chromium
     pkgs.firefox
     pkgs.freecad-wayland
+    pkgs.gemini-cli # macos & wsl installer not availble
     pkgs.ghostty # macos installer is broken
     pkgs.rofi
     pkgs.vial
