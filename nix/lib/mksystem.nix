@@ -47,6 +47,9 @@ systemFunc rec {
     # Snapd on Linux
     (if isLinux then inputs.nix-snapd.nixosModules.default else { })
 
+    # Patch linker on NixOS like systems
+    (if isWSL || isLinux then inputs.nix-ld.nixosModules.nix-ld else {})
+
     machineConfig
     userOSConfig
     home-manager.home-manager
