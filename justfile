@@ -46,3 +46,6 @@ nix-test:
 nix-update:
     brew update
     nix flake update
+[group('Nix')]
+mason-packages:
+    @nvim --headless -c ':luafile ./_scripts/list_lsps.lua' -c 'q' 2>&1
