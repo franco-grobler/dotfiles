@@ -27,7 +27,6 @@ fi
 alias awsp="source _awsp"
 
 # Startship
-eval "$(starship init zsh)"
 export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
 
 # Git cliff
