@@ -63,6 +63,9 @@ let
     })
     (import "${currentDir}/programs/vsc.nix")
   ];
+  lspPackages = import "${currentDir}/programs/lsp.nix" {
+    inherit pkgs;
+  };
 in
 {
   home = {
@@ -204,7 +207,7 @@ in
     pkgs.vial
     pkgs.valgrind
     pkgs.zathura
-  ]);
+  ]) ++ lspPackages;
 
       EDITOR = "nvim";
       PAGER = "less -FirSwX";
