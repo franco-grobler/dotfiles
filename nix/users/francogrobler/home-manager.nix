@@ -184,7 +184,6 @@ in
     pkgs.wget
     pkgs.yazi
     pkgs.yq
-    pkgs.zoxide
 
     pkgs.nerd-fonts.jetbrains-mono
   ]
