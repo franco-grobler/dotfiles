@@ -55,7 +55,6 @@ let
   globalPrograms = [
     (import "${currentDir}/programs/clis.nix")
     (import "${currentDir}/programs/i3.nix" { isLinux = isLinux; isWSL = isWSL; })
-    (import "${currentDir}/programs/nvim.nix" { isNixOsLike = isLinux || isWSL; })
     (import "${currentDir}/programs/shells.nix" { inherit shellAliases; })
     (import "${currentDir}/programs/tuis.nix")
     (import "${currentDir}/programs/utils.nix" {
