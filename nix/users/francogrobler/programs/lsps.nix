@@ -1,6 +1,6 @@
 {pkgs}: [
   # Python
-  pkgs.python313Packages.pyright
+  pkgs.basedpyright
   pkgs.python313Packages.ruff
   pkgs.python313Packages.python-lsp-server
 
@@ -16,13 +16,13 @@
   # Go
   pkgs.delve
   pkgs.gofumpt
-  pkgs.goimports
+  # pkgs.goimports
   pkgs.gomodifytags
   pkgs.gopls
 
   # Docker 
   pkgs.docker-compose-language-service
-  pkgs.dockerfile-language-server
+  pkgs.docker-language-server
   pkgs.hadolint
 
   # Shell
@@ -41,7 +41,7 @@
 
   # YAML/JSON
   pkgs.yaml-language-server
-  pkgs.jsonls
+  pkgs.nodePackages.vscode-json-languageserver
   pkgs.taplo
 
   # Ansible 
@@ -49,7 +49,7 @@
   pkgs.ansible-lint
 
   # Helm
-  pkgs.kubernetes-helm.helm-ls
+  pkgs.helm-ls
 
   # SQL
   pkgs.sqlfluff
@@ -58,9 +58,11 @@
   pkgs.lua-language-server
 
   # JVM
-  pkgs.jdtls
+  pkgs.java-language-server
+  pkgs.vscode-extensions.vscjava.vscode-java-debug
   pkgs.ktlint
 
   # Other/Generic
-  pkgs.prismals
+  pkgs.prisma 
+  pkgs.just-lsp
 ]

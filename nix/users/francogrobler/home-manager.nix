@@ -76,7 +76,7 @@ let
     })
     (import "${currentDir}/programs/vsc.nix")
   ];
-  lspPackages = import "${currentDir}/programs/lsp.nix" {
+  lspPackages = import "${currentDir}/programs/lsps.nix" {
     inherit pkgs;
   };
 in
