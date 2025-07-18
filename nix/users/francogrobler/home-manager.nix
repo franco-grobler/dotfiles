@@ -77,6 +77,9 @@ let
     })
     (import "${currentDir}/programs/vsc.nix")
   ];
+  lspPackages = import "${currentDir}/programs/lsp.nix" {
+    inherit pkgs;
+  };
 in
 {
   home.stateVersion = "25.05";
@@ -153,7 +156,7 @@ in
     pkgs.vial
     pkgs.valgrind
     pkgs.zathura
-  ]);
+  ]) ++ lspPackages;
 
   #---------------------------------------------------------------------
   # Env vars and dotfiles

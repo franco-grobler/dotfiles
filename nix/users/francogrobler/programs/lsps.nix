@@ -1,0 +1,66 @@
+{pkgs}: [
+  # Python
+  pkgs.python313Packages.pyright
+  pkgs.python313Packages.ruff
+  pkgs.python313Packages.python-lsp-server
+
+  # JavaScript/TypeScript/Frontend 
+  pkgs.angular-language-server
+  pkgs.biome
+  pkgs.nodePackages.eslint_d
+  pkgs.prettierd
+  pkgs.typescript-language-server
+  pkgs.vue-language-server # Vue/Volar
+  pkgs.vtsls
+
+  # Go
+  pkgs.delve
+  pkgs.gofumpt
+  pkgs.goimports
+  pkgs.gomodifytags
+  pkgs.gopls
+
+  # Docker 
+  pkgs.docker-compose-language-service
+  pkgs.dockerfile-language-server
+  pkgs.hadolint
+
+  # Shell
+  pkgs.bash-language-server
+  pkgs.shellcheck
+  pkgs.shfmt
+
+  # Markup/Markdown/LaTeX 
+  pkgs.marksman
+  pkgs.texlab
+
+  # Nix 
+  pkgs.nil
+  pkgs.nixfmt
+  pkgs.nixpkgs-fmt
+
+  # YAML/JSON
+  pkgs.yaml-language-server
+  pkgs.jsonls
+  pkgs.taplo
+
+  # Ansible 
+  pkgs.ansible-language-server
+  pkgs.ansible-lint
+
+  # Helm
+  pkgs.kubernetes-helm.helm-ls
+
+  # SQL
+  pkgs.sqlfluff
+
+  # Lua
+  pkgs.lua-language-server
+
+  # JVM
+  pkgs.jdtls
+  pkgs.ktlint
+
+  # Other/Generic
+  pkgs.prismals
+]
