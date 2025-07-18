@@ -69,16 +69,17 @@ let
 
   globalPrograms = [
     (import "${currentDir}/programs/clis.nix")
-    (import "${currentDir}/programs/i3.nix" { isLinux = isLinux; isWSL = isWSL; })
+    (import "${currentDir}/programs/i3.nix" {
+      isLinux = isLinux;
+      isWSL = isWSL;
+    })
     (import "${currentDir}/programs/shells.nix" { inherit shellAliases; })
     (import "${currentDir}/programs/utils.nix" {
       inherit osConfig systemName isDarwin;
     })
     (import "${currentDir}/programs/vsc.nix")
   ];
-  lspPackages = import "${currentDir}/programs/lsps.nix" {
-    inherit pkgs;
-  };
+  lspPackages = import "${currentDir}/programs/lsps.nix" { inherit pkgs; };
 in
 {
   home.stateVersion = "25.05";
@@ -145,7 +146,11 @@ in
     pkgs._1password-gui
     pkgs.alacritty
     pkgs.podman-desktop
-  ]) ++ (lib.optionals (isLinux && !isWSL) [
+  ])
+  ++ (lib.optionals (isLinux || isWSL) [
+    pkgs.xclip
+  ])
+  ++ (lib.optionals (isLinux && !isWSL) [
     pkgs.chromium
     pkgs.firefox
     pkgs.freecad-wayland
@@ -155,8 +160,8 @@ in
     pkgs.vial
     pkgs.valgrind
     pkgs.zathura
-  ]) ++ lspPackages;
-
+  ])
+  ++ lspPackages;
   #---------------------------------------------------------------------
   # Env vars and dotfiles
   #---------------------------------------------------------------------
