@@ -1,4 +1,4 @@
-{pkgs}: [
+{ pkgs }: [
   # Python
   pkgs.basedpyright
   pkgs.python313Packages.ruff
@@ -8,9 +8,10 @@
   pkgs.angular-language-server
   pkgs.biome
   pkgs.nodePackages.eslint_d
+  pkgs.nodePackages.prettier
   pkgs.prettierd
   pkgs.typescript-language-server
-  pkgs.vue-language-server # Vue/Volar
+  pkgs.vue-language-server
   pkgs.vtsls
 
   # Go
@@ -63,6 +64,6 @@
   pkgs.ktlint
 
   # Other/Generic
-  pkgs.prisma 
+  pkgs.prisma
   pkgs.just-lsp
 ]
