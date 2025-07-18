@@ -173,6 +173,7 @@ in
     pkgs.python314
     pkgs.qmk
     pkgs.python
+    pkgs.python3
     pkgs.ripgrep
     pkgs.rustup
     pkgs.sentry-cli
