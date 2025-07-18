@@ -109,6 +109,7 @@ in
     pkgs.jaq
     pkgs.just
     pkgs.jq
+    pkgs.kubectl
     pkgs.lazydocker
     pkgs.lazygit
     pkgs.lolcat
