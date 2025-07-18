@@ -15,7 +15,7 @@
 
   programs.nix-ld = {
     enable = true;
-    libraries = with pkgs; [ markdown-toc ruff ];
+    libraries = with pkgs; [ ruff ];
   };
 
   programs.zsh.enable = true;
