@@ -1,4 +1,9 @@
-{ lib, pkgs, ... }:
+{
+  lib,
+  pkgs,
+  isWSL,
+  ...
+}:
 let
   inherit (pkgs.stdenv) isDarwin;
   gpgSshSign =
@@ -28,6 +33,7 @@ in
       };
       core = {
         askPass = ""; # needs to be empty to use terminal for ask pass
+        sshCommand = if isWSL then "ssh.exe" else "ssh";
       };
       credential = {
         helper = "store"; # want to make this more secure
