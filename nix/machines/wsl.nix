@@ -14,7 +14,13 @@
       };
     };
     defaultUser = currentSystemUser;
+    docker-desktop.enable = true;
     startMenuLaunchers = true;
+    wslConf = {
+      automount = {
+        root = "/mnt";
+      };
+    };
   };
 
   nix = {
