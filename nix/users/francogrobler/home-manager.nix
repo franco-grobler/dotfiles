@@ -152,6 +152,7 @@ in
     pkgs.cmatrix
     pkgs.cowsay
     pkgs.devenv
+    pkgs.dive
     pkgs.docker
     pkgs.eza
     pkgs.fastfetch
@@ -176,8 +177,7 @@ in
     pkgs.podman-tui
     pkgs.python314
     pkgs.qmk
-    pkgs.python
-    pkgs.python3
+    pkgs.python313
     pkgs.ripgrep
     pkgs.rustup
     pkgs.sentry-cli
@@ -194,24 +194,35 @@ in
   ]
   ++ (lib.optionals (!isWSL && !isDarwin) [
     # GUI apps
-    pkgs._1password-gui
     pkgs.alacritty
     pkgs.podman-desktop
   ])
   ++ (lib.optionals (isLinux || isWSL) [
+    pkgs.qemu
+    pkgs.virtiofsd
     pkgs.xclip
   ])
   ++ (lib.optionals (isLinux && !isWSL) [
+    # MacOS & WSL installer not available
+    pkgs.gemini-cli
+    # GUI apps
+    pkgs._1password-gui
+    pkgs.alacritty
     pkgs.chromium
     pkgs.firefox
     pkgs.freecad-wayland
-    pkgs.gemini-cli # macos & wsl installer not availble
-    pkgs.ghostty # macos installer is broken
+    pkgs.ghostty
+    pkgs.podman-desktop
     pkgs.rofi
     pkgs.vial
     pkgs.valgrind
     pkgs.zathura
-  ]) ++ lspPackages;
+  ])
+  ++ lspPackages;
+
+  #---------------------------------------------------------------------
+  # Env vars and dotfiles
+  #---------------------------------------------------------------------
 
       EDITOR = "nvim";
       PAGER = "less -FirSwX";
@@ -219,26 +230,19 @@ in
 
       BAT_CONFIG_PATH = "$XDG_CONFIG_HOME/bat/config";
 
-      GEMINI_API_KEY = "op://Personal/Gemini CLI/credential";
-    }
-    // (
-      if isDarwin then
-        {
-          # See: https://github.com/NixOS/nixpkgs/issues/390751
-          DISPLAY = "nixpkgs-390751";
-        }
-      else
-        { }
-    );
-
-    # Make cursor not tiny on HiDPI screens
-    pointerCursor = lib.mkIf (isLinux && !isWSL) {
-      name = "Vanilla-DMZ";
-      package = pkgs.vanilla-dmz;
-      size = 128;
-      x11.enable = true;
-    };
-  };
+    GEMINI_API_KEY = "op://Personal/Gemini CLI/credential";
+  }
+  // (
+    if isDarwin then
+      {
+        # See: https://github.com/NixOS/nixpkgs/issues/390751
+        DISPLAY = "nixpkgs-390751";
+      }
+    else
+      {
+        DOCKER_HOST = "unix:///run/user/1000/podman/podman-machine-default-api.sock";
+      }
+  );
 
   #---------------------------------------------------------------------
   # Programs
