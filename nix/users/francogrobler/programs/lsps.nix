@@ -32,12 +32,13 @@
   pkgs.shfmt
 
   # Markup/Markdown/LaTeX 
+  pkgs.markdownlint-cli2
   pkgs.marksman
   pkgs.texlab
 
   # Nix 
   pkgs.nil
-  pkgs.nixfmt
+  pkgs.nixfmt-rfc-style
   pkgs.nixpkgs-fmt
 
   # YAML/JSON
