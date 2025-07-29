@@ -58,6 +58,7 @@ let
       isLinux = isLinux;
       isWSL = isWSL;
     })
+    (import "${currentDir}/programs/languages.nix" { inherit pkgs; })
     (import "${currentDir}/programs/shells.nix" { inherit shellAliases; })
     (import "${currentDir}/programs/tuis.nix")
     (import "${currentDir}/programs/utils.nix" {
