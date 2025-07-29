@@ -4,7 +4,7 @@
 
 local opt = vim.opt
 
-opt.wrap = true -- Enable line wrap
+opt.wrap = true  -- Enable line wrap
 opt.spell = true -- Enable spell checking
 opt.mouse = ""
 
@@ -16,8 +16,14 @@ g.lazyvim_python_lsp = "basedpyright"
 g.vimtex_view_method = "skim"
 
 -- File types
-vim.filetype.add({
+local filetype = vim.filetype
+filetype.add({
   extension = {
     arb = "json",
+  },
+})
+filetype.add({
+  extension = {
+    pipeline = "groovy",
   },
 })
