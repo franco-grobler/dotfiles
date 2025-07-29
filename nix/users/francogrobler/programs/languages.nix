@@ -1,7 +1,15 @@
 { pkgs }:
 {
+  programs.go = {
+    enable = true;
+    goPath = "$HOME/.go";
+    telemetry = {
+      mode = "on";
+    };
+  };
+
   programs.java = {
     enable = true;
-    packages = pkgs.jdk22;
+    package = pkgs.jdk22;
   };
 }
