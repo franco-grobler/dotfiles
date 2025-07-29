@@ -73,6 +73,7 @@ let
       isLinux = isLinux;
       isWSL = isWSL;
     })
+    (import "${currentDir}/programs/languages.nix" { inherit pkgs; })
     (import "${currentDir}/programs/shells.nix" { inherit shellAliases; })
     (import "${currentDir}/programs/utils.nix" { inherit osConfig systemName isDarwin; })
     (import "${currentDir}/programs/vsc.nix" { inherit isWSL; })
