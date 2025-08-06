@@ -37,7 +37,12 @@ let
     "gemini-cli" = "GEMINI_API_KEY=$(op read $GEMINI_API_KEY) gemini";
   }
   // (
-    if isLinux then
+    if isWSL then
+      {
+        pbcopy = "win32yank.exe -i";
+        pbpaste = "win32yank.exe -o";
+      }
+    else if isLinux then
       {
         pbcopy = "xclip";
         pbpaste = "xclip -o";
