@@ -152,6 +152,7 @@ in
   # not a huge list.
   home.packages = [
     pkgs._1password-cli
+    pkgs.awscli2
     pkgs.bat
     pkgs.bottom
     pkgs.btop
