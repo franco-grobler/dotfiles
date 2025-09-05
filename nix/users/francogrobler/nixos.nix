@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   # Add ~/.local/bin to PATH
   environment.localBinInPath = true;
 
@@ -36,7 +37,11 @@
   virtualisation = {
     containers = {
       enable = true;
-      containersConf = { settings = { compose_warning_logs = false; }; };
+      containersConf = {
+        settings = {
+          compose_warning_logs = false;
+        };
+      };
     };
     podman = {
       enable = true;
