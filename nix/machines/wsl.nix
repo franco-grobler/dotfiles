@@ -6,6 +6,10 @@
 {
   imports = [ ];
 
+  environment.systemPackages = with pkgs; [
+    openssl
+  ];
+
   wsl = {
     enable = true;
     wslConf = {
