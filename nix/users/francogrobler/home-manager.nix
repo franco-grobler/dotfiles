@@ -57,18 +57,18 @@ let
 
   # For our MANPAGER env var
   # https://github.com/sharkdp/bat/issues/1145
-  manpager = (
-    pkgs.writeShellScriptBin "manpager" (
-      if isDarwin then
-        ''
-          sh -c 'col -bx | bat -l man -p'
-        ''
-      else
-        ''
-          cat "$1" | col -bx | bat --language man --style plain
-        ''
-    )
-  );
+  # manpager = (
+  #   pkgs.writeShellScriptBin "manpager" (
+  #     if isDarwin then
+  #       ''
+  #         sh -c 'col -bx | bat -l man -p'
+  #       ''
+  #     else
+  #       ''
+  #         cat "$1" | col -bx | bat --language man --style plain
+  #       ''
+  #   )
+  # );
 
   currentDir = builtins.path { path = ./.; };
 
@@ -186,7 +186,7 @@ in
     EDITOR = "nvim";
     PAGER = "less -FirSwX";
     PODMAN_COMPOSE_WARNING_LOGS = "false";
-    MANPAGER = "${manpager}/bin/manpager";
+    # MANPAGER = "${manpager}/bin/manpager";
 
     GEMINI_API_KEY = "op://Personal/Gemini CLI/credential";
   }
