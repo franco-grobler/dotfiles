@@ -1,10 +1,12 @@
-{ pkgs }: [
+{ pkgs }:
+[
   # Python
   pkgs.basedpyright
+  pkgs.python313Packages.debugpy
   pkgs.python313Packages.ruff
   pkgs.python313Packages.python-lsp-server
 
-  # JavaScript/TypeScript/Frontend 
+  # JavaScript/TypeScript/Frontend
   pkgs.angular-language-server
   pkgs.biome
   pkgs.nodePackages.eslint_d
@@ -21,7 +23,7 @@
   pkgs.gomodifytags
   pkgs.gopls
 
-  # Docker 
+  # Docker
   pkgs.docker-compose-language-service
   pkgs.docker-language-server
   pkgs.hadolint
@@ -31,12 +33,12 @@
   pkgs.shellcheck
   pkgs.shfmt
 
-  # Markup/Markdown/LaTeX 
+  # Markup/Markdown/LaTeX
   pkgs.markdownlint-cli2
   pkgs.marksman
   pkgs.texlab
 
-  # Nix 
+  # Nix
   pkgs.nil
   pkgs.nixfmt-rfc-style
   pkgs.nixpkgs-fmt
@@ -46,7 +48,7 @@
   pkgs.nodePackages.vscode-json-languageserver
   pkgs.taplo
 
-  # Ansible 
+  # Ansible
   pkgs.ansible-language-server
   pkgs.ansible-lint
 
