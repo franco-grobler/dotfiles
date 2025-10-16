@@ -41,6 +41,8 @@ let
       {
         pbcopy = "win32yank.exe -i";
         pbpaste = "win32yank.exe -o";
+        ssh = "ssh.exe";
+        ssh-add = "ssh-add.exe";
       }
     else if isLinux then
       {
@@ -214,11 +216,6 @@ in
 
     pkgs.nerd-fonts.jetbrains-mono
   ]
-  ++ (lib.optionals (!isWSL && !isDarwin) [
-    # GUI apps
-    pkgs.alacritty
-    pkgs.podman-desktop
-  ])
   ++ (lib.optionals (isLinux || isWSL) [
     pkgs.qemu
     pkgs.virtiofsd
