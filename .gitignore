@@ -9,3 +9,6 @@ tmux/plugins/
 
 # Nix
 nix/result
+
+# Nvim
+nvim/spell/en.utf-8.add.spl
