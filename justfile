@@ -44,6 +44,10 @@ nix-test:
 [group('Nix')]
 [working-directory("nix")]
 nix-update:
-    brew update
+    @if ( "$(uname -s)" = "Darwin"); then brew update; fi
     nix flake update
     git add-and-commit nix/flake.lock "chore(nix): update nix flake lockfile" || true
+
+[group('Nix')]
+mason-packages:
+    @nvim --headless -c ':luafile ./_scripts/list_lsps.lua' -c 'q' 2>&1
