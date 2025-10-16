@@ -41,6 +41,8 @@ let
       {
         pbcopy = "win32yank.exe -i";
         pbpaste = "win32yank.exe -o";
+        ssh = "ssh.exe";
+        ssh-add = "ssh-add.exe";
       }
     else if isLinux then
       {
@@ -81,7 +83,7 @@ let
     (import "${currentDir}/programs/languages.nix" { inherit pkgs; })
     (import "${currentDir}/programs/shells.nix" { inherit shellAliases; })
     (import "${currentDir}/programs/utils.nix" { inherit osConfig systemName isDarwin; })
-    (import "${currentDir}/programs/vsc.nix" { inherit isWSL; })
+    (import "${currentDir}/programs/vsc.nix" { inherit lib pkgs isWSL; })
   ];
   lspPackages = import "${currentDir}/programs/lsps.nix" { inherit pkgs; };
 in
@@ -146,11 +148,6 @@ in
 
     pkgs.nerd-fonts.jetbrains-mono
   ]
-  ++ (lib.optionals (!isWSL && !isDarwin) [
-    # GUI apps
-    pkgs.alacritty
-    pkgs.podman-desktop
-  ])
   ++ (lib.optionals (isLinux || isWSL) [
     pkgs.qemu
     pkgs.virtiofsd
