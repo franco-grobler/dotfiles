@@ -9,6 +9,8 @@ let
   gpgSshSign =
     if isDarwin then
       "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+    else if isWSL then
+      "/mnt/c/Users/groblerf/AppData/Local/1Password/previous/8/op-ssh-sign-wsl.exe"
     else
       "${lib.getExe' pkgs._1password-cli "op-ssh-sign"}";
 in
