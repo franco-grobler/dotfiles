@@ -44,8 +44,9 @@ nix-test:
 [group('Nix')]
 [working-directory("nix")]
 nix-update:
-    brew update
+    @if ( "$(uname -s)" = "Darwin"); then brew update; fi
     nix flake update
+
 [group('Nix')]
 mason-packages:
     @nvim --headless -c ':luafile ./_scripts/list_lsps.lua' -c 'q' 2>&1
