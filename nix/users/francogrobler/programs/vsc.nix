@@ -1,7 +1,11 @@
 { lib, pkgs, ... }:
 let
   isDarwin = pkgs.stdenv.isDarwin;
-  gpgSshSign = if isDarwin then "/Applications/1Password.app/Contents/MacOS/op-ssh-sign" else "${lib.getExe' pkgs._1password-cli "op-ssh-sign"}";
+  gpgSshSign =
+    if isDarwin then
+      "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+    else
+      "${lib.getExe' pkgs._1password-cli "op-ssh-sign"}";
 in
 {
   programs.git = {
@@ -14,8 +18,12 @@ in
       root = "rev-parse --show-toplevel";
     };
     extraConfig = {
-      branch = { autosetuprebase = "always"; };
-      color = { ui = true; };
+      branch = {
+        autosetuprebase = "always";
+      };
+      color = {
+        ui = true;
+      };
       commit = {
         gpgsign = true;
       };
@@ -50,5 +58,3 @@ in
     enable = true;
   };
 }
-
-

@@ -1,10 +1,11 @@
-{ nixpkgs, overlays, inputs }:
+{
+  nixpkgs,
+  overlays,
+  inputs,
+}:
 
 { system, user }:
 let
-  # The config files for this system.
-  userHMConfig = ../users/${user}/home-manager.nix;
-
   home-manager = inputs.home-manager;
 in
 home-manager.lib.homeManagerConfiguration {

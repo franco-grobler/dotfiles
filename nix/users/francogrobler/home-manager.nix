@@ -1,13 +1,29 @@
-{ isWSL, inputs, systemName, ... }:
+{
+  isWSL,
+  inputs,
+  systemName,
+  ...
+}:
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   # sources = import ../../nix/sources.nix;
   isDarwin = pkgs.stdenv.isDarwin;
   isLinux = pkgs.stdenv.isLinux;
 
-  osConfig = if isDarwin then "darwinConfigurations" else if isLinux then "nixosConfigurations" else "homeConfigurations";
+  osConfig =
+    if isDarwin then
+      "darwinConfigurations"
+    else if isLinux then
+      "nixosConfigurations"
+    else
+      "homeConfigurations";
 
   shellAliases = {
     cl = "clear";
@@ -19,26 +35,44 @@ let
     ltree = "eza --tree --level=2  --icons --git";
 
     "gemini-cli" = "GEMINI_API_KEY=$(op read $GEMINI_API_KEY) gemini";
-  } // (if isLinux then {
-    pbcopy = "xclip";
-    pbpaste = "xclip -o";
-  } else { });
+  }
+  // (
+    if isLinux then
+      {
+        pbcopy = "xclip";
+        pbpaste = "xclip -o";
+      }
+    else
+      { }
+  );
 
   # For our MANPAGER env var
   # https://github.com/sharkdp/bat/issues/1145
-  manpager = (pkgs.writeShellScriptBin "manpager" (if isDarwin then ''
-    sh -c 'col -bx | bat -l man -p'
-  '' else ''
-    cat "$1" | col -bx | bat --language man --style plain
-  ''));
+  manpager = (
+    pkgs.writeShellScriptBin "manpager" (
+      if isDarwin then
+        ''
+          sh -c 'col -bx | bat -l man -p'
+        ''
+      else
+        ''
+          cat "$1" | col -bx | bat --language man --style plain
+        ''
+    )
+  );
 
   currentDir = builtins.path { path = ./.; };
 
   globalPrograms = [
     (import "${currentDir}/programs/clis.nix")
-    (import "${currentDir}/programs/i3.nix" { isLinux = isLinux; isWSL = isWSL; })
+    (import "${currentDir}/programs/i3.nix" {
+      isLinux = isLinux;
+      isWSL = isWSL;
+    })
     (import "${currentDir}/programs/shells.nix" { inherit shellAliases; })
-    (import "${currentDir}/programs/utils.nix" { inherit osConfig systemName isDarwin; })
+    (import "${currentDir}/programs/utils.nix" {
+      inherit osConfig systemName isDarwin;
+    })
     (import "${currentDir}/programs/vsc.nix")
   ];
 in
@@ -98,14 +132,17 @@ in
     pkgs.zoxide
 
     pkgs.nerd-fonts.jetbrains-mono
-  ] ++ (lib.optionals (!isWSL && !isDarwin) [
+  ]
+  ++ (lib.optionals (!isWSL && !isDarwin) [
     # GUI apps
     pkgs._1password-gui
     pkgs.alacritty
     pkgs.podman-desktop
-  ]) ++ (lib.optionals (!isDarwin) [
+  ])
+  ++ (lib.optionals (!isDarwin) [
     pkgs.gemini-cli # macos installer not availble
-  ]) ++ (lib.optionals (isLinux && !isWSL) [
+  ])
+  ++ (lib.optionals (isLinux && !isWSL) [
     pkgs.chromium
     pkgs.firefox
     pkgs.freecad-wayland
@@ -131,10 +168,16 @@ in
     MANPAGER = "${manpager}/bin/manpager";
 
     GEMINI_API_KEY = "op://Personal/Gemini CLI/credential";
-  } // (if isDarwin then {
-    # See: https://github.com/NixOS/nixpkgs/issues/390751
-    DISPLAY = "nixpkgs-390751";
-  } else { });
+  }
+  // (
+    if isDarwin then
+      {
+        # See: https://github.com/NixOS/nixpkgs/issues/390751
+        DISPLAY = "nixpkgs-390751";
+      }
+    else
+      { }
+  );
 
   #---------------------------------------------------------------------
   # Programs

@@ -1,4 +1,5 @@
-{ isLinux, isWSL }: {
+{ isLinux, isWSL }:
+{
   programs.i3status = {
     enable = isLinux && !isWSL;
 

@@ -1,4 +1,5 @@
-{ config, pkgs, ... }: {
+{ ... }:
+{
   # Set in May 2025 as part of the macOS Sequoia release.
   system.stateVersion = 6;
 
@@ -18,7 +19,10 @@
     '';
 
     settings = {
-      trusted-users = [ "root" "francogrobler" ];
+      trusted-users = [
+        "root"
+        "francogrobler"
+      ];
       extra-substituters = "https://devenv.cachix.org";
       extra-trusted-public-keys = "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=";
     };

@@ -1,8 +1,12 @@
-{ shellAliases }: {
+{ shellAliases }:
+{
   programs.bash = {
     enable = true;
     shellOptions = [ ];
-    historyControl = [ "ignoredups" "ignorespace" ];
+    historyControl = [
+      "ignoredups"
+      "ignorespace"
+    ];
     shellAliases = shellAliases;
   };
 
@@ -13,7 +17,9 @@
 
   programs.zsh = {
     enable = true;
-    autosuggestion = { enable = true; };
+    autosuggestion = {
+      enable = true;
+    };
     defaultKeymap = "vicmd";
     initContent = ''
       # Nix

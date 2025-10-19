@@ -1,6 +1,15 @@
-{ osConfig, systemName, isDarwin, ... }:
+{
+  osConfig,
+  systemName,
+  isDarwin,
+  ...
+}:
 let
-  onePassPath = if isDarwin then "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock" else "~/.1password/agent.sock";
+  onePassPath =
+    if isDarwin then
+      "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+    else
+      "~/.1password/agent.sock";
 in
 {
   programs.nh = {
@@ -31,4 +40,3 @@ in
     };
   };
 }
-

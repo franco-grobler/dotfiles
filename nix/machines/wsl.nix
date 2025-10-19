@@ -1,10 +1,17 @@
-{ pkgs, currentSystemUser, config, ... }: {
+{
+  pkgs,
+  currentSystemUser,
+  ...
+}:
+{
   imports = [ ];
 
   wsl = {
     enable = true;
     wslConf = {
-      automount = { root = "/mnt"; };
+      automount = {
+        root = "/mnt";
+      };
     };
     defaultUser = currentSystemUser;
     startMenuLaunchers = true;

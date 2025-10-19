@@ -25,11 +25,21 @@
     ghostty.url = "github:ghostty-org/ghostty";
   };
 
-  outputs = { self, nixpkgs, home-manager, darwin, ghostty, ... }@inputs:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      darwin,
+      ghostty,
+      ...
+    }@inputs:
     let
-      unstablePkgsFor = system: import inputs.nixpkgs-unstable {
-        inherit system;
-      };
+      unstablePkgsFor =
+        system:
+        import inputs.nixpkgs-unstable {
+          inherit system;
+        };
       # Overlays is the list of overlays we want to apply from flake inputs.
       overlays = [
         (final: prev: rec {
