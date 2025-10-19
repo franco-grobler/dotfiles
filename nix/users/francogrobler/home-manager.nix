@@ -116,6 +116,7 @@ in
     pkgs.lolcat
     pkgs.neovim
     pkgs.nodejs
+    pkgs.nixfmt-rfc-style
     pkgs.ookla-speedtest
     pkgs.podman
     pkgs.podman-compose
