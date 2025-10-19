@@ -82,6 +82,7 @@ in
     pkgs.podman
     pkgs.podman-compose
     pkgs.podman-tui
+    pkgs.python314
     pkgs.qmk
     pkgs.ripgrep
     pkgs.rustup
