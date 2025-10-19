@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   homebrew = {
@@ -15,6 +15,7 @@
       "alacritty"
       "balenaetcher"
       "discord"
+      "drawio"
       "flutter"
       "freecad"
       "ghostty"
