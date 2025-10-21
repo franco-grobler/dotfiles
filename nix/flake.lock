@@ -137,26 +137,6 @@
         "type": "github"
       }
     },
-    "nix-ld": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1760344749,
-        "narHash": "sha256-c10K8a/drWQhbJg5dVH/CDBgYO3BAggZnBHGj+7yrXU=",
-        "owner": "Mic92",
-        "repo": "nix-ld",
-        "rev": "06f9d960a48bd25230e94d085309de2b9ff4e29e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Mic92",
-        "repo": "nix-ld",
-        "type": "github"
-      }
-    },
     "nixos-wsl": {
       "inputs": {
         "flake-compat": "flake-compat_2",
