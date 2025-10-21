@@ -201,7 +201,6 @@ in
     pkgs.podman-tui
     pkgs.python314
     pkgs.qmk
-    pkgs.python313
     pkgs.ripgrep
     pkgs.rustup
     pkgs.sentry-cli

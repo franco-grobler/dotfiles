@@ -53,6 +53,8 @@
       enableNushellIntegration = true;
       enableZshIntegration = true;
     };
+  programs.uv = {
+    enable = true;
   };
 
   programs.zoxide = {
