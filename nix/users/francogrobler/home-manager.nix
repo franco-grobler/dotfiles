@@ -114,6 +114,7 @@ in
     pkgs.fastfetch
     pkgs.fd
     pkgs.fzf
+    pkgs.gcc
     pkgs.gh
     pkgs.glow
     pkgs.htop
@@ -123,6 +124,7 @@ in
     pkgs.kubectl
     pkgs.lazydocker
     pkgs.lazygit
+    pkgs.luajitPackages.luarocks
     pkgs.lolcat
     pkgs.neovim
     pkgs.nodejs
