@@ -20,6 +20,7 @@ unlink:
 
 # Update home manager.
 [group('Nix')]
+[working-directory("nix")]
 nix-switch:
     #!/usr/bin/env bash
     set -euo pipefail
