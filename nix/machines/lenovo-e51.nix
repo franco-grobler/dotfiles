@@ -23,4 +23,19 @@
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+
+  nix = {
+    settings = {
+      trusted-users = [
+        "root"
+        currentSystemUser
+      ];
+    };
+    package = pkgs.nixVersions.latest;
+    extraOptions = ''
+      experimental-features = nix-command flakes
+      keep-outputs = true
+      keep-derivations = true
+    '';
+  };
 }
