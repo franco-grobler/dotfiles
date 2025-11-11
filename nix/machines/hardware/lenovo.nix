@@ -1,15 +1,29 @@
-{ config, lib, pkgs, modulesPath, currentSystemUser, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  modulesPath,
+  currentSystemUser,
+  ...
+}:
 
 {
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usb_storage" "sd_mod" "sr_mod" "rtsx_pci_sdmmc" ];
+  boot.initrd.availableKernelModules = [
+    "xhci_pci"
+    "ahci"
+    "usb_storage"
+    "sd_mod"
+    "sr_mod"
+    "rtsx_pci_sdmmc"
+  ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/9e03b938-fc56-4670-9471-cc970d0e70c4";
-      fsType = "ext4";
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/9e03b938-fc56-4670-9471-cc970d0e70c4";
+    fsType = "ext4";
+  };
 
   swapDevices = [ ];
 
@@ -23,4 +37,5 @@
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.enableRedistributableFirmware = true;
 }
