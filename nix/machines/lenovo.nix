@@ -1,21 +1,32 @@
-{ config, pkgs, currentSystemUser, ... }:
+{
+  pkgs,
+  currentSystemUser,
+  ...
+}:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware/lenovo.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware/lenovo.nix
+  ];
 
   # Bootloader.
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/sda";
   boot.loader.grub.useOSProber = true;
 
-  networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Enable networking
-  networking.networkmanager.enable = true;
+  networking = {
+    hostName = "nixos"; # Define your hostname.
+    networkmanager = {
+      # Enable networking
+      enable = true;
+      wifi.backend = "iwd";
+    };
+    wireless = {
+      iwd.enable = true;
+      userControlled.enable = true;
+    };
+  };
 
   nix = {
     settings = {
@@ -34,9 +45,6 @@
 
   # Set your time zone.
   time.timeZone = "Africa/Johannesburg";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_GB.UTF-8";
 
   # Enable the X11 windowing system.
   # You can disable this if you're only using the Wayland session.
@@ -63,12 +71,6 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -78,21 +80,15 @@
   users.users.francogrobler = {
     isNormalUser = true;
     description = "Franco Grobler";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
     packages = with pkgs; [
       kdePackages.kate
-    #  thunderbird
+      #  thunderbird
     ];
   };
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
