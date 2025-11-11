@@ -12,7 +12,7 @@ let
     else if isWSL then
       "/mnt/c/Users/groblerf/AppData/Local/1Password/previous/8/op-ssh-sign-wsl.exe"
     else
-      "${lib.getExe' pkgs._1password-cli "op-ssh-sign"}";
+      "${lib.getExe' pkgs._1password-gui "op-ssh-sign"}";
 in
 {
   programs.git = {
