@@ -205,6 +205,7 @@ in
     pkgs.qmk
     pkgs.ripgrep
     pkgs.rustup
+    pkgs.statix
     pkgs.sentry-cli
     pkgs.stow
     pkgs.sshs
