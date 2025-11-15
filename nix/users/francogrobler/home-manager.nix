@@ -13,7 +13,6 @@
 }:
 
 let
-  # sources = import ../../nix/sources.nix;
   inherit (pkgs.stdenv) isDarwin;
   inherit (pkgs.stdenv) isLinux;
 
@@ -77,8 +76,11 @@ let
   globalPrograms = [
     (import "${currentDir}/programs/clis.nix")
     (import "${currentDir}/programs/i3.nix" {
-      isLinux = isLinux;
-      isWSL = isWSL;
+      inherit isLinux isWSL;
+    })
+    (import "${currentDir}/programs/hyperland/default.nix" {
+      enabled = isLinux && !isWSL;
+      inherit pkgs;
     })
     (import "${currentDir}/programs/languages.nix" { inherit pkgs; })
     (import "${currentDir}/programs/shells.nix" { inherit shellAliases; })
@@ -163,87 +165,98 @@ in
       pkgs.valgrind
       pkgs.zathura
     ]);
+    # Make cursor not tiny on HiDPI screens
+    pointerCursor = lib.mkIf (isLinux && !isWSL) {
+      name = "Vanilla-DMZ";
+      package = pkgs.vanilla-dmz;
+      size = 128;
+      x11.enable = true;
+    };
 
-  # Packages I always want installed. Most packages I install using
-  # per-project flakes sourced with direnv and nix-shell, so this is
-  # not a huge list.
-  home.packages = [
-    pkgs._1password-cli
-    pkgs.awscli2
-    pkgs.bat
-    pkgs.bottom
-    pkgs.btop
-    pkgs.cmatrix
-    pkgs.cowsay
-    pkgs.devenv
-    pkgs.dive
-    pkgs.docker
-    pkgs.eza
-    pkgs.fastfetch
-    pkgs.fd
-    pkgs.fzf
-    pkgs.gcc
-    pkgs.gh
-    pkgs.glow
-    pkgs.htop
-    pkgs.jaq
-    pkgs.just
-    pkgs.jq
-    pkgs.kubectl
-    pkgs.lazydocker
-    pkgs.lazygit
-    pkgs.luajitPackages.luarocks
-    pkgs.lolcat
-    pkgs.neovim
-    pkgs.nodejs
-    pkgs.nixfmt-rfc-style
-    pkgs.ookla-speedtest
-    pkgs.podman
-    pkgs.podman-compose
-    pkgs.podman-tui
-    pkgs.python314
-    pkgs.qmk
-    pkgs.ripgrep
-    pkgs.rustup
-    pkgs.statix
-    pkgs.sentry-cli
-    pkgs.stow
-    pkgs.sshs
-    pkgs.thefuck
-    pkgs.tree
-    pkgs.tmux
-    pkgs.wget
-    pkgs.yazi
-    pkgs.yq
+    #---------------------------------------------------------------------
+    # Packages
+    #---------------------------------------------------------------------
 
-    pkgs.nerd-fonts.jetbrains-mono
-  ]
-  ++ (lib.optionals (isLinux || isWSL) [
-    pkgs.qemu
-    pkgs.virtiofsd
-    pkgs.xclip
-  ])
-  ++ (lib.optionals (isLinux && !isWSL) [
-    # MacOS & WSL installer not available
-    pkgs.gemini-cli
-    # GUI apps
-    pkgs._1password-gui
-    pkgs.alacritty
-    pkgs.chromium
-    pkgs.firefox
-    pkgs.freecad-wayland
-    pkgs.ghostty
-    pkgs.podman-desktop
-    pkgs.rofi
-    pkgs.vial
-    pkgs.valgrind
-    pkgs.zathura
-  ])
-  ++ lspPackages;
+    # Packages I always want installed. Most packages I install using
+    # per-project flakes sourced with direnv and nix-shell, so this is
+    # not a huge list.
+    packages = [
+      pkgs._1password-cli
+      pkgs.awscli2
+      pkgs.bat
+      pkgs.bottom
+      pkgs.btop
+      pkgs.cmatrix
+      pkgs.cowsay
+      pkgs.devenv
+      pkgs.dive
+      pkgs.docker
+      pkgs.eza
+      pkgs.fastfetch
+      pkgs.fd
+      pkgs.fzf
+      pkgs.gcc
+      pkgs.gh
+      pkgs.glow
+      pkgs.htop
+      pkgs.jaq
+      pkgs.just
+      pkgs.jq
+      pkgs.kubectl
+      pkgs.lazydocker
+      pkgs.lazygit
+      pkgs.luajitPackages.luarocks
+      pkgs.lolcat
+      pkgs.neovim
+      pkgs.nodejs
+      pkgs.nixfmt-rfc-style
+      pkgs.ookla-speedtest
+      pkgs.podman
+      pkgs.podman-compose
+      pkgs.podman-tui
+      pkgs.python314
+      pkgs.qmk
+      pkgs.ripgrep
+      pkgs.rustup
+      pkgs.statix
+      pkgs.sentry-cli
+      pkgs.stow
+      pkgs.sshs
+      pkgs.thefuck
+      pkgs.tree
+      pkgs.tmux
+      pkgs.wget
+      pkgs.yazi
+      pkgs.yq
 
-  #---------------------------------------------------------------------
-  # Env vars and dotfiles
-  #---------------------------------------------------------------------
+      pkgs.nerd-fonts.jetbrains-mono
+    ]
+    ++ (lib.optionals (isLinux || isWSL) [
+      pkgs.qemu
+      pkgs.virtiofsd
+      pkgs.xclip
+    ])
+    ++ (lib.optionals (isLinux && !isWSL) [
+      # MacOS & WSL installer not available
+      pkgs.gemini-cli
+      # GUI apps
+      pkgs._1password-gui
+      pkgs.alacritty
+      pkgs.chromium
+      pkgs.firefox
+      pkgs.freecad-wayland
+      pkgs.ghostty
+      pkgs.podman-desktop
+      pkgs.rofi
+      pkgs.vial
+      pkgs.valgrind
+      pkgs.zathura
+    ])
+    ++ lspPackages;
+
+    #---------------------------------------------------------------------
+    # Env vars and dotfiles
+    #---------------------------------------------------------------------
 
       EDITOR = "nvim";
       PAGER = "less -FirSwX";
@@ -254,19 +267,29 @@ in
     PAGER = "less -FirSwX";
     PODMAN_COMPOSE_WARNING_LOGS = "false";
     # MANPAGER = "${manpager}/bin/manpager";
+    sessionVariables = {
+      LANG = "en_ZA.UTF-8";
+      LC_CTYPE = "en_ZA.UTF-8";
+      LC_ALL = "en_ZA.UTF-8";
 
-    GEMINI_API_KEY = "op://Personal/Gemini CLI/credential";
-  }
-  // (
-    if isDarwin then
-      {
-        # See: https://github.com/NixOS/nixpkgs/issues/390751
-        DISPLAY = "nixpkgs-390751";
-      }
-    else
-      {
-      }
-  );
+      EDITOR = "nvim";
+      PAGER = "less -FirSwX";
+      PODMAN_COMPOSE_WARNING_LOGS = "false";
+      # MANPAGER = "${manpager}/bin/manpager";
+
+      GEMINI_API_KEY = "op://Personal/Gemini CLI/credential";
+    }
+    // (
+      if isDarwin then
+        {
+          # See: https://github.com/NixOS/nixpkgs/issues/390751
+          DISPLAY = "nixpkgs-390751";
+        }
+      else
+        {
+        }
+    );
+  };
 
   #---------------------------------------------------------------------
   # Programs
@@ -292,4 +315,5 @@ in
   xdg.enable = true;
 
   xresources.extraConfig = builtins.readFile ./config/Xresources;
+  xdg.enable = true;
 }
