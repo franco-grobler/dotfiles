@@ -13,9 +13,8 @@
 }:
 
 let
-  # sources = import ../../nix/sources.nix;
-  isDarwin = pkgs.stdenv.isDarwin;
-  isLinux = pkgs.stdenv.isLinux;
+  inherit (pkgs.stdenv) isDarwin;
+  inherit (pkgs.stdenv) isLinux;
 
   osConfig =
     if isDarwin then
@@ -77,8 +76,11 @@ let
   globalPrograms = [
     (import "${currentDir}/programs/clis.nix")
     (import "${currentDir}/programs/i3.nix" {
-      isLinux = isLinux;
-      isWSL = isWSL;
+      inherit isLinux isWSL;
+    })
+    (import "${currentDir}/programs/hyperland/default.nix" {
+      enabled = isLinux && !isWSL;
+      inherit pkgs;
     })
     (import "${currentDir}/programs/languages.nix" { inherit pkgs; })
     (import "${currentDir}/programs/shells.nix" { inherit shellAliases; })
@@ -88,117 +90,125 @@ let
   lspPackages = import "${currentDir}/programs/lsps.nix" { inherit pkgs; };
 in
 {
-  home.stateVersion = "25.05";
+  home = {
+    stateVersion = "25.05";
 
-  xdg.enable = true;
+    # Make cursor not tiny on HiDPI screens
+    pointerCursor = lib.mkIf (isLinux && !isWSL) {
+      name = "Vanilla-DMZ";
+      package = pkgs.vanilla-dmz;
+      size = 128;
+      x11.enable = true;
+    };
 
-  #---------------------------------------------------------------------
-  # Packages
-  #---------------------------------------------------------------------
+    #---------------------------------------------------------------------
+    # Packages
+    #---------------------------------------------------------------------
 
-  # Packages I always want installed. Most packages I install using
-  # per-project flakes sourced with direnv and nix-shell, so this is
-  # not a huge list.
-  home.packages = [
-    pkgs._1password-cli
-    pkgs.awscli2
-    pkgs.bat
-    pkgs.bottom
-    pkgs.btop
-    pkgs.cmatrix
-    pkgs.cowsay
-    pkgs.devenv
-    pkgs.dive
-    pkgs.docker
-    pkgs.eza
-    pkgs.fastfetch
-    pkgs.fd
-    pkgs.fzf
-    pkgs.gcc
-    pkgs.gh
-    pkgs.glow
-    pkgs.htop
-    pkgs.jaq
-    pkgs.just
-    pkgs.jq
-    pkgs.kubectl
-    pkgs.lazydocker
-    pkgs.lazygit
-    pkgs.luajitPackages.luarocks
-    pkgs.lolcat
-    pkgs.neovim
-    pkgs.nodejs
-    pkgs.nixfmt-rfc-style
-    pkgs.ookla-speedtest
-    pkgs.podman
-    pkgs.podman-compose
-    pkgs.podman-tui
-    pkgs.python314
-    pkgs.qmk
-    pkgs.ripgrep
-    pkgs.rustup
-    pkgs.statix
-    pkgs.sentry-cli
-    pkgs.stow
-    pkgs.sshs
-    pkgs.thefuck
-    pkgs.tree
-    pkgs.tmux
-    pkgs.wget
-    pkgs.yazi
-    pkgs.yq
+    # Packages I always want installed. Most packages I install using
+    # per-project flakes sourced with direnv and nix-shell, so this is
+    # not a huge list.
+    packages = [
+      pkgs._1password-cli
+      pkgs.awscli2
+      pkgs.bat
+      pkgs.bottom
+      pkgs.btop
+      pkgs.cmatrix
+      pkgs.cowsay
+      pkgs.devenv
+      pkgs.dive
+      pkgs.docker
+      pkgs.eza
+      pkgs.fastfetch
+      pkgs.fd
+      pkgs.fzf
+      pkgs.gcc
+      pkgs.gh
+      pkgs.glow
+      pkgs.htop
+      pkgs.jaq
+      pkgs.just
+      pkgs.jq
+      pkgs.kubectl
+      pkgs.lazydocker
+      pkgs.lazygit
+      pkgs.luajitPackages.luarocks
+      pkgs.lolcat
+      pkgs.neovim
+      pkgs.nodejs
+      pkgs.nixfmt-rfc-style
+      pkgs.ookla-speedtest
+      pkgs.podman
+      pkgs.podman-compose
+      pkgs.podman-tui
+      pkgs.python314
+      pkgs.qmk
+      pkgs.ripgrep
+      pkgs.rustup
+      pkgs.statix
+      pkgs.sentry-cli
+      pkgs.stow
+      pkgs.sshs
+      pkgs.thefuck
+      pkgs.tree
+      pkgs.tmux
+      pkgs.wget
+      pkgs.yazi
+      pkgs.yq
 
-    pkgs.nerd-fonts.jetbrains-mono
-  ]
-  ++ (lib.optionals (isLinux || isWSL) [
-    pkgs.qemu
-    pkgs.virtiofsd
-    pkgs.xclip
-  ])
-  ++ (lib.optionals (isLinux && !isWSL) [
-    # MacOS & WSL installer not available
-    pkgs.gemini-cli
-    # GUI apps
-    pkgs._1password-gui
-    pkgs.alacritty
-    pkgs.chromium
-    pkgs.firefox
-    pkgs.freecad-wayland
-    pkgs.ghostty
-    pkgs.podman-desktop
-    pkgs.rofi
-    pkgs.vial
-    pkgs.valgrind
-    pkgs.zathura
-  ])
-  ++ lspPackages;
+      pkgs.nerd-fonts.jetbrains-mono
+    ]
+    ++ (lib.optionals (isLinux || isWSL) [
+      pkgs.qemu
+      pkgs.virtiofsd
+      pkgs.xclip
+    ])
+    ++ (lib.optionals (isLinux && !isWSL) [
+      # MacOS & WSL installer not available
+      pkgs.gemini-cli
+      # GUI apps
+      pkgs._1password-gui
+      pkgs.alacritty
+      pkgs.chromium
+      pkgs.firefox
+      pkgs.freecad-wayland
+      pkgs.ghostty
+      pkgs.podman-desktop
+      pkgs.rofi
+      pkgs.vial
+      pkgs.valgrind
+      pkgs.zathura
+    ])
+    ++ lspPackages;
 
-  #---------------------------------------------------------------------
-  # Env vars and dotfiles
-  #---------------------------------------------------------------------
+    #---------------------------------------------------------------------
+    # Env vars and dotfiles
+    #---------------------------------------------------------------------
 
-  home.sessionVariables = {
-    LANG = "en_ZA.UTF-8";
-    LC_CTYPE = "en_ZA.UTF-8";
-    LC_ALL = "en_ZA.UTF-8";
+    sessionVariables = {
+      LANG = "en_ZA.UTF-8";
+      LC_CTYPE = "en_ZA.UTF-8";
+      LC_ALL = "en_ZA.UTF-8";
 
-    EDITOR = "nvim";
-    PAGER = "less -FirSwX";
-    PODMAN_COMPOSE_WARNING_LOGS = "false";
-    # MANPAGER = "${manpager}/bin/manpager";
+      EDITOR = "nvim";
+      PAGER = "less -FirSwX";
+      PODMAN_COMPOSE_WARNING_LOGS = "false";
+      # MANPAGER = "${manpager}/bin/manpager";
 
-    GEMINI_API_KEY = "op://Personal/Gemini CLI/credential";
-  }
-  // (
-    if isDarwin then
-      {
-        # See: https://github.com/NixOS/nixpkgs/issues/390751
-        DISPLAY = "nixpkgs-390751";
-      }
-    else
-      {
-      }
-  );
+      GEMINI_API_KEY = "op://Personal/Gemini CLI/credential";
+    }
+    // (
+      if isDarwin then
+        {
+          # See: https://github.com/NixOS/nixpkgs/issues/390751
+          DISPLAY = "nixpkgs-390751";
+        }
+      else
+        {
+        }
+    );
+  };
 
   #---------------------------------------------------------------------
   # Programs
@@ -223,11 +233,5 @@ in
 
   xresources.extraConfig = builtins.readFile ./config/Xresources;
 
-  # Make cursor not tiny on HiDPI screens
-  home.pointerCursor = lib.mkIf (isLinux && !isWSL) {
-    name = "Vanilla-DMZ";
-    package = pkgs.vanilla-dmz;
-    size = 128;
-    x11.enable = true;
-  };
+  xdg.enable = true;
 }
