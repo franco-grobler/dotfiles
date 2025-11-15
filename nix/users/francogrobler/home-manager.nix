@@ -14,8 +14,8 @@
 
 let
   # sources = import ../../nix/sources.nix;
-  isDarwin = pkgs.stdenv.isDarwin;
-  isLinux = pkgs.stdenv.isLinux;
+  inherit (pkgs.stdenv) isDarwin;
+  inherit (pkgs.stdenv) isLinux;
 
   osConfig =
     if isDarwin then
@@ -50,30 +50,16 @@ let
       { }
   );
 
-  # For our MANPAGER env var
-  # https://github.com/sharkdp/bat/issues/1145
-  manpager = (
-    pkgs.writeShellScriptBin "manpager" (
-      if isDarwin then
-        ''
-          sh -c 'col -bx | bat -l man -p'
-        ''
-      else
-        ''
-          cat "$1" | col -bx | bat --language man --style plain
-        ''
-    )
-  );
-
   currentDir = builtins.path { path = ./.; };
 
   globalPrograms = [
-    (import "${currentDir}/programs/clis.nix")
+    (import "${currentDir}/programs/clis.nix" { inherit pkgs; })
     (import "${currentDir}/programs/i3.nix" {
-      isLinux = isLinux;
-      isWSL = isWSL;
+      inherit isLinux;
+      inherit isWSL;
     })
     (import "${currentDir}/programs/shells.nix" { inherit shellAliases; })
+    (import "${currentDir}/programs/tuis.nix")
     (import "${currentDir}/programs/utils.nix" {
       inherit osConfig systemName isDarwin;
     })
@@ -81,110 +67,113 @@ let
   ];
 in
 {
-  home.stateVersion = "25.05";
+  home = {
+    stateVersion = "25.05";
 
-  xdg.enable = true;
+    #---------------------------------------------------------------------
+    # Packages
+    #---------------------------------------------------------------------
+    packages = [
+      pkgs._1password-cli
+      pkgs.bottom
+      pkgs.btop
+      pkgs.cmatrix
+      pkgs.cowsay
+      pkgs.devenv
+      pkgs.docker
+      pkgs.eza
+      pkgs.fastfetch
+      pkgs.fd
+      pkgs.fzf
+      pkgs.gh
+      pkgs.glow
+      pkgs.htop
+      pkgs.jaq
+      pkgs.just
+      pkgs.jq
+      pkgs.lazydocker
+      pkgs.lolcat
+      pkgs.neovim
+      pkgs.nodejs
+      pkgs.nixfmt-rfc-style
+      pkgs.ookla-speedtest
+      pkgs.opencode
+      pkgs.podman
+      pkgs.podman-compose
+      pkgs.podman-tui
+      pkgs.python314
+      pkgs.qmk
+      pkgs.ripgrep
+      pkgs.rustup
+      pkgs.sentry-cli
+      pkgs.statix
+      pkgs.stow
+      pkgs.sshs
+      pkgs.thefuck
+      pkgs.tree
+      pkgs.tmux
+      pkgs.wget
+      pkgs.yazi
+      pkgs.yq
+      pkgs.zoxide
 
-  #---------------------------------------------------------------------
-  # Packages
-  #---------------------------------------------------------------------
+      pkgs.nerd-fonts.jetbrains-mono
+    ]
+    ++ (lib.optionals (!isWSL && !isDarwin) [
+      # GUI apps
+      pkgs._1password-gui
+      pkgs.alacritty
+      pkgs.podman-desktop
+    ])
+    ++ (lib.optionals (!isDarwin) [
+      pkgs.gemini-cli # macos installer not availble
+    ])
+    ++ (lib.optionals (isLinux && !isWSL) [
+      pkgs.chromium
+      pkgs.firefox
+      pkgs.freecad-wayland
+      pkgs.ghostty # macos installer is broken
+      pkgs.rofi
+      pkgs.vial
+      pkgs.valgrind
+      pkgs.zathura
+    ]);
 
-  # Packages I always want installed. Most packages I install using
-  # per-project flakes sourced with direnv and nix-shell, so this is
-  # not a huge list.
-  home.packages = [
-    pkgs._1password-cli
-    pkgs.bat
-    pkgs.bottom
-    pkgs.btop
-    pkgs.cmatrix
-    pkgs.cowsay
-    pkgs.devenv
-    pkgs.docker
-    pkgs.eza
-    pkgs.fastfetch
-    pkgs.fd
-    pkgs.fzf
-    pkgs.gh
-    pkgs.glow
-    pkgs.htop
-    pkgs.jaq
-    pkgs.just
-    pkgs.jq
-    pkgs.lazydocker
-    pkgs.lazygit
-    pkgs.lolcat
-    pkgs.neovim
-    pkgs.nodejs
-    pkgs.nixfmt-rfc-style
-    pkgs.ookla-speedtest
-    pkgs.opencode
-    pkgs.podman
-    pkgs.podman-compose
-    pkgs.podman-tui
-    pkgs.python314
-    pkgs.qmk
-    pkgs.ripgrep
-    pkgs.rustup
-    pkgs.sentry-cli
-    pkgs.statix
-    pkgs.stow
-    pkgs.sshs
-    pkgs.thefuck
-    pkgs.tree
-    pkgs.tmux
-    pkgs.wget
-    pkgs.yazi
-    pkgs.yq
-    pkgs.zoxide
+    #---------------------------------------------------------------------
+    # Env vars and dotfiles
+    #---------------------------------------------------------------------
 
-    pkgs.nerd-fonts.jetbrains-mono
-  ]
-  ++ (lib.optionals (!isWSL && !isDarwin) [
-    # GUI apps
-    pkgs._1password-gui
-    pkgs.alacritty
-    pkgs.podman-desktop
-  ])
-  ++ (lib.optionals (!isDarwin) [
-    pkgs.gemini-cli # macos installer not availble
-  ])
-  ++ (lib.optionals (isLinux && !isWSL) [
-    pkgs.chromium
-    pkgs.firefox
-    pkgs.freecad-wayland
-    pkgs.ghostty # macos installer is broken
-    pkgs.rofi
-    pkgs.vial
-    pkgs.valgrind
-    pkgs.zathura
-  ]);
+    sessionVariables = {
+      LANG = "en_ZA.UTF-8";
+      LC_CTYPE = "en_ZA.UTF-8";
+      LC_ALL = "en_ZA.UTF-8";
 
-  #---------------------------------------------------------------------
-  # Env vars and dotfiles
-  #---------------------------------------------------------------------
+      EDITOR = "nvim";
+      PAGER = "less -FirSwX";
+      PODMAN_COMPOSE_WARNING_LOGS = "false";
 
-  home.sessionVariables = {
-    LANG = "en_ZA.UTF-8";
-    LC_CTYPE = "en_ZA.UTF-8";
-    LC_ALL = "en_ZA.UTF-8";
+      BAT_CONFIG_PATH = "$XDG_CONFIG_HOME/bat/config";
 
-    EDITOR = "nvim";
-    PAGER = "less -FirSwX";
-    PODMAN_COMPOSE_WARNING_LOGS = "false";
-    MANPAGER = "${manpager}/bin/manpager";
+      GEMINI_API_KEY = "op://Personal/Gemini CLI/credential";
+    }
+    // (
+      if isDarwin then
+        {
+          # See: https://github.com/NixOS/nixpkgs/issues/390751
+          DISPLAY = "nixpkgs-390751";
+        }
+      else
+        { }
+    );
 
-    GEMINI_API_KEY = "op://Personal/Gemini CLI/credential";
-  }
-  // (
-    if isDarwin then
-      {
-        # See: https://github.com/NixOS/nixpkgs/issues/390751
-        DISPLAY = "nixpkgs-390751";
-      }
-    else
-      { }
-  );
+    # Make cursor not tiny on HiDPI screens
+    pointerCursor = lib.mkIf (isLinux && !isWSL) {
+      name = "Vanilla-DMZ";
+      package = pkgs.vanilla-dmz;
+      size = 128;
+      x11.enable = true;
+    };
+  };
 
   #---------------------------------------------------------------------
   # Programs
@@ -212,13 +201,7 @@ in
     maxCacheTtl = 31536000;
   };
 
-  xresources.extraConfig = builtins.readFile ./config/Xresources;
+  xdg.enable = true;
 
-  # Make cursor not tiny on HiDPI screens
-  home.pointerCursor = lib.mkIf (isLinux && !isWSL) {
-    name = "Vanilla-DMZ";
-    package = pkgs.vanilla-dmz;
-    size = 128;
-    x11.enable = true;
-  };
+  xresources.extraConfig = builtins.readFile ./config/Xresources;
 }
