@@ -9,11 +9,25 @@
     # Include the results of the hardware scan.
     ./hardware/lenovo.nix
   ];
+  boot = {
+    loader = {
+      grub = {
+        # Bootloader.
+        enable = true;
+        device = "/dev/sda";
+        useOSProber = true;
+      };
+    };
+  };
 
-  # Bootloader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/sda";
-  boot.loader.grub.useOSProber = true;
+  environment = {
+    # Hint Electron apps to use Wayland
+    sessionVariables.NIXOS_OZONE_WL = "1";
+
+    systemPackages = [
+      pkgs.kitty # required for the default Hyprland config
+    ];
+  };
 
   networking = {
     hostName = "nixos"; # Define your hostname.
@@ -29,52 +43,59 @@
   };
 
   nix = {
-    settings = {
-      trusted-users = [
-        "root"
-        currentSystemUser
-      ];
-    };
     package = pkgs.nixVersions.latest;
+
     extraOptions = ''
       experimental-features = nix-command flakes
       keep-outputs = true
       keep-derivations = true
     '';
+
+    settings = {
+      substituters = [ "https://hyprland.cachix.org" ];
+      trusted-substituters = [ "https://hyprland.cachix.org" ];
+      trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
+
+      trusted-users = [
+        "root"
+        currentSystemUser
+      ];
+    };
+  };
+
+  programs.hyprland.enable = true; # enable Hyprland
+
+  services = {
+    # Enable the KDE Plasma Desktop Environment.
+    displayManager.sddm.enable = true;
+    # desktopManager.plasma6.enable = true;
+
+    # Configure keymap in X11
+    xserver.xkb = {
+      layout = "za";
+      variant = "";
+    };
+
+    # Enable CUPS to print documents.
+    printing.enable = true;
+
+    # Enable sound with pipewire.
+    pulseaudio.enable = false;
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+    };
+  };
+
+  security = {
+    rtkit.enable = true;
+    pam.services.sudo.fprintAuth = true;
   };
 
   # Set your time zone.
   time.timeZone = "Africa/Johannesburg";
-
-  # Enable the X11 windowing system.
-  # You can disable this if you're only using the Wayland session.
-  services.xserver.enable = true;
-
-  # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
-
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "za";
-    variant = "";
-  };
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  # Enable sound with pipewire.
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.francogrobler = {
@@ -85,9 +106,18 @@
       "wheel"
     ];
     packages = with pkgs; [
-      kdePackages.kate
-      #  thunderbird
+      thunderbird
     ];
+  };
+
+  xdg = {
+    portal = {
+      enable = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-wlr
+        xdg-desktop-portal-gtk
+      ];
+    };
   };
 
   # This value determines the NixOS release from which the default
