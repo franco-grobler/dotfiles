@@ -49,8 +49,8 @@
   pkgs.taplo
 
   # Ansible
-  pkgs.ansible-language-server
-  pkgs.ansible-lint
+  # pkgs.ansible-language-server
+  # pkgs.ansible-lint
 
   # Helm
   pkgs.helm-ls
