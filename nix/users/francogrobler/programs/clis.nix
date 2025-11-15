@@ -1,37 +1,57 @@
+{ pkgs }:
 {
-  programs.atuin = {
-    enable = true;
-    enableBashIntegration = true;
-    enableNushellIntegration = true;
-    enableZshIntegration = true;
-  };
+  programs = {
+    atuin = {
+      enable = true;
+      enableBashIntegration = true;
+      enableNushellIntegration = true;
+      enableZshIntegration = true;
+    };
 
-  programs.carapace = {
-    enable = true;
-    enableBashIntegration = true;
-    enableNushellIntegration = true;
-    enableZshIntegration = true;
-  };
+    bat = {
+      enable = true;
 
-  programs.direnv = {
-    enable = true;
-    enableBashIntegration = true;
-    enableNushellIntegration = true;
-    enableZshIntegration = true;
-    nix-direnv.enable = true;
-  };
+      config = {
+        map-syntax = [
+          "*.jenkinsfile:Groovy"
+        ];
+        lineNumbers = true;
+        paging = "less -FR";
+        theme = "TwoDark";
+      };
+      extraPackages = with pkgs.bat; [
+        batdiff
+        batman
+      ];
+    };
 
-  programs.starship = {
-    enable = true;
-    enableBashIntegration = true;
-    enableNushellIntegration = true;
-    enableZshIntegration = true;
-  };
+    carapace = {
+      enable = true;
+      enableBashIntegration = true;
+      enableNushellIntegration = true;
+      enableZshIntegration = true;
+    };
 
-  programs.zoxide = {
-    enable = true;
-    enableBashIntegration = true;
-    enableNushellIntegration = true;
-    enableZshIntegration = true;
+    direnv = {
+      enable = true;
+      enableBashIntegration = true;
+      enableNushellIntegration = true;
+      enableZshIntegration = true;
+      nix-direnv.enable = true;
+    };
+
+    starship = {
+      enable = true;
+      enableBashIntegration = true;
+      enableNushellIntegration = true;
+      enableZshIntegration = true;
+    };
+
+    zoxide = {
+      enable = true;
+      enableBashIntegration = true;
+      enableNushellIntegration = true;
+      enableZshIntegration = true;
+    };
   };
 }
