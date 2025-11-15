@@ -48,3 +48,4 @@ nix-test:
 nix-update:
     brew update
     nix flake update
+    git add-and-commit nix/flake.lock "chore(nix): update nix flake lockfile" || true
