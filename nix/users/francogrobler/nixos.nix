@@ -32,6 +32,8 @@
     shell = pkgs.zsh;
   };
 
+  services.fprintd.enable = true;
+
   time.timeZone = "Africa/Johannesburg";
 
   virtualisation = {
