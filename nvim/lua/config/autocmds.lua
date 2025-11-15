@@ -19,10 +19,9 @@ vim.api.nvim_create_autocmd("User", {
       "git",
       "-C",
       repo_dir,
-      "commit",
+      "add-and-commit",
       lockfile,
-      "-m",
-      "chore(nvim): update lazy-lock.json",
+      "chore(nvim): update lazynvim lockfile",
     }
 
     local success, process = pcall(function()
