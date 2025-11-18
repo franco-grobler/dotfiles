@@ -79,7 +79,7 @@ let
       inherit isLinux isWSL;
     })
     (import "${currentDir}/programs/hyperland/default.nix" {
-      enabled = isLinux && !isWSL;
+      enable = isLinux && !isWSL;
       inherit pkgs;
     })
     (import "${currentDir}/programs/languages.nix" { inherit pkgs; })
