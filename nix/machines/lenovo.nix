@@ -9,6 +9,7 @@
     # Include the results of the hardware scan.
     ./hardware/lenovo.nix
   ];
+
   boot = {
     loader = {
       grub = {
@@ -32,7 +33,6 @@
   networking = {
     hostName = "nixos"; # Define your hostname.
     networkmanager = {
-      # Enable networking
       enable = true;
       wifi.backend = "iwd";
     };
@@ -67,8 +67,9 @@
 
   services = {
     # Enable the KDE Plasma Desktop Environment.
+    displayManager.sddm.wayland.enable = true;
     displayManager.sddm.enable = true;
-    # desktopManager.plasma6.enable = true;
+    desktopManager.plasma6.enable = true;
 
     # Configure keymap in X11
     xserver.xkb = {
