@@ -11,15 +11,15 @@
     bat = {
       enable = true;
 
-      config = {
-        map-syntax = [
-          "*.jenkinsfile:Groovy"
-        ];
-        lineNumbers = true;
-        paging = "less -FR";
-        theme = "TwoDark";
-      };
-      extraPackages = with pkgs.bat; [
+      # config = {
+      #   map-syntax = [
+      #     "*.jenkinsfile:Groovy"
+      #   ];
+      #   lineNumbers = true;
+      #   paging = "less -FR";
+      #   theme = "TwoDark";
+      # };
+      extraPackages = with pkgs.bat-extras; [
         batdiff
         batman
       ];

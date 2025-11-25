@@ -4,8 +4,8 @@
       enable = true;
     };
 
-    lazysql = {
-      enable = true;
-    };
+    # lazysql = {
+    #   enable = true;
+    # };
   };
 }
