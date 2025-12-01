@@ -46,6 +46,7 @@
           unstable = unstablePkgsFor prev.system;
           # Latest version of these
           inherit (unstable)
+            devbox
             devenv
             gemini-cli
             gh
