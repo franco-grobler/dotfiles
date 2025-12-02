@@ -28,9 +28,6 @@ alias awsp="source _awsp"
 # Startship
 export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
 
-# TheFuck
-eval $(thefuck --alias)
-
 # Git cliff
 export GIT_CLIFF_CONFIG="$HOME/.config/git-cliff/cliff.toml"
 
