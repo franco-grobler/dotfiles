@@ -107,7 +107,6 @@ in
       pkgs.sentry-cli
       pkgs.stow
       pkgs.sshs
-      pkgs.thefuck
       pkgs.tree
       pkgs.tmux
       pkgs.wget
