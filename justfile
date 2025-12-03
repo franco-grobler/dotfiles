@@ -27,8 +27,10 @@ nix-switch:
     . ../_scripts/set_nix_envs.sh
     echo "Update nix config with: "
     printenv | grep "^NIX[^_P]"
-    nix build ".#${NIXCONFIG}.${NIXNAME}.system"
-    sudo ./result/sw/bin/darwin-rebuild switch --flake "$(pwd)#${NIXNAME}"
+    @if ( "$(uname -s)" = "Darwin"); then
+      nix build ".#${NIXCONFIG}.${NIXNAME}.system"
+      sudo ./result/sw/bin/darwin-rebuild switch --flake "$(pwd)#${NIXNAME}"
+    fi
 
 # Test home manager flake.
 [group('Nix')]
