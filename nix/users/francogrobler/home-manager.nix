@@ -84,11 +84,8 @@ let
     })
     (import "${currentDir}/programs/languages.nix" { inherit pkgs; })
     (import "${currentDir}/programs/shells.nix" { inherit shellAliases; })
-    (import "${currentDir}/programs/tuis.nix")
-    (import "${currentDir}/programs/utils.nix" {
-      inherit osConfig systemName isDarwin;
-    })
-    (import "${currentDir}/programs/vsc.nix")
+    (import "${currentDir}/programs/utils.nix" { inherit osConfig systemName isDarwin; })
+    (import "${currentDir}/programs/vsc.nix" { inherit lib pkgs isWSL; })
   ];
   lspPackages = import "${currentDir}/programs/lsps.nix" { inherit pkgs; };
 in
@@ -96,75 +93,6 @@ in
   home = {
     stateVersion = "25.05";
 
-    #---------------------------------------------------------------------
-    # Packages
-    #---------------------------------------------------------------------
-    packages = [
-      pkgs._1password-cli
-      pkgs.bottom
-      pkgs.btop
-      pkgs.cmatrix
-      pkgs.cowsay
-      pkgs.devbox
-      pkgs.devenv
-      pkgs.docker
-      pkgs.duf
-      pkgs.eza
-      pkgs.fastfetch
-      pkgs.fd
-      pkgs.fzf
-      pkgs.gh
-      pkgs.glow
-      pkgs.htop
-      pkgs.jaq
-      pkgs.just
-      pkgs.jq
-      pkgs.lazydocker
-      pkgs.lolcat
-      pkgs.neovim
-      pkgs.nodejs
-      pkgs.nixfmt-rfc-style
-      pkgs.ookla-speedtest
-      pkgs.opencode
-      pkgs.podman
-      pkgs.podman-compose
-      pkgs.podman-tui
-      pkgs.python314
-      pkgs.qmk
-      pkgs.ripgrep
-      pkgs.rustup
-      pkgs.sentry-cli
-      pkgs.statix
-      pkgs.stow
-      pkgs.sshs
-      pkgs.tree
-      pkgs.tmux
-      pkgs.wget
-      pkgs.yazi
-      pkgs.yq
-      pkgs.zoxide
-
-      pkgs.nerd-fonts.jetbrains-mono
-    ]
-    ++ (lib.optionals (!isWSL && !isDarwin) [
-      # GUI apps
-      pkgs._1password-gui
-      pkgs.alacritty
-      pkgs.podman-desktop
-    ])
-    ++ (lib.optionals (!isDarwin) [
-      pkgs.gemini-cli # macos installer not available
-    ])
-    ++ (lib.optionals (isLinux && !isWSL) [
-      pkgs.chromium
-      pkgs.firefox
-      pkgs.freecad-wayland
-      pkgs.ghostty # macos installer is broken
-      pkgs.rofi
-      pkgs.vial
-      pkgs.valgrind
-      pkgs.zathura
-    ]);
     # Make cursor not tiny on HiDPI screens
     pointerCursor = lib.mkIf (isLinux && !isWSL) {
       name = "Vanilla-DMZ";
@@ -261,15 +189,6 @@ in
     # Env vars and dotfiles
     #---------------------------------------------------------------------
 
-      EDITOR = "nvim";
-      PAGER = "less -FirSwX";
-      PODMAN_COMPOSE_WARNING_LOGS = "false";
-
-      BAT_CONFIG_PATH = "$XDG_CONFIG_HOME/bat/config";
-    EDITOR = "nvim";
-    PAGER = "less -FirSwX";
-    PODMAN_COMPOSE_WARNING_LOGS = "false";
-    # MANPAGER = "${manpager}/bin/manpager";
     sessionVariables = {
       LANG = "en_ZA.UTF-8";
       LC_CTYPE = "en_ZA.UTF-8";
@@ -315,8 +234,7 @@ in
     maxCacheTtl = 31536000;
   };
 
-  xdg.enable = true;
-
   xresources.extraConfig = builtins.readFile ./config/Xresources;
+
   xdg.enable = true;
 }
