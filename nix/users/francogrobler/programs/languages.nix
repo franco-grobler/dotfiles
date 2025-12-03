@@ -2,7 +2,9 @@
 {
   programs.go = {
     enable = true;
-    goPath = "$HOME/.go";
+    env = {
+      GOPATH = "$HOME/.go";
+    };
     telemetry = {
       mode = "on";
     };
