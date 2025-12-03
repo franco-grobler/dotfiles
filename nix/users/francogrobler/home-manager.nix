@@ -79,6 +79,7 @@ in
       pkgs.btop
       pkgs.cmatrix
       pkgs.cowsay
+      pkgs.devbox
       pkgs.devenv
       pkgs.docker
       pkgs.eza
