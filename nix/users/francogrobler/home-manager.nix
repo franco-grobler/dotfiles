@@ -222,7 +222,6 @@ in
       pkgs.sentry-cli
       pkgs.stow
       pkgs.sshs
-      pkgs.thefuck
       pkgs.tree
       pkgs.tmux
       pkgs.wget
@@ -231,17 +230,22 @@ in
 
       pkgs.nerd-fonts.jetbrains-mono
     ]
-    ++ (lib.optionals (isLinux || isWSL) [
-      pkgs.qemu
-      pkgs.virtiofsd
-      pkgs.xclip
-    ])
+    ++ (
+      lib.optionals (isLinux || isWSL) [
+        pkgs.qemu
+        pkgs.virtiofsd
+        pkgs.xclip
+
+      ]
+      ++ lspPackages
+    )
     ++ (lib.optionals (isLinux && !isWSL) [
       # MacOS & WSL installer not available
       pkgs.gemini-cli
       # GUI apps
       pkgs._1password-gui
       pkgs.alacritty
+      pkgs.brave
       pkgs.chromium
       pkgs.firefox
       pkgs.freecad-wayland
@@ -251,8 +255,7 @@ in
       pkgs.vial
       pkgs.valgrind
       pkgs.zathura
-    ])
-    ++ lspPackages;
+    ]);
 
     #---------------------------------------------------------------------
     # Env vars and dotfiles
