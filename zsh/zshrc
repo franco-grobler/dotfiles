@@ -15,21 +15,18 @@ if [[ $(uname) == 'Darwin' ]]; then
 
     # Draw.io cli
     alias drawio="/Applications/draw.io.app/Contents/MacOS/draw.io"
-fi
 
-# Rust builds
-export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
-export CC=/opt/homebrew/opt/llvm/bin/clang
-export AR=/opt/homebrew/opt/llvm/bin/llvm-ar
+    # Rust builds
+    export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+    export CC=/opt/homebrew/opt/llvm/bin/clang
+    export AR=/opt/homebrew/opt/llvm/bin/llvm-ar
+fi
 
 # AWS
 alias awsp="source _awsp"
 
 # Startship
 export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
-
-# TheFuck
-eval $(thefuck --alias)
 
 # Git cliff
 export GIT_CLIFF_CONFIG="$HOME/.config/git-cliff/cliff.toml"
