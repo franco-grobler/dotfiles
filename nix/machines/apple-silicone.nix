@@ -1,4 +1,4 @@
-{ ... }:
+{ _, ... }:
 {
   # Set in May 2025 as part of the macOS Sequoia release.
   system.stateVersion = 6;
