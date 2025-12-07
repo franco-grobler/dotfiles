@@ -11,17 +11,17 @@
 vim.api.nvim_create_autocmd("User", {
   pattern = "LazyUpdate",
   callback = function()
-    local home = vim.env.HOME
-    local repo_dir = home .. "/dotfiles"
+    local repo_dir = vim.env.HOME .. "/dotfiles"
     local lockfile = repo_dir .. "/nvim/lazy-lock.json"
 
     local cmd = {
       "git",
       "-C",
       repo_dir,
-      "add-and-commit",
+      "commit",
       lockfile,
-      "chore(nvim): update lazynvim lockfile",
+      "-m",
+      "chore(nvim): update lazy lockfile",
     }
 
     local success, process = pcall(function()
@@ -29,23 +29,31 @@ vim.api.nvim_create_autocmd("User", {
     end)
 
     if process and process.code == 0 then
-      vim.notify("Committed lazy-lock.json: " .. process.stdout)
+      vim.notify("Committed lockfile")
     else
       if not success then
         vim.notify(
-          "Failed to run command '"
-            .. table.concat(cmd, " ")
-            .. "':"
-            .. tostring(process),
+          "Failed to run command '" .. table.concat(cmd, " ") .. "':",
           vim.log.levels.ERROR,
           {}
         )
       else
-        vim.notify(
-          "git ran but failed to commit: " .. process.stdout,
-          vim.log.levels.WARN,
-          {}
-        )
+        if process.stderr == "" then
+          vim.notify(
+            process.stdout .. " - exit code " .. process.code,
+            vim.log.levels.WARN,
+            {}
+          )
+        else
+          vim.notify(
+            "failed to commit: "
+              .. process.stderr
+              .. " with exit code "
+              .. process.code,
+            vim.log.levels.ERROR,
+            {}
+          )
+        end
       end
     end
   end,
