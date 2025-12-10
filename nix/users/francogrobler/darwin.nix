@@ -53,9 +53,6 @@
     };
   };
 
-  # Required for some settings like homebrew to know what user to apply to.
-  system.primaryUser = "francogrobler";
-
   security.pam.services.sudo_local = {
     enable = true;
     reattach = true;
@@ -98,7 +95,7 @@
         FirstClickThreshold = 1;
         SecondClickThreshold = 1;
         TrackpadRightClick = true;
-        TrackpadThreeFingerDrag = true;
+        TrackpadThreeFingerDrag = false;
       };
     };
     # TODO: This fucks up external keyboards.
@@ -107,6 +104,9 @@
       swapLeftCtrlAndFn = false;
     };
     startup.chime = false;
+
+    # Required for some settings like homebrew to know what user to apply to.
+    primaryUser = "francogrobler";
   };
 
   time.timeZone = "Africa/Johannesburg";
