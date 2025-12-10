@@ -18,7 +18,7 @@ vim.api.nvim_create_autocmd("User", {
       "git",
       "-C",
       repo_dir,
-      "commit",
+      "add-and-commit",
       lockfile,
       "-m",
       "chore(nvim): update lazy lockfile",
