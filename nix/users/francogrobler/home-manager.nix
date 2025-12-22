@@ -126,7 +126,7 @@ in
       pkgs.podman-desktop
     ])
     ++ (lib.optionals (!isDarwin) [
-      pkgs.gemini-cli # macos installer not availble
+      pkgs.gemini-cli # macos installer not available
     ])
     ++ (lib.optionals (isLinux && !isWSL) [
       pkgs.chromium
