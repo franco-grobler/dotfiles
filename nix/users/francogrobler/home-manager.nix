@@ -82,6 +82,7 @@ in
       pkgs.devbox
       pkgs.devenv
       pkgs.docker
+      pkgs.duf
       pkgs.eza
       pkgs.fastfetch
       pkgs.fd
