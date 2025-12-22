@@ -389,15 +389,13 @@ git:
   renameSimilarityThreshold: 80
 
   # If true, do not spawn a separate process when using GPG
-  overrideGpg: false
+  overrideGpg: true
 
   # If true, do not allow force pushes
   disableForcePushing: false
 
   # See https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md#predefined-commit-message-prefix
-  commitPrefix:
-    - pattern: "^(\\w+)\\/(\\w+-\\w+).*"
-      replace: "[$1]([$2]): "
+  commitPrefix: []
 
   # See https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md#predefined-commit-message-prefix
   commitPrefixes: {}
@@ -407,7 +405,7 @@ git:
 
   # If true, parse emoji strings in commit messages e.g. render :rocket: as 🚀
   # (This should really be under 'gui', not 'git')
-  parseEmoji: false
+  parseEmoji: true
 
   # Config for showing the log in the commits view
   log:
@@ -469,7 +467,7 @@ confirmOnQuit: false
 
 # If true, exit Lazygit when the user presses escape in a context where there is
 # nothing to cancel/close
-quitOnTopLevelReturn: false
+quitOnTopLevelReturn: true
 
 # Config relating to things outside of Lazygit like how files are opened,
 # copying to clipboard, etc
