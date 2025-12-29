@@ -78,7 +78,7 @@ let
     (import "${currentDir}/programs/i3.nix" {
       inherit isLinux isWSL;
     })
-    (import "${currentDir}/programs/hyperland/default.nix" {
+    (import "${currentDir}/programs/hyprland/default.nix" {
       enable = isLinux && !isWSL;
       inherit pkgs;
     })

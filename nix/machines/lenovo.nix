@@ -1,4 +1,5 @@
 {
+  inputs,
   pkgs,
   currentSystemUser,
   ...
@@ -63,13 +64,24 @@
     };
   };
 
-  programs.hyprland.enable = true; # enable Hyprland
+  programs.hyprland = {
+    enable = true;
+    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    portalPackage = pkgs.xdg-desktop-portal-hyprland;
+  };
 
   services = {
+    blueman.enable = true;
     # Enable the KDE Plasma Desktop Environment.
     displayManager.sddm.wayland.enable = true;
     displayManager.sddm.enable = true;
     desktopManager.plasma6.enable = true;
+
+    # Initial login experience
+    greetd = {
+      enable = true;
+      settings.default_session.command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd Hyprland";
+    };
 
     # Configure keymap in X11
     xserver.xkb = {

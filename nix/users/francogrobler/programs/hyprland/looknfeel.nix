@@ -2,6 +2,10 @@
   _,
   ...
 }:
+let
+  activeBorder = "aaa";
+  inactiveBorder = "ccc";
+in
 {
   wayland.windowManager.hyprland.settings = {
     general = {
@@ -10,8 +14,8 @@
 
       border_size = 2;
 
-      # "col.active_border" = activeBorder;
-      # "col.inactive_border" = inactiveBorder;
+      "col.active_border" = activeBorder;
+      "col.inactive_border" = inactiveBorder;
 
       resize_on_border = false;
 
