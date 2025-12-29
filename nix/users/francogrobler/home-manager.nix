@@ -178,6 +178,7 @@ in
       pkgs.firefox
       pkgs.freecad-wayland
       pkgs.ghostty
+      pkgs.gnome-disk-utility
       pkgs.podman-desktop
       pkgs.rofi
       pkgs.vial
