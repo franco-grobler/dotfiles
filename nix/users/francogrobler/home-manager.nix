@@ -7,6 +7,7 @@
 
 {
   config,
+  colorScheme,
   lib,
   pkgs,
   ...
@@ -184,6 +185,15 @@ in
       pkgs.vial
       pkgs.valgrind
       pkgs.zathura
+      # hyprland
+      pkgs.brightnessctl
+      pkgs.gnome-themes-extra
+      pkgs.hyprshot
+      pkgs.hyprpicker
+      pkgs.hyprsunset
+      pkgs.pamixer
+      pkgs.pavucontrol
+      pkgs.playerctl
     ]);
 
     #---------------------------------------------------------------------
@@ -221,6 +231,21 @@ in
   imports = globalPrograms;
 
   programs.gpg.enable = !isDarwin;
+
+  gtk = {
+    enable = isLinux;
+    theme = {
+      name = "Adwaita:dark";
+      package = pkgs.gnome-themes-extra;
+    };
+  };
+
+  home.file = {
+    ".local/share/omarchy/bin" = {
+      source = ./programs/hyprland/scripts;
+      recursive = true;
+    };
+  };
 
   #---------------------------------------------------------------------
   # Services

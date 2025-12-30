@@ -28,6 +28,8 @@ let
   systemFunc = if darwin then inputs.darwin.lib.darwinSystem else nixpkgs.lib.nixosSystem;
   home-manager =
     if darwin then inputs.home-manager.darwinModules else inputs.home-manager.nixosModules;
+
+  colorScheme = inputs.nix-colors.colorSchemes."tokyo-night-dark";
 in
 systemFunc rec {
   inherit system;
@@ -53,6 +55,7 @@ systemFunc rec {
     {
       home-manager = {
         backupFileExtension = "backup";
+        extraSpecialArgs = { inherit inputs colorScheme; };
         useGlobalPkgs = true;
         useUserPackages = true;
         users.${user} = import userHMConfig {
@@ -69,7 +72,7 @@ systemFunc rec {
         currentSystem = system;
         currentSystemName = name;
         currentSystemUser = user;
-        inherit isWSL inputs;
+        inherit inputs isWSL;
       };
     }
   ];

@@ -1,13 +1,13 @@
-{ _, ... }:
+{ colorScheme, ... }:
 {
   services.mako = {
     enable = true;
 
     settings = {
-      # background-color = "#${config.colorScheme.palette.base00}";
-      # text-color = "#${config.colorScheme.palette.base05}";
-      # border-color = "#${config.colorScheme.palette.base04}";
-      # progress-color = "#${config.colorScheme.palette.base0D}";
+      background-color = "#${colorScheme.palette.base00}";
+      text-color = "#${colorScheme.palette.base05}";
+      border-color = "#${colorScheme.palette.base04}";
+      progress-color = "#${colorScheme.palette.base0D}";
 
       width = 420;
       height = 110;

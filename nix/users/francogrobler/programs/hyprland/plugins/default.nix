@@ -1,9 +1,10 @@
 {
   imports = [
-    ./hyperidle.nix
-    ./hyperlock.nix
+    ./hypridle.nix
+    ./hyprlock.nix
     ./hyprpaper.nix
     ./mako.nix
-    # ./waybar.nix
+    ./waybar.nix
+    ./wofi.nix
   ];
 }

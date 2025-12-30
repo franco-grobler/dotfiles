@@ -1,10 +1,13 @@
 {
-  _,
+  colorScheme,
   ...
 }:
 let
-  activeBorder = "aaa";
-  inactiveBorder = "ccc";
+  inherit (colorScheme) palette;
+  hexToRgba = hex: alpha: "rgba(${hex}${alpha})";
+
+  inactiveBorder = hexToRgba palette.base09 "aa";
+  activeBorder = hexToRgba palette.base0D "aa";
 in
 {
   wayland.windowManager.hyprland.settings = {

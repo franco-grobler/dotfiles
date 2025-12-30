@@ -1,11 +1,11 @@
-inputs:
 {
-  config,
+  inputs,
+  colorScheme,
   pkgs,
   ...
 }:
 let
-  palette = "tokyo-night";
+  inherit (colorScheme) palette;
   convert = inputs.nix-colors.lib.conversions.hexToRGBString;
   backgroundRgb = "rgb(${convert ", " palette.base00})";
   foregroundRgb = "rgb(${convert ", " palette.base05})";
@@ -177,15 +177,6 @@ in
             performance = "󰡴";
           };
         };
-        # "custom/dropbox" = {
-        #   format = "";
-        #   on-click = "nautilus ~/Dropbox";
-        #   exec = "dropbox-cli status";
-        #   return-type = "text";
-        #   interval = 5;
-        #   tooltip = true;
-        #   tooltip-format = "{}";
-        # };
       }
     ];
   };
