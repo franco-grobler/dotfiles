@@ -16,11 +16,26 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Build a custom WSL installer
-    nixos-wsl.url = "github:nix-community/NixOS-WSL";
-    nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Patch linker for Neovim
+    nix-ld = {
+      url = "github:Mic92/nix-ld";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nix-snapd = {
+      url = "github:nix-community/nix-snapd";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     ghostty.url = "github:ghostty-org/ghostty";
+
+    hyprland.url = "github:hyprwm/Hyprland";
+    nix-colors.url = "github:misterio77/nix-colors";
   };
 
   outputs =
@@ -74,7 +89,7 @@
         user = userName;
       };
 
-      nixosConfigurations.x86_64-linux = mkSystem "x86_64-linux" {
+      nixosConfigurations.lenovo = mkSystem "lenovo" rec {
         system = "x86_64-linux";
         user = userName;
       };

@@ -7,20 +7,20 @@
 
 {
   config,
+  colorScheme,
   lib,
   pkgs,
   ...
 }:
 
 let
-  # sources = import ../../nix/sources.nix;
   inherit (pkgs.stdenv) isDarwin;
   inherit (pkgs.stdenv) isLinux;
 
   osConfig =
     if isDarwin then
       "darwinConfigurations"
-    else if isLinux then
+    else if isLinux || isWSL then
       "nixosConfigurations"
     else
       "homeConfigurations";
@@ -37,7 +37,14 @@ let
     "gemini-cli" = "GEMINI_API_KEY=$(op read $GEMINI_API_KEY) gemini";
   }
   // (
-    if isLinux then
+    if isWSL then
+      {
+        pbcopy = "win32yank.exe -i";
+        pbpaste = "win32yank.exe -o";
+        ssh = "ssh.exe";
+        ssh-add = "ssh-add.exe";
+      }
+    else if isLinux then
       {
         pbcopy = "xclip";
         pbpaste = "xclip -o";
@@ -50,56 +57,89 @@ let
       { }
   );
 
+  # For our MANPAGER env var
+  # https://github.com/sharkdp/bat/issues/1145
+  # manpager = (
+  #   pkgs.writeShellScriptBin "manpager" (
+  #     if isDarwin then
+  #       ''
+  #         sh -c 'col -bx | bat -l man -p'
+  #       ''
+  #     else
+  #       ''
+  #         cat "$1" | col -bx | bat --language man --style plain
+  #       ''
+  #   )
+  # );
+
   currentDir = builtins.path { path = ./.; };
 
   globalPrograms = [
-    (import "${currentDir}/programs/clis.nix" { inherit pkgs; })
+    (import "${currentDir}/programs/clis.nix")
     (import "${currentDir}/programs/i3.nix" {
-      inherit isLinux;
-      inherit isWSL;
+      inherit isLinux isWSL;
     })
+    (import "${currentDir}/programs/hyprland/default.nix" {
+      enable = isLinux && !isWSL;
+      inherit pkgs;
+    })
+    (import "${currentDir}/programs/languages.nix" { inherit pkgs; })
     (import "${currentDir}/programs/shells.nix" { inherit shellAliases; })
-    (import "${currentDir}/programs/tuis.nix")
-    (import "${currentDir}/programs/utils.nix" {
-      inherit osConfig systemName isDarwin;
-    })
-    (import "${currentDir}/programs/vsc.nix")
+    (import "${currentDir}/programs/utils.nix" { inherit osConfig systemName isDarwin; })
+    (import "${currentDir}/programs/vsc.nix" { inherit lib pkgs isWSL; })
   ];
+  lspPackages = import "${currentDir}/programs/lsps.nix" { inherit pkgs; };
 in
 {
   home = {
     stateVersion = "25.05";
 
+    # Make cursor not tiny on HiDPI screens
+    pointerCursor = lib.mkIf (isLinux && !isWSL) {
+      name = "Vanilla-DMZ";
+      package = pkgs.vanilla-dmz;
+      size = 128;
+      x11.enable = true;
+    };
+
     #---------------------------------------------------------------------
     # Packages
     #---------------------------------------------------------------------
+
+    # Packages I always want installed. Most packages I install using
+    # per-project flakes sourced with direnv and nix-shell, so this is
+    # not a huge list.
     packages = [
       pkgs._1password-cli
+      pkgs.awscli2
+      pkgs.bat
       pkgs.bottom
       pkgs.btop
       pkgs.cmatrix
       pkgs.cowsay
-      pkgs.devbox
       pkgs.devenv
+      pkgs.dive
       pkgs.docker
-      pkgs.duf
       pkgs.eza
       pkgs.fastfetch
       pkgs.fd
       pkgs.fzf
+      pkgs.gcc
       pkgs.gh
       pkgs.glow
       pkgs.htop
       pkgs.jaq
       pkgs.just
       pkgs.jq
+      pkgs.kubectl
       pkgs.lazydocker
+      pkgs.lazygit
+      pkgs.luajitPackages.luarocks
       pkgs.lolcat
       pkgs.neovim
       pkgs.nodejs
       pkgs.nixfmt-rfc-style
       pkgs.ookla-speedtest
-      pkgs.opencode
       pkgs.podman
       pkgs.podman-compose
       pkgs.podman-tui
@@ -107,8 +147,8 @@ in
       pkgs.qmk
       pkgs.ripgrep
       pkgs.rustup
-      pkgs.sentry-cli
       pkgs.statix
+      pkgs.sentry-cli
       pkgs.stow
       pkgs.sshs
       pkgs.tree
@@ -116,28 +156,44 @@ in
       pkgs.wget
       pkgs.yazi
       pkgs.yq
-      pkgs.zoxide
 
       pkgs.nerd-fonts.jetbrains-mono
     ]
-    ++ (lib.optionals (!isWSL && !isDarwin) [
+    ++ (
+      lib.optionals (isLinux || isWSL) [
+        pkgs.qemu
+        pkgs.virtiofsd
+        pkgs.xclip
+
+      ]
+      ++ lspPackages
+    )
+    ++ (lib.optionals (isLinux && !isWSL) [
+      # MacOS & WSL installer not available
+      pkgs.gemini-cli
       # GUI apps
       pkgs._1password-gui
       pkgs.alacritty
-      pkgs.podman-desktop
-    ])
-    ++ (lib.optionals (!isDarwin) [
-      pkgs.gemini-cli # macos installer not available
-    ])
-    ++ (lib.optionals (isLinux && !isWSL) [
+      pkgs.brave
       pkgs.chromium
       pkgs.firefox
       pkgs.freecad-wayland
-      pkgs.ghostty # macos installer is broken
+      pkgs.ghostty
+      pkgs.gnome-disk-utility
+      pkgs.podman-desktop
       pkgs.rofi
       pkgs.vial
       pkgs.valgrind
       pkgs.zathura
+      # hyprland
+      pkgs.brightnessctl
+      pkgs.gnome-themes-extra
+      pkgs.hyprshot
+      pkgs.hyprpicker
+      pkgs.hyprsunset
+      pkgs.pamixer
+      pkgs.pavucontrol
+      pkgs.playerctl
     ]);
 
     #---------------------------------------------------------------------
@@ -152,8 +208,7 @@ in
       EDITOR = "nvim";
       PAGER = "less -FirSwX";
       PODMAN_COMPOSE_WARNING_LOGS = "false";
-
-      BAT_CONFIG_PATH = "$XDG_CONFIG_HOME/bat/config";
+      # MANPAGER = "${manpager}/bin/manpager";
 
       GEMINI_API_KEY = "op://Personal/Gemini CLI/credential";
     }
@@ -164,16 +219,9 @@ in
           DISPLAY = "nixpkgs-390751";
         }
       else
-        { }
+        {
+        }
     );
-
-    # Make cursor not tiny on HiDPI screens
-    pointerCursor = lib.mkIf (isLinux && !isWSL) {
-      name = "Vanilla-DMZ";
-      package = pkgs.vanilla-dmz;
-      size = 128;
-      x11.enable = true;
-    };
   };
 
   #---------------------------------------------------------------------
@@ -184,10 +232,18 @@ in
 
   programs.gpg.enable = !isDarwin;
 
-  programs.go = {
-    enable = true;
-    env = {
-      GOPATH = "$HOME/.go";
+  gtk = {
+    enable = isLinux;
+    theme = {
+      name = "Adwaita:dark";
+      package = pkgs.gnome-themes-extra;
+    };
+  };
+
+  home.file = {
+    ".local/share/omarchy/bin" = {
+      source = ./programs/hyprland/scripts;
+      recursive = true;
     };
   };
 
@@ -204,7 +260,7 @@ in
     maxCacheTtl = 31536000;
   };
 
-  xdg.enable = true;
-
   xresources.extraConfig = builtins.readFile ./config/Xresources;
+
+  xdg.enable = true;
 }

@@ -1,4 +1,4 @@
-{ pkgs }:
+{ pkgs, ... }:
 {
   programs = {
     atuin = {
@@ -52,6 +52,9 @@
       enableBashIntegration = true;
       enableNushellIntegration = true;
       enableZshIntegration = true;
+    };
+    uv = {
+      enable = true;
     };
   };
 }

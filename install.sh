@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Ensure $HOME/.config exists
+mkdir -p "$HOME/.config"
+
 # Create SOPS age key
 sops_age_dir="sops/age"
 if [[ ! -d ${sops_age_dir} ]]; then

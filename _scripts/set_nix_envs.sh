@@ -21,7 +21,7 @@ if [[ $os == "Darwin" ]]; then
 	export NIXNAME="apple-silicone"
 	export NIXCONFIG="darwinConfigurations"
 elif [[ $os == "Linux" ]]; then
-	export NIXNAME="x86_64-linux"
+	export NIXNAME="lenovo"
 	if is_nixos; then
 		export NIXCONFIG="nixosConfigurations"
 	else

@@ -308,9 +308,17 @@ git:
   #   useExternalDiffGitConfig: false
   #
   # See https://github.com/jesseduffield/lazygit/blob/master/docs/Custom_Pagers.md
-  # for more information.
-  pagers: []
-
+  pagers:
+    - # Value of the --color arg in the git diff command. Some pagers want this to be set to 'always' and some want it set to 'never'
+      colorArg: always
+      # e.g.
+      # diff-so-fancy
+      # delta --dark --paging=never
+      # ydiff -p cat -s --wrap --width={{columnWidth}}
+      pager: ""
+      # If true, Lazygit will use whatever pager is specified in `$GIT_PAGER`, `$PAGER`, or your *git config*. If the pager ends with something like ` | less` we will strip that part out, because less doesn't play nice with our rendering approach. If the custom pager uses less under the hood, that will also break rendering (hence the `--paging=never` flag for the `delta` pager).
+      # e.g. 'difft --color=always'
+      externalDiffCommand: ""
   # Config relating to committing
   commit:
     # If true, pass '--signoff' flag when committing
@@ -519,7 +527,6 @@ disableStartupPopups: false
 
 # User-configured commands that can be invoked from within Lazygit
 # See https://github.com/jesseduffield/lazygit/blob/master/docs/Custom_Command_Keybindings.md
-customCommands: []
 
 # See https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md#custom-pull-request-urls
 services: {}
@@ -714,3 +721,79 @@ keybinding:
     bulkMenu: b
   commitMessage:
     commitMenu: <c-o>
+# Define custom commands
+customCommands:
+  # Conventional commit
+  - key: "C"
+    command: |
+      git commit -m "{{ .Form.Type }}{{if .Form.Scopes}}({{ .Form.Scopes }}){{end}}: {{ .Form.Description }}" \
+      {{- if .Form.LongDescription }}
+      -m "{{ .Form.LongDescription }}" \
+      {{- end }}
+      {{- if .Form.BreakingChange }}
+      -m "BREAKING CHANGE: {{ .Form.BreakingChange }}"
+      {{- end }}
+    description: "commit with commitizen"
+    context: "files"
+    prompts:
+      - type: "menu"
+        title: "Select the type of change you are committing."
+        key: "Type"
+        options:
+          - name: "Feature"
+            description: "a new feature"
+            value: "feat"
+          - name: "Fix"
+            description: "a bug fix"
+            value: "fix"
+          - name: "Documentation"
+            description: "Documentation only changes"
+            value: "docs"
+          - name: "Styles"
+            description: "Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)"
+            value: "style"
+          - name: "Code Refactoring"
+            description: "A code change that neither fixes a bug nor adds a feature"
+            value: "refactor"
+          - name: "Performance Improvements"
+            description: "A code change that improves performance"
+            value: "perf"
+          - name: "Tests"
+            description: "Adding missing tests or correcting existing tests"
+            value: "test"
+          - name: "Builds"
+            description: "Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)"
+            value: "build"
+          - name: "Continuous Integration"
+            description: "Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)"
+            value: "ci"
+          - name: "Chores"
+            description: "Other changes that don't modify src or test files"
+            value: "chore"
+          - name: "Reverts"
+            description: "Reverts a previous commit"
+            value: "revert"
+      - type: "input"
+        title: "Enter the scope(s) of this change."
+        key: "Scopes"
+      - type: "input"
+        title: "Enter the short description of the change."
+        key: "Description"
+      - type: "input"
+        title: "Enter a more detailed description (optional)."
+        key: "LongDescription"
+      - type: "input"
+        title: "Describe the breaking change, if any (leave empty if none)."
+        key: "BreakingChange"
+      - type: "confirm"
+        title: "Is the commit message correct?"
+        body: |
+          {{ .Form.Type }}{{if .Form.Scopes}}({{ .Form.Scopes }}){{end}}: {{ .Form.Description }}
+          {{- if .Form.LongDescription }}
+
+          {{ .Form.LongDescription }}
+          {{- end }}
+          {{- if .Form.BreakingChange }}
+
+          BREAKING CHANGE: {{ .Form.BreakingChange }}
+          {{- end }}
