@@ -47,7 +47,7 @@ nix-update:
     @if ( "$(uname -s)" = "Darwin"); then brew update; fi
     nix flake update
     git add flake.lock
-    git commit -m "chore: update nix flake lockfile" || echo "No changes to commit"
+    git commit -m "chore(nix): update flake lockfile" || echo "No changes to commit"
 
 [group('Nix')]
 mason-packages:
