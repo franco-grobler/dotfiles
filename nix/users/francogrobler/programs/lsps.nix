@@ -1,10 +1,10 @@
 { pkgs }:
 [
   # Python
-  pkgs.basedpyright
   pkgs.python313Packages.debugpy
-  pkgs.python313Packages.ruff
   pkgs.python313Packages.python-lsp-server
+  pkgs.ruff
+  pkgs.ty
 
   # JavaScript/TypeScript/Frontend
   pkgs.angular-language-server

@@ -52,6 +52,8 @@
             gh
             github-copilot-cli
             nushell
+            ruff
+            ty
             uv
             ;
         })

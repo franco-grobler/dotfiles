@@ -64,6 +64,7 @@ in
     # not a huge list.
     packages = [
       pkgs._1password-cli
+      pkgs.p7zip
       pkgs.awscli2
       pkgs.bat
       pkgs.bottom
