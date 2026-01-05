@@ -14,7 +14,7 @@ opt.mouse = ""
 
 local g = vim.g
 
-g.lazyvim_python_lsp = "basedpyright"
+g.lazyvim_python_lsp = "ty"
 
 -- VimTex
 if is_mac then
