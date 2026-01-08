@@ -84,9 +84,9 @@ in
       pkgs.github-copilot-cli
       pkgs.glow
       pkgs.htop
-      pkgs.jaq
       pkgs.just
       pkgs.jq
+      pkgs.jqp
       pkgs.kubectl
       pkgs.lazydocker
       pkgs.lazygit
