@@ -69,6 +69,7 @@ in
       pkgs.bat
       pkgs.bottom
       pkgs.btop
+      pkgs.clock-rs
       pkgs.cmatrix
       pkgs.cowsay
       pkgs.devbox
