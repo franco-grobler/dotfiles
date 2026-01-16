@@ -46,12 +46,14 @@
           unstable = unstablePkgsFor prev.system;
           # Latest version of these
           inherit (unstable)
+            bun
             devbox
             devenv
             gemini-cli
             gh
             github-copilot-cli
             nushell
+            opencode
             ruff
             ty
             uv

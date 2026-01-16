@@ -69,6 +69,7 @@ in
       pkgs.bat
       pkgs.bottom
       pkgs.btop
+      pkgs.bun
       pkgs.clock-rs
       pkgs.cmatrix
       pkgs.cowsay
@@ -98,6 +99,7 @@ in
       pkgs.nodejs
       pkgs.nixfmt-rfc-style
       pkgs.ookla-speedtest
+      pkgs.opencode
       pkgs.podman
       pkgs.podman-compose
       pkgs.podman-tui
