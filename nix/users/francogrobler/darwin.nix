@@ -8,6 +8,7 @@
       "gemini-cli"
       "llvm"
       "mas"
+      "mole"
     ];
     casks = [
       "1password"
