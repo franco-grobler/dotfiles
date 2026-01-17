@@ -21,6 +21,9 @@ if [[ $(uname) == 'Darwin' ]]; then
   export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
   export CC="/opt/homebrew/opt/llvm/bin/clang"
   export AR="/opt/homebrew/opt/llvm/bin/llvm-ar"
+
+  # Mole
+  if output="$(mole completion zsh 2>/dev/null)"; then eval "$output"; fi
 fi
 
 # AWS
