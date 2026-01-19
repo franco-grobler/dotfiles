@@ -24,6 +24,7 @@
       "google-chrome"
       "inkscape"
       "keka"
+      "kicad"
       "podman-desktop"
       "slack"
       "skim"
