@@ -1,4 +1,5 @@
 {
+  config,
   osConfig,
   systemName,
   isDarwin,
@@ -19,7 +20,7 @@ in
         enable = true;
         extraArgs = "--keep-since 7d --keep 2";
       };
-      flake = "$HOME/dotfiles/nix#${osConfig}.${systemName}";
+      flake = "${config.home.homeDirectory}/dotfiles/nix#${osConfig}.${systemName}";
     };
 
     ssh = {

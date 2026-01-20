@@ -46,7 +46,14 @@ let
     (import "${currentDir}/programs/i3.nix" { inherit isLinux isWSL; })
     (import "${currentDir}/programs/languages.nix" { inherit config pkgs; })
     (import "${currentDir}/programs/shells.nix" { inherit isWSL; })
-    (import "${currentDir}/programs/utils.nix" { inherit osConfig systemName isDarwin; })
+    (import "${currentDir}/programs/utils.nix" {
+      inherit
+        config
+        osConfig
+        systemName
+        isDarwin
+        ;
+    })
     (import "${currentDir}/programs/vsc.nix" { inherit lib pkgs isWSL; })
   ];
   lspPackages = import "${currentDir}/programs/lsps.nix" { inherit pkgs; };
