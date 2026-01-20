@@ -1,11 +1,15 @@
-{ pkgs }:
+{ config, pkgs }:
 {
   programs = {
     go = {
       enable = true;
-      goPath = "$HOME/.go";
       telemetry = {
         mode = "on";
+      };
+      env = {
+        GOPATH = [
+          "${config.home.homeDirectory}/.go"
+        ];
       };
     };
 
