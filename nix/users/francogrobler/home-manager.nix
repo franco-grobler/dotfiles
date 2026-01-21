@@ -73,72 +73,74 @@ in
     #---------------------------------------------------------------------
     # Packages
     #---------------------------------------------------------------------
-    packages = [
-      pkgs._1password-cli
-      pkgs.bottom
-      pkgs.btop
-      pkgs.cmatrix
-      pkgs.cowsay
-      pkgs.devbox
-      pkgs.devenv
-      pkgs.docker
-      pkgs.duf
-      pkgs.eza
-      pkgs.fastfetch
-      pkgs.fd
-      pkgs.fzf
-      pkgs.gh
-      pkgs.glow
-      pkgs.htop
-      pkgs.jaq
-      pkgs.just
-      pkgs.jq
-      pkgs.lazydocker
-      pkgs.lolcat
-      pkgs.neovim
-      pkgs.nodejs
-      pkgs.nixfmt-rfc-style
-      pkgs.ookla-speedtest
-      pkgs.opencode
-      pkgs.podman
-      pkgs.podman-compose
-      pkgs.podman-tui
-      pkgs.python314
-      pkgs.qmk
-      pkgs.ripgrep
-      pkgs.rustup
-      pkgs.sentry-cli
-      pkgs.statix
-      pkgs.stow
-      pkgs.sshs
-      pkgs.tree
-      pkgs.tmux
-      pkgs.wget
-      pkgs.yazi
-      pkgs.yq
-      pkgs.zoxide
+    packages =
+      with pkgs;
+      [
+        _1password-cli
+        bottom
+        btop
+        cmatrix
+        cowsay
+        devbox
+        devenv
+        docker
+        duf
+        eza
+        fastfetch
+        fd
+        fzf
+        gh
+        glow
+        htop
+        jaq
+        just
+        jq
+        lazydocker
+        lolcat
+        neovim
+        nodejs
+        nixfmt-rfc-style
+        ookla-speedtest
+        opencode
+        podman
+        podman-compose
+        podman-tui
+        python314
+        qmk
+        ripgrep
+        rustup
+        sentry-cli
+        statix
+        stow
+        sshs
+        tree
+        tmux
+        wget
+        yazi
+        yq
+        zoxide
 
-      pkgs.nerd-fonts.jetbrains-mono
-    ]
-    ++ (lib.optionals (!isWSL && !isDarwin) [
-      # GUI apps
-      pkgs._1password-gui
-      pkgs.alacritty
-      pkgs.podman-desktop
-    ])
-    ++ (lib.optionals (!isDarwin) [
-      pkgs.gemini-cli # macos installer not available
-    ])
-    ++ (lib.optionals (isLinux && !isWSL) [
-      pkgs.chromium
-      pkgs.firefox
-      pkgs.freecad-wayland
-      pkgs.ghostty # macos installer is broken
-      pkgs.rofi
-      pkgs.vial
-      pkgs.valgrind
-      pkgs.zathura
-    ]);
+        nerd-fonts.jetbrains-mono
+      ]
+      ++ (lib.optionals (!isWSL && !isDarwin) [
+        # GUI apps
+        _1password-gui
+        alacritty
+        podman-desktop
+      ])
+      ++ (lib.optionals (!isDarwin) [
+        gemini-cli # macos installer not available
+      ])
+      ++ (lib.optionals (isLinux && !isWSL) [
+        chromium
+        firefox
+        freecad-wayland
+        ghostty # macos installer is broken
+        rofi
+        vial
+        valgrind
+        zathura
+      ]);
 
     #---------------------------------------------------------------------
     # Env vars and dotfiles
