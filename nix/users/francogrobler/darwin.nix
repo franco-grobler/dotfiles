@@ -13,20 +13,22 @@
     casks = [
       "1password"
       "adobe-acrobat-reader"
-      "alacritty"
-      "anydesk"
+      # "alacritty"
+      # "anydesk"
       "balenaetcher"
+      "db-browser-for-sqlite"
       "discord"
       "drawio"
-      "flutter"
-      "freecad"
+      # "flutter"
+      # "freecad"
       "ghostty"
       "google-chrome"
       "inkscape"
       "keka"
-      "kicad"
+      # "kicad"
+      # "libreoffice"
       "podman-desktop"
-      "slack"
+      # "slack"
       "skim"
       "vial"
       "qmk-toolbox"
@@ -43,7 +45,8 @@
     };
     masApps = {
       "1Password for Safari" = 1569813296;
-      Numbers = 409203825;
+      Numbers = 361304891;
+      Pages = 361309726;
       Vimlike = 1584519802;
       Wireguard = 1451685025;
       Xcode = 497799835;
