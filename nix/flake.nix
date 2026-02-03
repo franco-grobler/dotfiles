@@ -48,6 +48,7 @@
             gh
             nushell
             opencode
+            posting
             uv
             ;
         })

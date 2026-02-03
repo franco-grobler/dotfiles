@@ -105,6 +105,7 @@ in
         podman
         podman-compose
         podman-tui
+        posting
         python314
         qmk
         ripgrep
