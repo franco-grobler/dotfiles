@@ -92,9 +92,9 @@ in
         gh
         glow
         htop
-        jaq
         just
         jq
+        jqp
         lazydocker
         lolcat
         neovim
