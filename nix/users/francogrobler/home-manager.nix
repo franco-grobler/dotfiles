@@ -79,6 +79,7 @@ in
         _1password-cli
         bottom
         btop
+        chafa
         cmatrix
         cowsay
         devbox
