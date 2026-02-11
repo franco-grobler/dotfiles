@@ -45,7 +45,7 @@
     };
     masApps = {
       "1Password for Safari" = 1569813296;
-      Numbers = 361304891;
+      # Numbers = 361304891;
       Pages = 361309726;
       Vimlike = 1584519802;
       Wireguard = 1451685025;
