@@ -13,7 +13,6 @@
 }:
 
 let
-  # sources = import ../../nix/sources.nix;
   inherit (pkgs.stdenv) isDarwin;
   inherit (pkgs.stdenv) isLinux;
 
