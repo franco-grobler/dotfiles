@@ -16,6 +16,7 @@ in
         prettylog = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(r) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
         root = "rev-parse --show-toplevel";
         "add-and-commit" = "!f() { git add \"$1\" && git commit -m \"$2\"; }; f";
+        cleanup-untracked = "git rm -r --cache . && git add .";
       };
       branch = {
         autosetuprebase = "always";
