@@ -9,3 +9,13 @@ tmux/plugins/
 
 # Nix
 nix/result
+
+# Ignore Neovim spell files
+*.spl
+*.sug
+
+# Ignore Neovim/Vim swap and undo files
+[._]*.sw[a-p]
+[._]*.s[a-v][a-z]
+.*~
+*.un~
