@@ -1,6 +1,6 @@
 {
   "LazyVim": { "branch": "main", "commit": "fca0af57cc3851b14f96a795a9c9bfafc5096dd1" },
-  "SchemaStore.nvim": { "branch": "main", "commit": "47b1e85c020c9c359a2e6438405dd7b382b014af" },
+  "SchemaStore.nvim": { "branch": "main", "commit": "15e6667f32f8dbf9a8353d9a6ab087dff3ad4246" },
   "blink.cmp": { "branch": "main", "commit": "4b18c32adef2898f95cdef6192cbd5796c1a332d" },
   "bufferline.nvim": { "branch": "main", "commit": "655133c3b4c3e5e05ec549b9f8cc2894ac6f51b3" },
   "catppuccin": { "branch": "main", "commit": "12c004cde3f36cb1d57242f1e6aac46b09a0e5b4" },
@@ -48,7 +48,7 @@
   "nvim-dap-ui": { "branch": "master", "commit": "cf91d5e2d07c72903d052f5207511bf7ecdb7122" },
   "nvim-dap-virtual-text": { "branch": "master", "commit": "fbdb48c2ed45f4a8293d0d483f7730d24467ccb6" },
   "nvim-lint": { "branch": "master", "commit": "606b823a57b027502a9ae00978ebf4f5d5158098" },
-  "nvim-lspconfig": { "branch": "master", "commit": "d8bf4c47385340ab2029402201d4d7c9f99f437a" },
+  "nvim-lspconfig": { "branch": "master", "commit": "0203a9608d63eda57679b01e69f33a7b4c34b0d1" },
   "nvim-nio": { "branch": "master", "commit": "21f5324bfac14e22ba26553caf69ec76ae8a7662" },
   "nvim-treesitter": { "branch": "main", "commit": "5cb05e1b0fa3c469958a2b26f36b3fe930af221c" },
   "nvim-treesitter-textobjects": { "branch": "main", "commit": "4e91b5d0394329a229725b021a8ea217099826ef" },
