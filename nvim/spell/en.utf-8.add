@@ -1,6 +1,7 @@
 AWS
 CLI
 DevOps
+FastAPI
 GitLab
 JSON
 Kubernetes
@@ -8,7 +9,10 @@ LocalStack
 Proxmox
 Shopify
 TalosOS
+Vue
+WebAssembly
 backend
+frontend
 homelab
 homelabs
 microservices
