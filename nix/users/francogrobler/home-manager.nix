@@ -120,6 +120,7 @@ in
       pkgs.devenv
       pkgs.dive
       pkgs.docker
+      pkgs.duf
       pkgs.eza
       pkgs.fastfetch
       pkgs.fd
