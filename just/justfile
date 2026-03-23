@@ -9,7 +9,7 @@ nvim-dev:
 [confirm("Are you sure you want to reboot")]
 [group("System")]
 reboot:
-    #!/bin/bash
+    #!/usr/bin/env bash
     if [ "$(uname)" == "Darwin" ]; then
       osascript -e 'tell app "System Events" to restart'
     else
@@ -20,7 +20,7 @@ reboot:
 [confirm("Are you sure you want to shut down")]
 [group("System")]
 shutdown:
-    #!/bin/bash
+    #!/usr/bin/env bash
     if [ "$(uname)" == "Darwin" ]; then
       osascript -e 'tell app "System Events" to shut down'
     else
