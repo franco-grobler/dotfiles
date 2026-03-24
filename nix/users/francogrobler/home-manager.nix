@@ -24,21 +24,6 @@ let
     else
       "homeConfigurations";
 
-  # For our MANPAGER env var
-  # https://github.com/sharkdp/bat/issues/1145
-  # manpager = (
-  #   pkgs.writeShellScriptBin "manpager" (
-  #     if isDarwin then
-  #       ''
-  #         sh -c 'col -bx | bat -l man -p'
-  #       ''
-  #     else
-  #       ''
-  #         cat "$1" | col -bx | bat --language man --style plain
-  #       ''
-  #   )
-  # );
-
   currentDir = builtins.path { path = ./.; };
 
   globalPrograms = [
