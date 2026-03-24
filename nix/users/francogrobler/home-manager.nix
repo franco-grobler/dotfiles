@@ -119,7 +119,17 @@ in
 
         nerd-fonts.jetbrains-mono
       ]
-      ++ (lib.optionals (!isWSL && !isDarwin) [
+      ++ (
+        lib.optionals (isLinux || isWSL) [
+          qemu
+          virtiofsd
+          xclip
+        ]
+        ++ lspPackages
+      )
+      ++ (lib.optionals (isLinux && !isWSL) [
+        # MacOS & WSL installer not available
+        gemini-cli
         # GUI apps
         _1password-gui
         alacritty
@@ -142,7 +152,6 @@ in
     #---------------------------------------------------------------------
     # Env vars and dotfiles
     #---------------------------------------------------------------------
-
     sessionVariables = {
       LANG = "en_ZA.UTF-8";
       LC_CTYPE = "en_ZA.UTF-8";
@@ -151,8 +160,6 @@ in
       EDITOR = "nvim";
       PAGER = "less -FirSwX";
       PODMAN_COMPOSE_WARNING_LOGS = "false";
-
-      BAT_CONFIG_PATH = "$XDG_CONFIG_HOME/bat/config";
 
       GEMINI_API_KEY = "op://Personal/Gemini CLI/credential";
     }
