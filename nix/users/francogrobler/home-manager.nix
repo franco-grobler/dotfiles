@@ -75,23 +75,38 @@ in
         bottom
         btop
         chafa
+        p7zip
+        awscli2
+        bat
+        bottom
+        btop
+        bun
+        clock-rs
         cmatrix
         cowsay
         devbox
         devenv
         docker
         duf
+        dive
+        docker
         eza
         fastfetch
         fd
         fzf
+        gcc
         gh
+        github-copilot-cli
         glow
         htop
         just
         jq
         jqp
+        kubectl
         lazydocker
+        lazygit
+        lua
+        luajitPackages.luarocks
         lolcat
         neovim
         nodejs
