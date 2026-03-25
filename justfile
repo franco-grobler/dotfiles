@@ -21,14 +21,13 @@ unlink:
 # Update home manager.
 [group('Nix')]
 [working-directory('nix')]
-nix-switch:
+nix-build:
     #!/usr/bin/env bash
     set -euo pipefail
     . ../_scripts/set_nix_envs.sh
     echo "Update nix config with: "
     printenv | grep "^NIX[^_P]"
     nix build ".#${NIXCONFIG}.${NIXNAME}.system"
-    sudo ./result/sw/bin/darwin-rebuild switch --flake "$(pwd)#${NIXNAME}"
 
 # Test home manager flake.
 [group('Nix')]
