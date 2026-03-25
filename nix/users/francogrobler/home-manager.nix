@@ -32,7 +32,7 @@ let
       inherit isLinux;
       inherit isWSL;
     })
-    (import "${currentDir}/programs/shells.nix")
+    (import "${currentDir}/programs/shells.nix" { inherit isWSL; })
     (import "${currentDir}/programs/tuis.nix")
     (import "${currentDir}/programs/utils.nix" {
       inherit

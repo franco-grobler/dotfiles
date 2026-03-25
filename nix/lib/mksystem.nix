@@ -45,7 +45,7 @@ systemFunc rec {
     (if isWSL then inputs.nixos-wsl.nixosModules.wsl else { })
 
     # Snapd on Linux
-    (if isLinux then inputs.nix-snapd.nixosModules.default else { })
+    # (if isLinux then inputs.nix-snapd.nixosModules.default else { })
 
     machineConfig
     userOSConfig
