@@ -45,7 +45,7 @@ systemFunc rec {
     (if isWSL then inputs.nixos-wsl.nixosModules.wsl else { })
 
     # Snapd on Linux
-    (if isLinux then inputs.nix-snapd.nixosModules.default else { })
+    # (if isLinux then inputs.nix-snapd.nixosModules.default else { })
 
     machineConfig
     userOSConfig
@@ -57,7 +57,8 @@ systemFunc rec {
         useUserPackages = true;
         users.${user} = import userHMConfig {
           systemName = name;
-          inherit isWSL inputs;
+          inherit isWSL;
+          inherit inputs;
         };
       };
     }
@@ -69,7 +70,8 @@ systemFunc rec {
         currentSystem = system;
         currentSystemName = name;
         currentSystemUser = user;
-        inherit isWSL inputs;
+        inherit isWSL;
+        inherit inputs;
       };
     }
   ];

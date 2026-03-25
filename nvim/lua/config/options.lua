@@ -2,28 +2,37 @@
 -- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
 -- Add any additional options here
 
+local os = vim.loop.os_uname().sysname
+local is_mac = os == "Darwin"
+
 local opt = vim.opt
 
-opt.wrap = true -- Enable line wrap
+opt.wrap = true  -- Enable line wrap
 opt.spell = true -- Enable spell checking
+opt.spelllang = { "en_gb" }
 opt.mouse = ""
 
 local g = vim.g
 
--- LazyVim
-g.lazyvim_python_lsp = "mypy"
+-- g.lazyvim_python_lsp = "basedpyright"
+g.lazyvim_python_lsp = "ty"
 
 -- VimTex
-g.vimtex_view_method = "skim"
+if is_mac then
+  g.vimtex_view_method = "skim"
+else
+  g.vimtex_view_method = "zathura"
+end
 
 -- File types
-local ft = vim.filetype
-ft.add({
+local filetype = vim.filetype
+filetype.add({
   extension = {
     arb = "json",
   },
 })
-ft.add({
+
+filetype.add({
   filename = {
     ["atlas.hcl"] = "atlas-config",
   },

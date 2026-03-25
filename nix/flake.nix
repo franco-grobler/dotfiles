@@ -17,8 +17,10 @@
     };
 
     # Build a custom WSL installer
-    nixos-wsl.url = "github:nix-community/NixOS-WSL";
-    nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     ghostty.url = "github:ghostty-org/ghostty";
   };
@@ -36,6 +38,7 @@
       unstablePkgsFor =
         system:
         import inputs.nixpkgs-unstable {
+          config.allowUnfree = true;
           inherit system;
         };
       # Overlays is the list of overlays we want to apply from flake inputs.
@@ -44,11 +47,16 @@
           unstable = unstablePkgsFor prev.system;
           # Latest version of these
           inherit (unstable)
+            bun
+            devbox
+            devenv
             gemini-cli
             gh
+            github-copilot-cli
             nushell
             opencode
-            posting
+            ruff
+            ty
             uv
             ;
         })

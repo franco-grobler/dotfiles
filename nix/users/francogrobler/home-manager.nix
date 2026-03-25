@@ -19,35 +19,10 @@ let
   osConfig =
     if isDarwin then
       "darwinConfigurations"
-    else if isLinux then
+    else if isLinux || isWSL then
       "nixosConfigurations"
     else
       "homeConfigurations";
-
-  shellAliases = {
-    cl = "clear";
-    ".." = "cd ..";
-    "..." = "cd ../..";
-    justg = "just --global-justfile";
-    l = "eza -l --icons --git -a";
-    lt = "eza --tree --level=2 --long --icons --git";
-    ltree = "eza --tree --level=2  --icons --git";
-
-    "gemini-cli" = "GEMINI_API_KEY=$(op read $GEMINI_API_KEY) gemini";
-  }
-  // (
-    if isLinux then
-      {
-        pbcopy = "xclip";
-        pbpaste = "xclip -o";
-      }
-    else if isDarwin then
-      {
-        drawio = "$HOME/Applications/draw.io.app/Contents/MacOS/draw.io";
-      }
-    else
-      { }
-  );
 
   currentDir = builtins.path { path = ./.; };
 
@@ -57,13 +32,19 @@ let
       inherit isLinux;
       inherit isWSL;
     })
-    (import "${currentDir}/programs/shells.nix" { inherit shellAliases; })
+    (import "${currentDir}/programs/shells.nix" { inherit isWSL; })
     (import "${currentDir}/programs/tuis.nix")
     (import "${currentDir}/programs/utils.nix" {
-      inherit osConfig systemName isDarwin;
+      inherit
+        config
+        osConfig
+        systemName
+        isDarwin
+        ;
     })
-    (import "${currentDir}/programs/vsc.nix")
+    (import "${currentDir}/programs/vsc.nix" { inherit lib pkgs isWSL; })
   ];
+  lspPackages = import "${currentDir}/programs/lsps.nix" { inherit pkgs; };
 in
 {
   home = {
@@ -79,23 +60,38 @@ in
         bottom
         btop
         chafa
+        p7zip
+        awscli2
+        bat
+        bottom
+        btop
+        bun
+        clock-rs
         cmatrix
         cowsay
         devbox
         devenv
         docker
         duf
+        dive
+        docker
         eza
         fastfetch
         fd
         fzf
+        gcc
         gh
+        github-copilot-cli
         glow
         htop
         just
         jq
         jqp
+        kubectl
         lazydocker
+        lazygit
+        lua
+        luajitPackages.luarocks
         lolcat
         neovim
         nodejs
@@ -123,15 +119,25 @@ in
 
         nerd-fonts.jetbrains-mono
       ]
-      ++ (lib.optionals (!isWSL && !isDarwin) [
+      ++ (lib.optionals (isLinux || isWSL) [
+        qemu
+        virtiofsd
+        xclip
+      ])
+      ++ (lib.optionals (isLinux && !isWSL) [
+        # MacOS & WSL installer not available
+        gemini-cli
         # GUI apps
         _1password-gui
         alacritty
         podman-desktop
       ])
-      ++ (lib.optionals (!isDarwin) [
-        gemini-cli # macos installer not available
-      ])
+      ++ (
+        lib.optionals (!isDarwin) [
+          gemini-cli # macos installer not available
+        ]
+        ++ lspPackages # use mason on MacOs for now
+      )
       ++ (lib.optionals (isLinux && !isWSL) [
         chromium
         firefox
@@ -146,7 +152,6 @@ in
     #---------------------------------------------------------------------
     # Env vars and dotfiles
     #---------------------------------------------------------------------
-
     sessionVariables = {
       LANG = "en_ZA.UTF-8";
       LC_CTYPE = "en_ZA.UTF-8";
@@ -155,8 +160,6 @@ in
       EDITOR = "nvim";
       PAGER = "less -FirSwX";
       PODMAN_COMPOSE_WARNING_LOGS = "false";
-
-      BAT_CONFIG_PATH = "$XDG_CONFIG_HOME/bat/config";
 
       GEMINI_API_KEY = "op://Personal/Gemini CLI/credential";
     }
@@ -186,13 +189,6 @@ in
   imports = globalPrograms;
 
   programs.gpg.enable = !isDarwin;
-
-  programs.go = {
-    enable = true;
-    env = {
-      GOPATH = "$XDG_DATA_HOME/.go";
-    };
-  };
 
   #---------------------------------------------------------------------
   # Services

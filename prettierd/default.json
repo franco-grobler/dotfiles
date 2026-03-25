@@ -1,19 +1,20 @@
 {
-  "$schema": "https://json.schemastore.org/prettierrc",
-  "tabWidth": 2,
-  "semi": true,
-  "singleQuote": false,
-  "quoteProps": "consistent",
-  "jsxSingleQuote": false,
-  "trailingComma": "all",
-  "bracketSpacing": true,
-  "bracketSameLine": false,
-  "arrowParens": "always",
-  "proseWrap": "always",
-  "htmlWhitespaceSensitivity": "css",
-  "vueIndentScriptAndStyle": true,
-  "endOfLine": "lf",
-  "embeddedLanguageFormatting": "auto",
-  "singleAttributePerLine": true
-}
+	"$schema": "https://json.schemastore.org/prettierrc",
 
+	"arrowParens": "always",
+	"bracketSameLine": false,
+	"bracketSpacing": true,
+	"embeddedLanguageFormatting": "auto",
+	"endOfLine": "lf",
+	"htmlWhitespaceSensitivity": "css",
+	"jsxSingleQuote": false,
+	"printWidth": 80,
+	"proseWrap": "always",
+	"quoteProps": "consistent",
+	"semi": true,
+	"singleAttributePerLine": true,
+	"singleQuote": false,
+	"tabWidth": 2,
+	"trailingComma": "all",
+	"vueIndentScriptAndStyle": true
+}

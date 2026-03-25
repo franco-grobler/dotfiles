@@ -20,19 +20,18 @@ unlink:
 
 # Update home manager.
 [group('Nix')]
-[working-directory("nix")]
-nix-switch:
+[working-directory('nix')]
+nix-build:
     #!/usr/bin/env bash
     set -euo pipefail
     . ../_scripts/set_nix_envs.sh
     echo "Update nix config with: "
-    printenv | grep "^NIX[^_]"
+    printenv | grep "^NIX[^_P]"
     nix build ".#${NIXCONFIG}.${NIXNAME}.system"
-    sudo ./result/sw/bin/darwin-rebuild switch --flake "$(pwd)#${NIXNAME}"
 
 # Test home manager flake.
 [group('Nix')]
-[working-directory("nix")]
+[working-directory('nix')]
 nix-test:
     #!/usr/bin/env bash
     set -euxo pipefail
@@ -46,6 +45,12 @@ nix-test:
 [group('Nix')]
 [working-directory("nix")]
 nix-update:
-    brew update
+    @if [ "$(uname -s)" = "Darwin" ]; then brew update; fi
     nix flake update
+    git add flake.lock
+    git commit -m "chore(nix): update flake lockfile" || echo "No changes to commit"
+
+[group('Nix')]
+mason-packages:
+    @nvim --headless -c ':luafile ./_scripts/list_lsps.lua' -c 'q' 2>&1
     git add-and-commit nix/flake.lock "chore(nix): update nix flake lockfile" || true

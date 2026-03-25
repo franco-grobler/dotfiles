@@ -2,7 +2,7 @@ return {
   {
     "nvim-flutter/flutter-tools.nvim",
     ft = { "dart" },
-    lazy = false,
+    lazy = true,
     dependencies = {
       "nvim-lua/plenary.nvim",
       "stevearc/dressing.nvim", -- optional for vim.ui.select
@@ -13,6 +13,7 @@ return {
   {
     "akinsho/pubspec-assist.nvim",
     ft = { "dart" },
+    lazy = true,
     dependencies = { "plenary.nvim" },
     config = function()
       require("pubspec-assist").setup({})
