@@ -44,7 +44,7 @@ nix-test:
 [group('Nix')]
 [working-directory("nix")]
 nix-update:
-    @if ( "$(uname -s)" = "Darwin"); then brew update; fi
+    @if [ "$(uname -s)" == "Darwin" ]; then brew update; fi
     nix flake update
     git add flake.lock
     git commit -m "chore(nix): update flake lockfile" || echo "No changes to commit"
