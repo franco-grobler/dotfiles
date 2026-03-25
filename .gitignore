@@ -10,8 +10,12 @@ tmux/plugins/
 # Nix
 nix/result
 
-# Nvim
-nvim/spell/en.utf-8.add.spl
+# Ignore Neovim spell files
+*.spl
+*.sug
 
-# Github CLI
-gh/hosts.yml
+# Ignore Neovim/Vim swap and undo files
+[._]*.sw[a-p]
+[._]*.s[a-v][a-z]
+.*~
+*.un~

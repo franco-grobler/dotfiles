@@ -18,9 +18,8 @@ vim.api.nvim_create_autocmd("User", {
       "git",
       "-C",
       repo_dir,
-      "commit",
+      "add-and-commit",
       lockfile,
-      "-m",
       "chore(nvim): update lazy lockfile",
     }
 
@@ -32,16 +31,27 @@ vim.api.nvim_create_autocmd("User", {
       vim.notify("Committed lockfile")
     else
       if not success then
-        vim.notify("Failed to run command '" .. table.concat(cmd, " ") .. "':", vim.log.levels.ERROR, {})
+        vim.notify(
+          "Failed to run command '" .. table.concat(cmd, " ") .. "':",
+          vim.log.levels.ERROR,
+          {}
+        )
       else
         if process.stderr == "" then
           vim.notify(
             process.stdout .. " - exit code " .. process.code,
-            vim.log.levels.WARN, {})
+            vim.log.levels.WARN,
+            {}
+          )
         else
           vim.notify(
-            "failed to commit: " .. process.stderr .. " with exit code " .. process.code,
-            vim.log.levels.ERROR, {})
+            "failed to commit: "
+              .. process.stderr
+              .. " with exit code "
+              .. process.code,
+            vim.log.levels.ERROR,
+            {}
+          )
         end
       end
     end

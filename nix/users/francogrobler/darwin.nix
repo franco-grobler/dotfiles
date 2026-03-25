@@ -8,21 +8,27 @@
       "gemini-cli"
       "llvm"
       "mas"
+      "mole"
     ];
     casks = [
       "1password"
       "adobe-acrobat-reader"
-      "alacritty"
+      # "alacritty"
+      # "anydesk"
       "balenaetcher"
+      "db-browser-for-sqlite"
       "discord"
       "drawio"
-      "flutter"
-      "freecad"
+      # "flutter"
+      # "freecad"
       "ghostty"
       "google-chrome"
+      "inkscape"
       "keka"
+      # "kicad"
+      # "libreoffice"
       "podman-desktop"
-      "slack"
+      # "slack"
       "skim"
       "vial"
       "qmk-toolbox"
@@ -30,7 +36,7 @@
     caskArgs = {
       appdir = "~/Applications";
       language = "en-ZA,en-GB";
-      # Initial chrome installs fails - no sha is specified for the cask recipe.
+      # Initial chrome, anydesk installs fails - no sha is specified for the cask recipe.
       require_sha = true;
     };
     global = {
@@ -39,7 +45,8 @@
     };
     masApps = {
       "1Password for Safari" = 1569813296;
-      Numbers = 409203825;
+      Numbers = 361304891;
+      Pages = 361309726;
       Vimlike = 1584519802;
       Wireguard = 1451685025;
       Xcode = 497799835;
@@ -50,9 +57,6 @@
       upgrade = true;
     };
   };
-
-  # Required for some settings like homebrew to know what user to apply to.
-  system.primaryUser = "francogrobler";
 
   security.pam.services.sudo_local = {
     enable = true;
@@ -96,7 +100,7 @@
         FirstClickThreshold = 1;
         SecondClickThreshold = 1;
         TrackpadRightClick = true;
-        TrackpadThreeFingerDrag = true;
+        TrackpadThreeFingerDrag = false;
       };
     };
     # TODO: This fucks up external keyboards.
@@ -105,6 +109,9 @@
       swapLeftCtrlAndFn = false;
     };
     startup.chime = false;
+
+    # Required for some settings like homebrew to know what user to apply to.
+    primaryUser = "francogrobler";
   };
 
   time.timeZone = "Africa/Johannesburg";

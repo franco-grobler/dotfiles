@@ -17,24 +17,13 @@ in
 {
   programs.git = {
     enable = true;
-    includes = [
-      {
-        condition = "gitdir:~/Code/LexisNexis/";
-        contents = {
-          user = {
-            email = "franco.grobler@lexisnexis.co.za";
-            name = "Franco Grobler";
-            signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICeVs/cj+69xAUIX3CLGK9HSI6ChyQ2JvE0tFYAb9Gbd";
-          };
-        };
-      }
-    ];
     settings = {
       alias = {
         cleanup = "!git branch --merged | grep  -v '\\*\\|master\\|develop' | xargs -n 1 -r git branch -d";
         prettylog = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(r) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
         root = "rev-parse --show-toplevel";
-        "add-and-commit" = "!f() { git add \"$1\" && git commit -m \"$2\"; }; f";
+        add-and-commit = "!f() { git add \"$1\" && git commit -m \"$2\"; }; f";
+        cleanup-untracked = "git rm -r --cache . && git add .";
       };
       branch = {
         autosetuprebase = "always";

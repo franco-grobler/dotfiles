@@ -42,10 +42,13 @@ let
   currentDir = builtins.path { path = ./.; };
 
   globalPrograms = [
-    (import "${currentDir}/programs/clis.nix")
-    (import "${currentDir}/programs/i3.nix" { inherit isLinux isWSL; })
-    (import "${currentDir}/programs/languages.nix" { inherit config pkgs; })
-    (import "${currentDir}/programs/shells.nix" { inherit isWSL; })
+    (import "${currentDir}/programs/clis.nix" { inherit pkgs; })
+    (import "${currentDir}/programs/i3.nix" {
+      inherit isLinux;
+      inherit isWSL;
+    })
+    (import "${currentDir}/programs/shells.nix" { inherit shellAliases; })
+    (import "${currentDir}/programs/tuis.nix")
     (import "${currentDir}/programs/utils.nix" {
       inherit
         config
@@ -65,89 +68,76 @@ in
     #---------------------------------------------------------------------
     # Packages
     #---------------------------------------------------------------------
+    packages =
+      with pkgs;
+      [
+        _1password-cli
+        bottom
+        btop
+        chafa
+        cmatrix
+        cowsay
+        devbox
+        devenv
+        docker
+        duf
+        eza
+        fastfetch
+        fd
+        fzf
+        gh
+        glow
+        htop
+        just
+        jq
+        jqp
+        lazydocker
+        lolcat
+        neovim
+        nodejs
+        nixfmt-rfc-style
+        ookla-speedtest
+        opencode
+        podman
+        podman-compose
+        podman-tui
+        posting
+        python314
+        qmk
+        ripgrep
+        rustup
+        sentry-cli
+        statix
+        stow
+        sshs
+        tree
+        tmux
+        wget
+        yazi
+        yq
+        zoxide
 
-    # Packages I always want installed. Most packages I install using
-    # per-project flakes sourced with direnv and nix-shell, so this is
-    # not a huge list.
-    packages = [
-      pkgs._1password-cli
-      pkgs.p7zip
-      pkgs.awscli2
-      pkgs.bat
-      pkgs.bottom
-      pkgs.btop
-      pkgs.bun
-      pkgs.clock-rs
-      pkgs.cmatrix
-      pkgs.cowsay
-      pkgs.devbox
-      pkgs.devenv
-      pkgs.dive
-      pkgs.docker
-      pkgs.eza
-      pkgs.fastfetch
-      pkgs.fd
-      pkgs.fzf
-      pkgs.gcc
-      pkgs.gh
-      pkgs.github-copilot-cli
-      pkgs.glow
-      pkgs.htop
-      pkgs.just
-      pkgs.jq
-      pkgs.jqp
-      pkgs.kubectl
-      pkgs.lazydocker
-      pkgs.lazygit
-      pkgs.lua
-      pkgs.luajitPackages.luarocks
-      pkgs.lolcat
-      pkgs.neovim
-      pkgs.nodejs
-      pkgs.nixfmt-rfc-style
-      pkgs.ookla-speedtest
-      pkgs.opencode
-      pkgs.podman
-      pkgs.podman-compose
-      pkgs.podman-tui
-      pkgs.python314
-      pkgs.qmk
-      pkgs.ripgrep
-      pkgs.rustup
-      pkgs.statix
-      pkgs.sentry-cli
-      pkgs.stow
-      pkgs.sshs
-      pkgs.tree
-      pkgs.tmux
-      pkgs.wget
-      pkgs.yazi
-      pkgs.yq
-
-      pkgs.nerd-fonts.jetbrains-mono
-    ]
-    ++ (lib.optionals (isLinux || isWSL) [
-      pkgs.qemu
-      pkgs.virtiofsd
-      pkgs.xclip
-    ])
-    ++ (lib.optionals (isLinux && !isWSL) [
-      # MacOS & WSL installer not available
-      pkgs.gemini-cli
-      # GUI apps
-      pkgs._1password-gui
-      pkgs.alacritty
-      pkgs.chromium
-      pkgs.firefox
-      pkgs.freecad-wayland
-      pkgs.ghostty
-      pkgs.podman-desktop
-      pkgs.rofi
-      pkgs.vial
-      pkgs.valgrind
-      pkgs.zathura
-    ])
-    ++ lspPackages;
+        nerd-fonts.jetbrains-mono
+      ]
+      ++ (lib.optionals (!isWSL && !isDarwin) [
+        # GUI apps
+        _1password-gui
+        alacritty
+        podman-desktop
+      ])
+      ++ (lib.optionals (!isDarwin) [
+        gemini-cli # macos installer not available
+      ])
+      ++ (lib.optionals (isLinux && !isWSL) [
+        chromium
+        firefox
+        freecad-wayland
+        ghostty # macos installer is broken
+        rofi
+        vial
+        valgrind
+        zathura
+      ]);
 
     #---------------------------------------------------------------------
     # Env vars and dotfiles
@@ -161,7 +151,8 @@ in
       EDITOR = "nvim";
       PAGER = "less -FirSwX";
       PODMAN_COMPOSE_WARNING_LOGS = "false";
-      # MANPAGER = "${manpager}/bin/manpager";
+
+      BAT_CONFIG_PATH = "$XDG_CONFIG_HOME/bat/config";
 
       GEMINI_API_KEY = "op://Personal/Gemini CLI/credential";
     }
@@ -172,8 +163,7 @@ in
           DISPLAY = "nixpkgs-390751";
         }
       else
-        {
-        }
+        { }
     );
 
     # Make cursor not tiny on HiDPI screens
@@ -206,7 +196,7 @@ in
     maxCacheTtl = 31536000;
   };
 
-  xresources.extraConfig = builtins.readFile ./config/Xresources;
-
   xdg.enable = true;
+
+  xresources.extraConfig = builtins.readFile ./config/Xresources;
 }

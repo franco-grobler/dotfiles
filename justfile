@@ -52,3 +52,4 @@ nix-update:
 [group('Nix')]
 mason-packages:
     @nvim --headless -c ':luafile ./_scripts/list_lsps.lua' -c 'q' 2>&1
+    git add-and-commit nix/flake.lock "chore(nix): update nix flake lockfile" || true

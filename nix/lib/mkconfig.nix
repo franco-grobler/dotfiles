@@ -6,7 +6,7 @@
 
 { system, user }:
 let
-  home-manager = inputs.home-manager;
+  inherit (inputs) home-manager;
 in
 home-manager.lib.homeManagerConfiguration {
   pkgs = nixpkgs.legacyPackages.${system};

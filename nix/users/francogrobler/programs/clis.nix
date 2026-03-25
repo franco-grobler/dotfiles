@@ -1,3 +1,4 @@
+{ pkgs }:
 {
   programs = {
     atuin = {
@@ -23,6 +24,24 @@
     };
 
     starship = {
+    bat = {
+      enable = true;
+
+      # config = {
+      #   map-syntax = [
+      #     "*.jenkinsfile:Groovy"
+      #   ];
+      #   lineNumbers = true;
+      #   paging = "less -FR";
+      #   theme = "TwoDark";
+      # };
+      extraPackages = with pkgs.bat-extras; [
+        batdiff
+        batman
+      ];
+    };
+
+    carapace = {
       enable = true;
       enableBashIntegration = true;
       enableNushellIntegration = true;
@@ -31,6 +50,19 @@
 
     uv = {
       enable = true;
+    direnv = {
+      enable = true;
+      enableBashIntegration = true;
+      enableNushellIntegration = true;
+      enableZshIntegration = true;
+      nix-direnv.enable = true;
+    };
+
+    starship = {
+      enable = true;
+      enableBashIntegration = true;
+      enableNushellIntegration = true;
+      enableZshIntegration = true;
     };
 
     zoxide = {
