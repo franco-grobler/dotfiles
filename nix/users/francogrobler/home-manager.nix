@@ -32,7 +32,7 @@ let
       inherit isLinux;
       inherit isWSL;
     })
-    (import "${currentDir}/programs/shells.nix" { inherit shellAliases; })
+    (import "${currentDir}/programs/shells.nix")
     (import "${currentDir}/programs/tuis.nix")
     (import "${currentDir}/programs/utils.nix" {
       inherit
@@ -119,14 +119,11 @@ in
 
         nerd-fonts.jetbrains-mono
       ]
-      ++ (
-        lib.optionals (isLinux || isWSL) [
-          qemu
-          virtiofsd
-          xclip
-        ]
-        ++ lspPackages
-      )
+      ++ (lib.optionals (isLinux || isWSL) [
+        qemu
+        virtiofsd
+        xclip
+      ])
       ++ (lib.optionals (isLinux && !isWSL) [
         # MacOS & WSL installer not available
         gemini-cli
@@ -135,9 +132,12 @@ in
         alacritty
         podman-desktop
       ])
-      ++ (lib.optionals (!isDarwin) [
-        gemini-cli # macos installer not available
-      ])
+      ++ (
+        lib.optionals (!isDarwin) [
+          gemini-cli # macos installer not available
+        ]
+        ++ lspPackages # use mason on MacOs for now
+      )
       ++ (lib.optionals (isLinux && !isWSL) [
         chromium
         firefox
