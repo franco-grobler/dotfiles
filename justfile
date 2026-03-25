@@ -25,8 +25,8 @@ nix-switch:
     set -euo pipefail
     . ../_scripts/set_nix_envs.sh
     echo "Update nix config with: "
-    printenv | grep "^NIX[^_]"
-    nix build "nix#${NIXCONFIG}.${NIXNAME}.system"
+    printenv | grep "^NIX[^_P]"
+    nix build ".#${NIXCONFIG}.${NIXNAME}.system"
     sudo ./result/sw/bin/darwin-rebuild switch --flake "$(pwd)#${NIXNAME}"
 
 # Test home manager flake.
