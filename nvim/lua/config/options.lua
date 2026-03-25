@@ -31,7 +31,8 @@ filetype.add({
     arb = "json",
   },
 })
-ft.add({
+
+filetype.add({
   filename = {
     ["atlas.hcl"] = "atlas-config",
   },
