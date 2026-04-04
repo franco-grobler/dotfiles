@@ -47,5 +47,6 @@ nix-test:
 [working-directory("nix")]
 nix-update:
     brew update
+    mas upgrade
     nix flake update
     git add-and-commit nix/flake.lock "chore(nix): update nix flake lockfile" || true
