@@ -44,6 +44,7 @@
           unstable = unstablePkgsFor prev.system;
           # Latest version of these
           inherit (unstable)
+            direnv
             gemini-cli
             gh
             nushell
