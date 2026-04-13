@@ -21,7 +21,7 @@
       # "flutter"
       # "freecad"
       "ghostty"
-      "google-chrome"
+      { name = "google-chrome"; args = { require_sha = false; }; }
       "inkscape"
       "keka"
       # "kicad"
