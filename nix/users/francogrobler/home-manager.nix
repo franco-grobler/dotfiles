@@ -1,5 +1,4 @@
 {
-  isWSL,
   inputs,
   systemName,
   ...
@@ -55,7 +54,6 @@ let
     (import "${currentDir}/programs/clis.nix" { inherit pkgs; })
     (import "${currentDir}/programs/i3.nix" {
       inherit isLinux;
-      inherit isWSL;
     })
     (import "${currentDir}/programs/shells.nix" { inherit shellAliases; })
     (import "${currentDir}/programs/tuis.nix")
@@ -123,20 +121,18 @@ in
 
         nerd-fonts.jetbrains-mono
       ]
-      ++ (lib.optionals (!isWSL && !isDarwin) [
-        # GUI apps
-        _1password-gui
-        alacritty
-        podman-desktop
-      ])
       ++ (lib.optionals (!isDarwin) [
         gemini-cli # macos installer not available
       ])
-      ++ (lib.optionals (isLinux && !isWSL) [
+      ++ (lib.optionals isLinux [
+        # GUI apps
+        _1password-gui
+        alacritty
         chromium
         firefox
         freecad-wayland
         ghostty # macos installer is broken
+        podman-desktop
         rofi
         vial
         valgrind
