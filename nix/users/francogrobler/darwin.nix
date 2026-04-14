@@ -9,23 +9,30 @@
       "container"
       "gemini-cli"
       "llvm"
-      "mas"
       "mole"
     ];
     casks = [
       "1password"
-      # "alacritty"
-      # "anydesk"
-      "balenaetcher"
+      "adobe-acrobat-reader"
+      "alacritty"
+      {
+        name = "anydesk";
+        args = {
+          require_sha = false;
+        };
+      }
+      "db-browser-for-sqlite"
       "drawio"
-      # "flutter"
-      # "freecad"
       "ghostty"
-      { name = "google-chrome"; args = { require_sha = false; }; }
+      {
+        name = "google-chrome";
+        args = {
+          require_sha = false;
+        };
+      }
       "inkscape"
       "keka"
-      # "kicad"
-      # "libreoffice"
+      "podman-desktop"
       "slack"
       "skim"
       "vial"
@@ -34,7 +41,6 @@
     caskArgs = {
       appdir = "~/Applications";
       language = "en-ZA,en-GB";
-      # Initial chrome, anydesk installs fails - no sha is specified for the cask recipe.
       require_sha = true;
     };
     global = {
@@ -101,7 +107,6 @@
         TrackpadThreeFingerDrag = true;
       };
     };
-    # TODO: This fucks up external keyboards.
     keyboard = {
       enableKeyMapping = false;
       swapLeftCtrlAndFn = false;
