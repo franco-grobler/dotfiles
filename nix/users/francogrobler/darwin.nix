@@ -7,28 +7,31 @@
       "cocoapods"
       "gemini-cli"
       "llvm"
-      "mas"
       "mole"
     ];
     casks = [
       "1password"
       "adobe-acrobat-reader"
-      # "alacritty"
-      # "anydesk"
-      "balenaetcher"
+      "alacritty"
+      {
+        name = "anydesk";
+        args = {
+          require_sha = false;
+        };
+      }
       "db-browser-for-sqlite"
-      "discord"
       "drawio"
-      # "flutter"
-      # "freecad"
       "ghostty"
-      { name = "google-chrome"; args = { require_sha = false; }; }
+      {
+        name = "google-chrome";
+        args = {
+          require_sha = false;
+        };
+      }
       "inkscape"
       "keka"
-      # "kicad"
-      # "libreoffice"
       "podman-desktop"
-      # "slack"
+      "slack"
       "skim"
       "vial"
       "qmk-toolbox"
@@ -36,20 +39,11 @@
     caskArgs = {
       appdir = "~/Applications";
       language = "en-ZA,en-GB";
-      # Initial chrome, anydesk installs fails - no sha is specified for the cask recipe.
       require_sha = true;
     };
     global = {
       autoUpdate = false;
       brewfile = true;
-    };
-    masApps = {
-      # "1Password for Safari" = 1569813296;
-      # Numbers = 361304891;
-      # Pages = 361309726;
-      # Vimlike = 1584519802;
-      # Wireguard = 1451685025;
-      # Xcode = 497799835;
     };
     onActivation = {
       autoUpdate = false;
@@ -103,9 +97,9 @@
         TrackpadThreeFingerDrag = false;
       };
     };
-    # TODO: This fucks up external keyboards.
     keyboard = {
-      enableKeyMapping = true;
+      # TODO: This fucks up external keyboards.
+      enableKeyMapping = false;
       swapLeftCtrlAndFn = false;
     };
     startup.chime = false;
