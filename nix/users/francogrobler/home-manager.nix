@@ -92,6 +92,7 @@ in
         fzf
         gh
         glow
+        gnused
         htop
         just
         jq
@@ -167,7 +168,7 @@ in
     );
 
     # Make cursor not tiny on HiDPI screens
-    pointerCursor = lib.mkIf (isLinux && !isWSL) {
+    pointerCursor = lib.mkIf isLinux {
       name = "Vanilla-DMZ";
       package = pkgs.vanilla-dmz;
       size = 128;
