@@ -37,6 +37,7 @@
         system:
         import inputs.nixpkgs-unstable {
           inherit system;
+          config.allowUnfree = true;
         };
       # Overlays is the list of overlays we want to apply from flake inputs.
       overlays = [
