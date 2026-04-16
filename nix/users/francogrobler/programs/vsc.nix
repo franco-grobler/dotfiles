@@ -57,6 +57,9 @@ in
       init = {
         defaultBranch = "main";
       };
+      pull = {
+        rebase = true;
+      };
       push = {
         default = "tracking";
       };
