@@ -19,6 +19,7 @@
           require_sha = false;
         };
       }
+      "cursor"
       "db-browser-for-sqlite"
       "drawio"
       "ghostty"

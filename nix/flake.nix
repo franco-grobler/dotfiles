@@ -44,6 +44,7 @@
           unstable = unstablePkgsFor prev.system;
           # Latest version of these
           inherit (unstable)
+            cursor-cli
             direnv
             gemini-cli
             gh
