@@ -28,7 +28,7 @@
       # "kicad"
       # "libreoffice"
       "podman-desktop"
-      # "slack"
+      "slack"
       "skim"
       "vial"
       "qmk-toolbox"
