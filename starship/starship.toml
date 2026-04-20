@@ -1,6 +1,7 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 add_newline = false
+# continuation_prompt = '▶▶ '
 # A minimal left prompt
 format = """$directory$character"""
 palette = "catppuccin_mocha"
@@ -36,6 +37,7 @@ read_only = " 󰌾"
 
 [direnv]
 disabled = false
+style = 'bold orange'
 
 [directory.substitutions]
 "~/Documents" = "󰈙"
@@ -58,6 +60,11 @@ symbol = " "
 
 [fossil_branch]
 symbol = " "
+
+[gcloud]
+format = '[$symbol$active]($style) '
+style = 'bold yellow'
+symbol = " "
 
 [git_branch]
 format = '[$symbol$branch(:$remote_branch) ]($style)'
