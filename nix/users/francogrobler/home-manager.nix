@@ -33,6 +33,7 @@ let
     ltree = "eza --tree --level=2  --icons --git";
 
     "gemini-cli" = "GEMINI_API_KEY=$(op read $GEMINI_API_KEY) gemini";
+    lazypodman = "DOCKER_HOST=\"unix://$(podman machine inspect --format '{{.ConnectionInfo.PodmanSocket.Path}}')\" lazydocker";
   }
   // (
     if isLinux then
@@ -55,6 +56,7 @@ let
     (import "${currentDir}/programs/i3.nix" {
       inherit isLinux;
     })
+    (import "${currentDir}/programs/python.nix")
     (import "${currentDir}/programs/shells.nix" { inherit shellAliases; })
     (import "${currentDir}/programs/tuis.nix")
     (import "${currentDir}/programs/utils.nix" {
@@ -90,6 +92,7 @@ in
         fzf
         gh
         glow
+        gnumake
         gnused
         htop
         just

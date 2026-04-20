@@ -1,7 +1,7 @@
 {
   programs = {
     uv = {
-      enabled = true;
+      enable = true;
       settings = {
         python-downloads = "never";
         python-preference = "only-system";
