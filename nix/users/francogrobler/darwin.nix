@@ -28,6 +28,7 @@
       "keka"
       # "kicad"
       # "libreoffice"
+      "podman-desktop"
       "slack"
       "skim"
       "vial"
