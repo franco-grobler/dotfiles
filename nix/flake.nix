@@ -49,7 +49,7 @@
             direnv
             gemini-cli
             gh
-            nushell
+            # nushell
             opencode
             posting
             uv
