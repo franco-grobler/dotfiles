@@ -3,12 +3,16 @@
 {
   homebrew = {
     enable = true;
+    # enableBashIntegration = true;
+    # enableNushellIntegration = true;
+    # enableZshIntegration = true;
     brews = [
       "cocoapods"
       "colima"
       "container"
       "gemini-cli"
       "llvm"
+      "mas"
       "mole"
     ];
     casks = [
