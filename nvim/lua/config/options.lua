@@ -5,7 +5,7 @@
 
 local opt = vim.opt
 
-opt.colorcolumn = "81"
+opt.colorcolumn = "80"
 opt.mouse = ""
 opt.spell = true -- Enable spell checking
 opt.wrap = true -- Enable line wrap
