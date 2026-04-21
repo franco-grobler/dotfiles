@@ -1,5 +1,4 @@
 {
-  isWSL,
   inputs,
   systemName,
   ...
@@ -34,6 +33,7 @@ let
     ltree = "eza --tree --level=2  --icons --git";
 
     "gemini-cli" = "GEMINI_API_KEY=$(op read $GEMINI_API_KEY) gemini";
+    lazypodman = "DOCKER_HOST=\"unix://$(podman machine inspect --format '{{.ConnectionInfo.PodmanSocket.Path}}')\" lazydocker";
   }
   // (
     if isLinux then
@@ -55,8 +55,8 @@ let
     (import "${currentDir}/programs/clis.nix" { inherit pkgs; })
     (import "${currentDir}/programs/i3.nix" {
       inherit isLinux;
-      inherit isWSL;
     })
+    (import "${currentDir}/programs/python.nix")
     (import "${currentDir}/programs/shells.nix" { inherit shellAliases; })
     (import "${currentDir}/programs/tuis.nix")
     (import "${currentDir}/programs/utils.nix" {
@@ -81,6 +81,7 @@ in
         chafa
         cmatrix
         cowsay
+        cursor-cli
         devbox
         devenv
         docker
@@ -91,6 +92,8 @@ in
         fzf
         gh
         glow
+        gnumake
+        gnused
         htop
         just
         jq
@@ -123,20 +126,18 @@ in
 
         nerd-fonts.jetbrains-mono
       ]
-      ++ (lib.optionals (!isWSL && !isDarwin) [
-        # GUI apps
-        _1password-gui
-        alacritty
-        podman-desktop
-      ])
       ++ (lib.optionals (!isDarwin) [
         gemini-cli # macos installer not available
       ])
-      ++ (lib.optionals (isLinux && !isWSL) [
+      ++ (lib.optionals isLinux [
+        # GUI apps
+        _1password-gui
+        alacritty
         chromium
         firefox
         freecad-wayland
         ghostty # macos installer is broken
+        podman-desktop
         rofi
         vial
         valgrind
@@ -171,7 +172,7 @@ in
     );
 
     # Make cursor not tiny on HiDPI screens
-    pointerCursor = lib.mkIf (isLinux && !isWSL) {
+    pointerCursor = lib.mkIf isLinux {
       name = "Vanilla-DMZ";
       package = pkgs.vanilla-dmz;
       size = 128;

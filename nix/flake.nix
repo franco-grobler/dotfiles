@@ -37,6 +37,7 @@
         system:
         import inputs.nixpkgs-unstable {
           inherit system;
+          config.allowUnfree = true;
         };
       # Overlays is the list of overlays we want to apply from flake inputs.
       overlays = [
@@ -44,10 +45,11 @@
           unstable = unstablePkgsFor prev.system;
           # Latest version of these
           inherit (unstable)
+            cursor-cli
             direnv
             gemini-cli
             gh
-            nushell
+            # nushell
             opencode
             posting
             uv

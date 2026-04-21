@@ -8,4 +8,6 @@ if [[ ! -d ${sops_age_dir} ]]; then
 	echo "*" >>"${sops_age_dir}/.gitignore"
 fi
 
+mkdir -p "$HOME/.config"
+
 stow .

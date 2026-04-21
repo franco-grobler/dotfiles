@@ -10,6 +10,18 @@ in
 {
   programs.git = {
     enable = true;
+    includes = [
+      {
+        condition = "gitdir:~/Code/Cloudsmiths/";
+        contents = {
+          user = {
+            email = "franco.grobler@cloudsmiths.ai";
+            name = "Franco Grobler";
+            signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOVJfZJqxCPBNQDp1GCcoPRh4ykifHfzlAmedvc13Cm+";
+          };
+        };
+      }
+    ];
     settings = {
       alias = {
         cleanup = "!git branch --merged | grep  -v '\\*\\|master\\|develop' | xargs -n 1 -r git branch -d";
@@ -44,6 +56,9 @@ in
       };
       init = {
         defaultBranch = "main";
+      };
+      pull = {
+        rebase = true;
       };
       push = {
         default = "tracking";
