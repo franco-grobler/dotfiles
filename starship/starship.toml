@@ -9,6 +9,7 @@ right_format = """$all"""
 command_timeout = 1000
 
 [aws]
+disabled = true
 format = '[$symbol(profile: "$profile" )(\(region: $region\) )]($style)'
 style = 'bold blue'
 symbol = " "
@@ -59,6 +60,9 @@ symbol = " "
 [fossil_branch]
 symbol = " "
 
+[gcloud]
+disabled = true
+
 [git_branch]
 format = '[$symbol$branch(:$remote_branch) ]($style)'
 symbol = " "
@@ -69,6 +73,9 @@ tag_symbol = '  '
 [golang]
 style = 'bold cyan'
 symbol = " "
+
+[gradle]
+symbol = " "
 
 [guix_shell]
 symbol = " "
@@ -199,9 +206,6 @@ symbol = " "
 
 [zig]
 symbol = " "
-
-[gradle]
-symbol = " "
 
 [palettes.catppuccin_mocha]
 rosewater = "#f5e0dc"
