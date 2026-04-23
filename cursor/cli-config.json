@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": ["Shell(ls)"],
+    "deny": []
+  },
+  "version": 1,
+  "editor": {
+    "vimMode": true
+  },
+  "network": {
+    "useHttp1ForAgent": false
+  },
+  "privacyCache": {
+    "ghostMode": true,
+    "privacyMode": 2,
+    "updatedAt": 1776950580086
+  }
+}
