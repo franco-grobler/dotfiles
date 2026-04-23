@@ -5,6 +5,8 @@
     enable = true;
     brews = [
       "cocoapods"
+      "colima"
+      "container"
       "gemini-cli"
       "llvm"
       "mas"
@@ -12,12 +14,9 @@
     ];
     casks = [
       "1password"
-      "adobe-acrobat-reader"
       # "alacritty"
       # "anydesk"
       "balenaetcher"
-      "db-browser-for-sqlite"
-      "discord"
       "drawio"
       # "flutter"
       # "freecad"
@@ -27,7 +26,6 @@
       "keka"
       # "kicad"
       # "libreoffice"
-      "podman-desktop"
       "slack"
       "skim"
       "vial"
@@ -46,10 +44,10 @@
     masApps = {
       "1Password for Safari" = 1569813296;
       Numbers = 361304891;
-      Pages = 361309726;
+      # Pages = 361309726;
       Vimlike = 1584519802;
       Wireguard = 1451685025;
-      Xcode = 497799835;
+      # Xcode = 497799835;
     };
     onActivation = {
       autoUpdate = false;
@@ -73,7 +71,7 @@
         FXRemoveOldTrashItems = true;
         NewWindowTarget = "iCloud Drive";
         ShowExternalHardDrivesOnDesktop = true;
-        ShowHardDrivesOnDesktop = true;
+        ShowHardDrivesOnDesktop = false;
         ShowMountedServersOnDesktop = true;
         ShowPathbar = true;
         ShowStatusBar = true;
@@ -92,7 +90,7 @@
         ShowSeconds = true;
       };
       screencapture = {
-        location = "~/Desktop/";
+        location = "~/Desktop/Screenshots";
         target = "file";
       };
       trackpad = {
@@ -100,12 +98,12 @@
         FirstClickThreshold = 1;
         SecondClickThreshold = 1;
         TrackpadRightClick = true;
-        TrackpadThreeFingerDrag = false;
+        TrackpadThreeFingerDrag = true;
       };
     };
     # TODO: This fucks up external keyboards.
     keyboard = {
-      enableKeyMapping = true;
+      enableKeyMapping = false;
       swapLeftCtrlAndFn = false;
     };
     startup.chime = false;

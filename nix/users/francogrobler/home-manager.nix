@@ -81,9 +81,12 @@ in
         chafa
         cmatrix
         cowsay
+        cursor-cli
         devbox
         devenv
         docker
+        docker-buildx
+        docker-credential-helpers
         duf
         eza
         fastfetch
@@ -102,9 +105,6 @@ in
         nixfmt-rfc-style
         ookla-speedtest
         opencode
-        podman
-        podman-compose
-        podman-tui
         posting
         python314
         qmk
