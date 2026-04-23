@@ -65,7 +65,7 @@
         inherit overlays nixpkgs inputs;
       };
 
-      userName = "francogrobler";
+      userName = "franco.grobler";
     in
     {
       darwinConfigurations.apple-silicone = mkSystem "apple-silicone" {
