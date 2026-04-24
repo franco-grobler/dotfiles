@@ -83,6 +83,7 @@ in
         btop
         chafa
         cmatrix
+        colima
         cowsay
         cursor-cli
         devbox
