@@ -34,6 +34,9 @@ let
 
     "gemini-cli" = "GEMINI_API_KEY=$(op read $GEMINI_API_KEY) gemini";
     lazypodman = "DOCKER_HOST=\"unix://$(podman machine inspect --format '{{.ConnectionInfo.PodmanSocket.Path}}')\" lazydocker";
+
+    "cp-dir" = "pwd | pbcopy";
+    "pb-dir" = "cd \"$(pbpaste)\" ";
   }
   // (
     if isLinux then
@@ -158,6 +161,7 @@ in
       PODMAN_COMPOSE_WARNING_LOGS = "false";
 
       BAT_CONFIG_PATH = "$XDG_CONFIG_HOME/bat/config";
+      CURSOR_CONFIG_DIR = "$XDG_CONFIG_HOME/cursor";
 
       GEMINI_API_KEY = "op://Personal/Gemini CLI/credential";
     }

@@ -34,6 +34,9 @@ let
 
     "gemini-cli" = "GEMINI_API_KEY=$(op read $GEMINI_API_KEY) gemini";
     lazypodman = "DOCKER_HOST=\"unix://$(podman machine inspect --format '{{.ConnectionInfo.PodmanSocket.Path}}')\" lazydocker";
+
+    "cp-dir" = "pwd | pbcopy";
+    "pb-dir" = "cd \"$(pbpaste)\" ";
   }
   // (
     if isLinux then
