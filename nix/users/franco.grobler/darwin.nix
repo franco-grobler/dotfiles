@@ -8,6 +8,7 @@
     # enableZshIntegration = true;
     brews = [
       "cocoapods"
+      "colima"
       "gemini-cli"
       "llvm"
       "mas"
