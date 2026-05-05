@@ -1,7 +1,13 @@
 {
   "permissions": {
-    "allow": ["Shell(ls)", "Shell(echo)", "Shell(rg)"],
-    "deny": []
+    "allow": [
+      "Shell(ls)",
+      "Shell(echo)",
+      "Shell(rg)",
+      "Shell(git diff)",
+      "Shell(git log)"
+    ],
+    "deny": ["Shell(git commit)", "Shell(git push)", "Shell(git pull)"]
   },
   "version": 1,
   "editor": {
