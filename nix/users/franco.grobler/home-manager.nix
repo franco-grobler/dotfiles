@@ -160,8 +160,8 @@ in
       PAGER = "less -FirSwX";
       PODMAN_COMPOSE_WARNING_LOGS = "false";
 
-      BAT_CONFIG_PATH = "$XDG_CONFIG_HOME/bat/config";
-      CURSOR_CONFIG_DIR = "$XDG_CONFIG_HOME/cursor";
+      BAT_CONFIG_PATH = "${config.xdg.configHome}/bat/config";
+      CURSOR_CONFIG_DIR = "${config.xdg.configHome}/cursor";
 
       GEMINI_API_KEY = "op://Personal/Gemini CLI/credential";
     }
