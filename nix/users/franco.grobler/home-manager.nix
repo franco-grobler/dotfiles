@@ -33,7 +33,6 @@ let
     ltree = "eza --tree --level=2  --icons --git";
 
     "gemini-cli" = "GEMINI_API_KEY=$(op read $GEMINI_API_KEY) gemini";
-    lazypodman = "DOCKER_HOST=\"unix://$(podman machine inspect --format '{{.ConnectionInfo.PodmanSocket.Path}}')\" lazydocker";
 
     "cp-dir" = "pwd | pbcopy";
     "pb-dir" = "cd \"$(pbpaste)\" ";
@@ -88,6 +87,7 @@ in
         devbox
         devenv
         docker
+        docker-buildx
         duf
         eza
         fastfetch
@@ -108,9 +108,6 @@ in
         nixfmt-rfc-style
         ookla-speedtest
         opencode
-        podman
-        podman-compose
-        podman-tui
         posting
         python314
         qmk
