@@ -1,24 +1,64 @@
 {
   "permissions": {
     "allow": [
-      "Shell(ls)",
+      "Shell(cd)",
+      "Shell(docker)",
       "Shell(echo)",
-      "Shell(rg)",
       "Shell(git diff)",
-      "Shell(git log)"
+      "Shell(git log)",
+      "Shell(git status)",
+      "Shell(ls)",
+      "Shell(rg)",
+      "WebFetch(github.com)"
     ],
-    "deny": ["Shell(git commit)", "Shell(git push)", "Shell(git pull)"]
+    "deny": [
+      "Shell(docker volume rm)",
+      "Shell(git commit)",
+      "Shell(git pull)",
+      "Shell(git push)"
+    ]
   },
   "version": 1,
   "editor": {
     "vimMode": true
   },
-  "network": {
-    "useHttp1ForAgent": false
+  "model": {
+    "modelId": "default",
+    "displayModelId": "auto",
+    "displayName": "Auto",
+    "displayNameShort": "Auto",
+    "aliases": ["auto"],
+    "maxMode": false
+  },
+  "hasChangedDefaultModel": true,
+  "maxMode": false,
+  "modelParameters": {
+    "default": []
+  },
+  "selectedModel": {
+    "modelId": "default",
+    "parameters": []
   },
   "privacyCache": {
     "ghostMode": true,
     "privacyMode": 2,
-    "updatedAt": 1776950580086
-  }
+    "updatedAt": 1778228128526
+  },
+  "authInfo": {
+    "email": "franco.grobler@cloudsmiths.ai",
+    "displayName": "Franco Grobler",
+    "teamId": 17562873,
+    "teamName": "CloudSmiths",
+    "userId": 350232458,
+    "authId": "google-oauth2|user_01KPAGZ5KP8AC3TGBYF3DZ99VV"
+  },
+  "network": {
+    "useHttp1ForAgent": false
+  },
+  "approvalMode": "unrestricted",
+  "sandbox": {
+    "mode": "disabled"
+  },
+  "showSandboxIntro": false,
+  "runEverythingSettingsPromptStreak": 0
 }
