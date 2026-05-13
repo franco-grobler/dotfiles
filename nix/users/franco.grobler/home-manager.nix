@@ -192,7 +192,7 @@ in
   programs.go = {
     enable = true;
     env = {
-      GOPATH = "$XDG_DATA_HOME/.go";
+      GOPATH = "${config.xdg.dataHome}/.go";
     };
   };
 
