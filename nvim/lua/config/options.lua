@@ -13,7 +13,8 @@ opt.wrap = true -- Enable line wrap
 local g = vim.g
 
 -- LazyVim
-g.lazyvim_python_lsp = "mypy"
+-- g.lazyvim_python_lsp = "basedpyright"
+g.lazyvim_python_lsp = "ty"
 
 -- VimTex
 g.vimtex_view_method = "skim"
