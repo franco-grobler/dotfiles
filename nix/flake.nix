@@ -54,6 +54,7 @@
             opencode
             posting
             uv
+            ty
             ;
         })
       ];

@@ -119,6 +119,7 @@ in
         sshs
         tree
         tmux
+        ty
         wget
         yazi
         yq
