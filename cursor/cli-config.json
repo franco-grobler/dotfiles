@@ -15,8 +15,16 @@
     "deny": [
       "Shell(docker volume rm)",
       "Shell(docker:volume:rm*)",
+      "Shell(git add)",
+      "Shell(git:add*)",
+      "Shell(git stage)",
+      "Shell(git:stage*)",
       "Shell(git commit)",
       "Shell(git:commit*)",
+      "Shell(git commit:-a*)",
+      "Shell(git commit:--all*)",
+      "Shell(git:commit*-a*)",
+      "Shell(git:commit*--all*)",
       "Shell(git pull)",
       "Shell(git:pull*)",
       "Shell(git push)",
@@ -51,7 +59,7 @@
   "privacyCache": {
     "ghostMode": true,
     "privacyMode": 2,
-    "updatedAt": 1780035859237
+    "updatedAt": 1780039963600
   },
   "serverConfigCache": {
     "backendUrl": "https://api2.cursor.sh",
