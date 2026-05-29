@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Shell(cd)",
-      "Shell(docker)",
+      "Shell(curl)",
+      "Shell(docker compose)",
       "Shell(echo)",
       "Shell(git diff)",
       "Shell(git log)",
@@ -13,15 +14,23 @@
     ],
     "deny": [
       "Shell(docker volume rm)",
+      "Shell(docker:volume:rm*)",
       "Shell(git commit)",
+      "Shell(git:commit*)",
       "Shell(git pull)",
-      "Shell(git push)"
+      "Shell(git:pull*)",
+      "Shell(git push)",
+      "Shell(git:push*)"
     ]
   },
   "version": 1,
   "editor": {
     "vimMode": true
   },
+  "notifications": true,
+  "hints": true,
+  "rewind": false,
+  "suggestNextPrompt": true,
   "model": {
     "modelId": "default",
     "displayModelId": "auto",
@@ -42,7 +51,19 @@
   "privacyCache": {
     "ghostMode": true,
     "privacyMode": 2,
-    "updatedAt": 1778228128526
+    "updatedAt": 1780035859237
+  },
+  "serverConfigCache": {
+    "backendUrl": "https://api2.cursor.sh",
+    "authCacheKey": "auth:google-oauth2|user_01KPAGZ5KP8AC3TGBYF3DZ99VV",
+    "teamId": 17562873,
+    "agentUrlConfig": {
+      "agentUrl": "https://agentn.us.api5.cursor.sh",
+      "agentnUrl": "https://agentn.us.api5.cursor.sh"
+    },
+    "cliSandboxDefaultEnabled": false,
+    "serverHttp2Config": 0,
+    "updatedAt": 1779975841823
   },
   "authInfo": {
     "email": "franco.grobler@cloudsmiths.ai",
