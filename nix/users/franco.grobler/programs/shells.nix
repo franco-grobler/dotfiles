@@ -13,7 +13,6 @@
 
     nushell = {
       enable = true;
-      inherit shellAliases;
     };
 
     zsh = {
