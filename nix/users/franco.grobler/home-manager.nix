@@ -107,7 +107,6 @@ in
         nodejs
         nixfmt-rfc-style
         ookla-speedtest
-        opencode
         posting
         python314
         qmk
