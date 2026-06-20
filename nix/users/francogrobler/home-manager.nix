@@ -57,7 +57,7 @@ let
       inherit isLinux;
       inherit isWSL;
     })
-    (import "${currentDir}/programs/shells.nix" { inherit shellAliases; })
+    (import "${currentDir}/programs/shells.nix" { inherit shellAliases config; })
     (import "${currentDir}/programs/tuis.nix")
     (import "${currentDir}/programs/utils.nix" {
       inherit osConfig systemName isDarwin;
