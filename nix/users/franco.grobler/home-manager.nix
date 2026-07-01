@@ -98,6 +98,7 @@ in
         gnumake
         gnused
         htop
+        hyperfine
         just
         jq
         jqp
