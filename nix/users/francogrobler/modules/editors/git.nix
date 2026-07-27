@@ -18,36 +18,16 @@ in
         add-and-commit = "!f() { git add \"$1\" && git commit -m \"$2\"; }; f";
         cleanup-untracked = "git rm -r --cache . && git add .";
       };
-      branch = {
-        autosetuprebase = "always";
-      };
-      color = {
-        ui = true;
-      };
-      commit = {
-        gpgsign = true;
-      };
-      core = {
-        askPass = ""; # needs to be empty to use terminal for ask pass
-      };
-      credential = {
-        helper = "store"; # want to make this more secure
-      };
-      github = {
-        user = "franco-from-gcc";
-      };
-      gpg = {
-        format = "ssh";
-      };
-      "gpg \"ssh\"" = {
-        program = gpgSshSign;
-      };
-      init = {
-        defaultBranch = "main";
-      };
-      push = {
-        default = "tracking";
-      };
+      branch.autosetuprebase = "always";
+      color.ui = true;
+      commit.gpgsign = true;
+      core.askPass = "";
+      credential.helper = "store";
+      github.user = "franco-from-gcc";
+      gpg.format = "ssh";
+      "gpg \"ssh\"".program = gpgSshSign;
+      init.defaultBranch = "main";
+      push.default = "tracking";
       user = {
         email = "franco@grobler.fyi";
         name = "Franco Grobler";
@@ -60,9 +40,5 @@ in
       signByDefault = true;
       signer = gpgSshSign;
     };
-  };
-
-  programs.jujutsu = {
-    enable = true;
   };
 }

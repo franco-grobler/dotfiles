@@ -2,7 +2,6 @@
   description = "Nix configuration";
 
   inputs = {
-    # Default to stable, use unstable for some packages
     nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
@@ -16,10 +15,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Build a custom WSL installer
-    nixos-wsl.url = "github:nix-community/NixOS-WSL";
-    nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
-
     ghostty.url = "github:ghostty-org/ghostty";
   };
 
@@ -29,39 +24,12 @@
       nixpkgs,
       home-manager,
       darwin,
-      ghostty,
       ...
     }@inputs:
     let
-      unstablePkgsFor =
-        system:
-        import inputs.nixpkgs-unstable {
-          inherit system;
-        };
-      # Overlays is the list of overlays we want to apply from flake inputs.
-      overlays = [
-        (final: prev: rec {
-          unstable = unstablePkgsFor prev.system;
-          # Latest version of these
-          inherit (unstable)
-            direnv
-            gemini-cli
-            gh
-            neovim
-            # nushell
-            opencode
-            posting
-            uv
-            ;
-        })
-      ];
-
-      mkSystem = import ./lib/mksystem.nix {
-        inherit overlays nixpkgs inputs;
-      };
-      mkConfig = import ./lib/mkconfig.nix {
-        inherit overlays nixpkgs inputs;
-      };
+      mkChannel = import ./lib/channels.nix { inherit inputs; };
+      mkSystem = import ./lib/mksystem.nix { inherit inputs; };
+      mkConfig = import ./lib/mkconfig.nix { inherit inputs; };
 
       userName = "francogrobler";
     in
@@ -70,22 +38,28 @@
         system = "aarch64-darwin";
         user = userName;
         darwin = true;
+        channel = mkChannel {
+          system = "aarch64-darwin";
+          channelBase = "unstable";
+        };
       };
 
       homeConfigurations.x86_64-linux = mkConfig {
         system = "x86_64-linux";
         user = userName;
+        channel = mkChannel {
+          system = "x86_64-linux";
+          channelBase = "stable";
+        };
       };
 
       nixosConfigurations.x86_64-linux = mkSystem "x86_64-linux" {
         system = "x86_64-linux";
         user = userName;
-      };
-
-      nixosConfigurations.wsl = mkSystem "wsl" {
-        system = "x86_64-linux";
-        user = userName;
-        wsl = true;
+        channel = mkChannel {
+          system = "x86_64-linux";
+          channelBase = "stable";
+        };
       };
     };
 }

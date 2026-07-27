@@ -13,12 +13,14 @@ generate-changelog:
 add-hooks:
     cp pre-push.sh .git/hooks/pre-push
 
-# Remove all symlinks
-[group('Stow')]
-unlink:
-    stow -D .
+# Bootstrap nix config for the first time.
+[group('Nix')]
+nix-bootstrap:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    just nix-switch
 
-# Update home manager.
+# Update system config.
 [group('Nix')]
 [working-directory("nix")]
 nix-switch:
@@ -46,7 +48,21 @@ nix-test:
 [group('Nix')]
 [working-directory("nix")]
 nix-update:
-    brew update
-    mas upgrade
+    command -v brew >/dev/null 2>&1 && brew update || true
+    command -v mas >/dev/null 2>&1 && mas upgrade || true
     nix flake update
     git add-and-commit nix/flake.lock "chore(nix): update nix flake lockfile" || true
+
+# Bootstrap nix config for the first time.
+[group('Nix')]
+nix-bootstrap:
+    just nix-switch
+
+# Set up Claude Code MCP servers.
+[group('Dev')]
+claude-setup:
+    #!/usr/bin/env bash
+    if command -v claude >/dev/null; then
+      claude mcp list 2>/dev/null | grep -q '^figma-desktop' ||
+        claude mcp add --scope user --transport http figma-desktop http://127.0.0.1:3845/mcp
+    fi

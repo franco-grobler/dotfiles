@@ -1,6 +1,27 @@
 { pkgs, ... }:
-
 {
+  system.stateVersion = 6;
+
+  ids.gids.nixbld = 30000;
+
+  nix = {
+    enable = false;
+    extraOptions = ''
+      experimental-features = nix-command flakes
+      keep-outputs = true
+      keep-derivations = true
+    '';
+
+    settings = {
+      trusted-users = [
+        "root"
+        "francogrobler"
+      ];
+      extra-substituters = "https://devenv.cachix.org";
+      extra-trusted-public-keys = "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=";
+    };
+  };
+
   homebrew = {
     enable = true;
     brews = [
@@ -13,19 +34,13 @@
     ];
     casks = [
       "1password"
-      # "alacritty"
-      # "anydesk"
       "balenaetcher"
       "claude-code@latest"
       "drawio"
-      # "flutter"
-      # "freecad"
       "ghostty"
       "google-chrome"
       "inkscape"
       "keka"
-      # "kicad"
-      # "libreoffice"
       "slack"
       "skim"
       "vial"
@@ -34,7 +49,6 @@
     caskArgs = {
       appdir = "~/Applications";
       language = "en-ZA,en-GB";
-      # Initial chrome, anydesk installs fails - no sha is specified for the cask recipe.
       require_sha = true;
     };
     global = {
@@ -44,14 +58,11 @@
     masApps = {
       "1Password for Safari" = 1569813296;
       Numbers = 361304891;
-      # Pages = 361309726;
       Vimlike = 1584519802;
       Wireguard = 1451685025;
-      # Xcode = 497799835;
     };
     onActivation = {
       autoUpdate = false;
-      # cleanup = "uninstall";
       upgrade = true;
     };
   };
@@ -101,21 +112,16 @@
         TrackpadThreeFingerDrag = true;
       };
     };
-    # TODO: This fucks up external keyboards.
     keyboard = {
       enableKeyMapping = false;
       swapLeftCtrlAndFn = false;
     };
     startup.chime = false;
-
-    # Required for some settings like homebrew to know what user to apply to.
     primaryUser = "francogrobler";
   };
 
   time.timeZone = "Africa/Johannesburg";
 
-  # The user should already exist, but we need to set this up so Nix knows
-  # what our home directory is (https://github.com/LnL7/nix-darwin/issues/423).
   users.users.francogrobler = {
     description = "Franco Grobler";
     home = "/Users/francogrobler";

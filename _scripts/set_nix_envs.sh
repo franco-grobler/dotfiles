@@ -27,9 +27,6 @@ elif [[ $os == "Linux" ]]; then
 	else
 		export NIXCONFIG="homeConfigurations"
 	fi
-	if [[ $(uname -r) =~ WSL ]]; then
-		export NIXNAME="wsl"
-	fi
 else
 	echo "Unsupported OS: $os"
 	exit 1
