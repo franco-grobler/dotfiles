@@ -4,7 +4,7 @@
 .+,v
 
 ## CVS
-\.\#.+       # CVS conflict files / emacs lock files
+\.\#.+
 \.cvsignore
 
 ## SVN
@@ -24,9 +24,6 @@
 ## File system
 \.DS_Store
 
-## Directories
-^/homebrew
-
 ## Helpers
 ^/install.sh
 ^/pre-push.sh
@@ -39,9 +36,5 @@
 ^/_*
 nix/*/results
 
-# zsh
-zsh
-
 ## Node projects
 node_modules
-

@@ -1,15 +1,18 @@
-{
-  osConfig,
-  systemName,
-  isDarwin,
-  ...
-}:
+{ pkgs, systemName, ... }:
 let
+  inherit (pkgs.stdenv) isDarwin isLinux;
   onePassPath =
     if isDarwin then
       "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
     else
       "~/.1password/agent.sock";
+  osConfig =
+    if isDarwin then
+      "darwinConfigurations"
+    else if isLinux then
+      "nixosConfigurations"
+    else
+      "homeConfigurations";
 in
 {
   programs.nh = {
@@ -28,13 +31,6 @@ in
       "*" = {
         identityAgent = ''"${onePassPath}"'';
       };
-
-      # "GitHub- Cloudsmiths" = {
-      #  host = "github.com";
-      #  user = "git";
-      #  identityFile = "~/.ssh/github/cloudsmiths.pub";
-      #  identitiesOnly = true;
-      # };
 
       "GitHub- Personal" = {
         host = "github.com";

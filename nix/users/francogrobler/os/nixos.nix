@@ -1,8 +1,7 @@
 { pkgs, ... }:
 {
-  # Add ~/.local/bin to PATH
+  system.stateVersion = "25.05";
   environment.localBinInPath = true;
-
   programs.zsh.enable = true;
 
   users.users.francogrobler = {

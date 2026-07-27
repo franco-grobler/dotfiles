@@ -1,0 +1,80 @@
+{
+  pkgs,
+  lib,
+  isWSL,
+  ...
+}:
+let
+  inherit (pkgs.stdenv) isDarwin isLinux;
+in
+{
+  home.packages =
+    with pkgs;
+    [
+      _1password-cli
+      bottom
+      btop
+      chafa
+      cmatrix
+      cowsay
+      cursor-cli
+      devbox
+      devenv
+      docker
+      docker-buildx
+      docker-credential-helpers
+      duf
+      eza
+      fastfetch
+      fd
+      fzf
+      gh
+      glow
+      htop
+      just
+      jq
+      jqp
+      lazydocker
+      lolcat
+      neovim
+      nodejs
+      nixfmt
+      ookla-speedtest
+      opencode
+      posting
+      python314
+      qmk
+      ripgrep
+      rustup
+      sentry-cli
+      statix
+      stow
+      sshs
+      tree
+      tmux
+      wget
+      yazi
+      yq
+      zoxide
+
+      nerd-fonts.jetbrains-mono
+    ]
+    ++ (lib.optionals (!isWSL && !isDarwin) [
+      _1password-gui
+      alacritty
+      podman-desktop
+    ])
+    ++ (lib.optionals (!isDarwin) [
+      gemini-cli
+    ])
+    ++ (lib.optionals (isLinux && !isWSL) [
+      chromium
+      firefox
+      freecad-wayland
+      ghostty
+      rofi
+      vial
+      valgrind
+      zathura
+    ]);
+}

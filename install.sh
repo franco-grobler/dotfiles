@@ -8,4 +8,4 @@ if [[ ! -d ${sops_age_dir} ]]; then
 	echo "*" >>"${sops_age_dir}/.gitignore"
 fi
 
-stow .
+stow nvim nvim-dev nvim-prime

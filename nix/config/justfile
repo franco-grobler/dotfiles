@@ -1,0 +1,48 @@
+default:
+    just -g --list
+
+# Start a new NeoVim session in the current directory with tmux split-window
+nvim-dev:
+    tmux new-session -A -snvim-dev \; split-window -v -l 20 \; select-pane -t 0 \; send-keys "nvim" C-m \;
+
+# Reboot computer
+[confirm("Are you sure you want to reboot")]
+[group("System")]
+reboot:
+    #!/bin/bash
+    if [ "$(uname)" == "Darwin" ]; then
+      osascript -e 'tell app "System Events" to restart'
+    else
+      systemctl reboot
+    fi
+
+# Shut down computer
+[confirm("Are you sure you want to shut down")]
+[group("System")]
+shutdown:
+    #!/bin/bash
+    if [ "$(uname)" == "Darwin" ]; then
+      osascript -e 'tell app "System Events" to shut down'
+    else
+      systemctl poweroff
+    fi
+
+[group("Profiling")]
+time_zsh:
+    time zsh -i -c exit
+
+[group("Profiling")]
+profile_zsh:
+    #!/bin/sh
+    ZSH_PROFILE_STARTUP=1 zsh -i -c exit
+
+# cmatrix with colours
+[group("LOLs")]
+cmatrix:
+  cmatrix | lolcat
+
+# cowsay with colours
+[group("LOLs")]
+cowsay ARGS:
+  cowsay {{ ARGS }} | lolcat
+
