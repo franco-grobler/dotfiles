@@ -24,15 +24,31 @@ in
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
-    matchBlocks = {
+    settings = {
       "*" = {
         identityAgent = ''"${onePassPath}"'';
       };
+
+      # "GitHub- Cloudsmiths" = {
+      #  host = "github.com";
+      #  user = "git";
+      #  identityFile = "~/.ssh/github/cloudsmiths.pub";
+      #  identitiesOnly = true;
+      # };
+
+      "GitHub- Personal" = {
+        host = "github.com";
+        user = "git";
+        identityFile = "~/.ssh/github/personal.pub";
+        identitiesOnly = true;
+      };
+
       "Bamboo- Norm" = {
         host = "192.168.1.100:8006";
         user = "root";
         port = 22;
       };
+
       "OpenWRT" = {
         host = "192.168.1.1";
         user = "root";

@@ -7,7 +7,6 @@
       "cocoapods"
       "colima"
       "container"
-      "gemini-cli"
       "llvm"
       "mas"
       "mole"
@@ -17,6 +16,7 @@
       # "alacritty"
       # "anydesk"
       "balenaetcher"
+      "claude-code@latest"
       "drawio"
       # "flutter"
       # "freecad"
@@ -51,7 +51,7 @@
     };
     onActivation = {
       autoUpdate = false;
-      cleanup = "uninstall";
+      # cleanup = "uninstall";
       upgrade = true;
     };
   };
