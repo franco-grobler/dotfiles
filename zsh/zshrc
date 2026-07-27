@@ -1,3 +1,6 @@
+# Nix file limits
+ulimit -n 10240
+
 # Autocomplete
 bindkey '^w' autosuggest-execute
 bindkey '^e' autosuggest-accept
