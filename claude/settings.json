@@ -1,0 +1,9 @@
+{
+  "model": "opus",
+  "effortLevel": "low",
+  "theme": "dark",
+  "permissions": {
+    "allow": ["Bash", "Edit", "Write", "Read", "WebFetch", "WebSearch"],
+    "deny": ["Bash(git commit:*)", "Bash(git push:*)"]
+  }
+}
