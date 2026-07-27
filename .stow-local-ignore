@@ -39,3 +39,6 @@
 ^/_*
 nix/*/results
 
+## Node projects
+node_modules
+
