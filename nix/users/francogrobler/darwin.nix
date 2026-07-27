@@ -17,6 +17,7 @@
       # "alacritty"
       # "anydesk"
       "balenaetcher"
+      "claude-code@latest"
       "drawio"
       # "flutter"
       # "freecad"
