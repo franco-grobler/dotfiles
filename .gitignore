@@ -19,3 +19,7 @@ nix/result
 [._]*.s[a-v][a-z]
 .*~
 *.un~
+
+# zsh
+/zsh
+!/zsh/zshrc
