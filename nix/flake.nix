@@ -36,7 +36,7 @@
       unstablePkgsFor =
         system:
         import inputs.nixpkgs-unstable {
-          inherit system;
+          localSystem = system;
         };
       # Overlays is the list of overlays we want to apply from flake inputs.
       overlays = [

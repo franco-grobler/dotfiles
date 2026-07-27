@@ -102,7 +102,7 @@ in
         lolcat
         neovim
         nodejs
-        nixfmt-rfc-style
+        nixfmt
         ookla-speedtest
         opencode
         posting
