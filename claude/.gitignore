@@ -1,0 +1,5 @@
+# Claude Code dumps state into CLAUDE_CONFIG_DIR alongside config.
+# Track settings.json only; ignore everything else.
+*
+!.gitignore
+!settings.json
