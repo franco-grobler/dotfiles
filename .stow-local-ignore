@@ -39,6 +39,9 @@
 ^/_*
 nix/*/results
 
+# zsh
+zsh
+
 ## Node projects
 node_modules
 
