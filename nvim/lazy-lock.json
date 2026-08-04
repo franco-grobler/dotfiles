@@ -73,8 +73,8 @@
   "vim-dadbod": { "branch": "master", "commit": "6d1d41da4873a445c5605f2005ad2c68c99d8770" },
   "vim-dadbod-completion": { "branch": "master", "commit": "a8dac0b3cf6132c80dc9b18bef36d4cf7a9e1fe6" },
   "vim-dadbod-ui": { "branch": "master", "commit": "afd07819d8efcefc3317205b855ad4e3513b0011" },
-  "vim-just": { "branch": "main", "commit": "d9aa6784fe3a870e78ba82b5d176c0c5745e23f7" },
-  "vimtex": { "branch": "master", "commit": "853eb587873a7061a083655578be56dd8027b834" },
+  "vim-just": { "branch": "main", "commit": "25a4acdafcdb2282b918c35eea20c367b1dc494e" },
+  "vimtex": { "branch": "master", "commit": "154eca8f68a5ad54eb12308bb378e88bdd0dfb3e" },
   "which-key.nvim": { "branch": "main", "commit": "3aab2147e74890957785941f0c1ad87d0a44c15a" },
   "yanky.nvim": { "branch": "main", "commit": "dd6689fdda85f66cab7d9b1a1664625f3be0920d" }
 }
