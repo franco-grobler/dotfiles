@@ -10,7 +10,6 @@ in
       settings.user = {
         email = "franco@grobler.fyi";
         name = "Franco Grobler";
-        inherit signingKey;
       };
 
       signing.key = signingKey;

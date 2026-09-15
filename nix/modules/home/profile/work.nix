@@ -14,7 +14,6 @@ in
       settings.user = {
         email = "franco.grobler@cloudsmiths.ai";
         name = "Franco Grobler";
-        inherit signingKey;
       };
 
       signing.key = signingKey;

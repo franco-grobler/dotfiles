@@ -1,11 +1,8 @@
 # System files
 **/\.DS_Store
 
-# TheFuck
-thefuck/__pycache__
-
-# Neovim lazy-lock (runtime managed)
-nvim/*/lazy-lock.json
+# Python bytecode
+**/__pycache__
 
 # Nix
 nix/result

@@ -30,11 +30,8 @@ in
       };
       branch.autosetuprebase = "always";
       color.ui = true;
-      commit.gpgsign = true;
       core.askPass = "";
       credential.helper = credentialHelper;
-      gpg.format = "ssh";
-      "gpg \"ssh\"".program = opSshSign;
       # One github account for both identities -- work and personal differ by
       # commit email and signing key, not by who they log in as.
       github.user = "franco-grobler";

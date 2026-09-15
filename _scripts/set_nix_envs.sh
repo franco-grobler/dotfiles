@@ -2,8 +2,8 @@
 # Resolves which flake output this machine builds from.
 #
 # Host configurations are keyed by the machine's own hostname, so adding a host
-# to nix/modules/hosts/ is all it takes for this script to find it. Override by
-# exporting NIXNAME before sourcing.
+# to nix/modules/{darwin,nixos}/hosts/ is all it takes for this script to find
+# it. Override by exporting NIXNAME before sourcing.
 set -euo pipefail
 
 is_nixos() {

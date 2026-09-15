@@ -5,8 +5,5 @@ set -euo pipefail
 
 # Neovim is the only config not managed by home-manager: lazy.nvim owns its own
 # plugin lockfile and does not want nix in the way.
-for dir in nvim nvim-dev nvim-prime; do
-	[[ -d ${dir} ]] || continue
-	ln -sfn "${PWD}/${dir}" "${HOME}/.config/${dir}"
-	echo "linked ~/.config/${dir}"
-done
+ln -sfn "${PWD}/nvim" "${HOME}/.config/nvim"
+echo "linked ~/.config/nvim"

@@ -88,7 +88,7 @@ home/
 ├── base.nix            core + shell — what every machine gets
 ├── dev.nix             vcs + code + ai + container
 ├── francogrobler.nix
-├── core/               xdg locale fonts unix-tools bat glow thefuck nh gpg ssh
+├── core/               xdg locale fonts unix-tools bat glow nh gpg ssh
 ├── shell/              zsh bash nushell aliases starship atuin carapace direnv just
 ├── terminal/           ghostty alacritty tmux
 ├── vcs/                git gh lazygit git-cliff jujutsu

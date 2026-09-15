@@ -10,7 +10,7 @@ and a linux desktop — that share as much or as little as each one needs. See
 ## Install
 
 ```bash
-./install.sh      # sops age key + stow the neovim configs
+./install.sh      # symlink the neovim config into ~/.config
 just nix-switch   # build and activate this machine's configuration
 ```
 
@@ -24,9 +24,9 @@ On a machine that has never had nix-darwin or nixos-rebuild, use
 | `nix/modules/home/` | home-manager modules, grouped by what they do |
 | `nix/modules/darwin/`, `nix/modules/nixos/` | system modules, incl. `hosts/` |
 | `nix/modules/flake/` | the plumbing that discovers the tree |
-| `nvim/`, `nvim-prime/` | neovim configs, still stowed |
+| `nvim/` | neovim config, symlinked by `install.sh` rather than home-manager |
 | `_scripts/`, `justfile` | host resolution and the task runner |
-| `sops/` | age key (gitignored) |
+| `Credentials.md` | where secrets live (1Password; nothing secret is committed) |
 
 A program that ships config files is a folder holding both — e.g.
 `nix/modules/home/terminal/tmux/{default.nix,tmux.reset.conf}`.

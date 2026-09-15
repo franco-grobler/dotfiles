@@ -10,7 +10,6 @@
     unix-tools
     bat
     glow
-    thefuck
     nh
     gpg
     ssh
