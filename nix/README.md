@@ -195,6 +195,11 @@ just nix-check    # evaluate all three hosts
 just nix-update   # refresh flake.lock
 ```
 
+On the linux host, `just nix-hardware` regenerates its
+`hardware-configuration.nix` in place from `nixos-generate-config`. Pass the
+host explicitly on a fresh install, before the hostname matches the flake
+attribute: `just nix-hardware nixos-x86_64`.
+
 ## Secrets
 
 1Password is the store. The ssh agent, `op-ssh-sign` for git signing and
