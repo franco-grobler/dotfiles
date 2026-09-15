@@ -73,6 +73,20 @@ nix-check:
 nix-fmt:
     nix fmt
 
+# Raise nix's GitHub fetch rate limit, once per machine.
+[group('Nix')]
+nix-token item="op://Personal/Nix GitHub PAT/credential":
+    #!/usr/bin/env bash
+    # Written to the user's nix.conf, outside the repo, so it is never committed.
+    set -euo pipefail
+    command -v op >/dev/null || { echo "1Password CLI not found" >&2; exit 1; }
+    conf="${XDG_CONFIG_HOME:-$HOME/.config}/nix/nix.conf"
+    mkdir -p "$(dirname "$conf")"
+    umask 077
+    printf 'access-tokens = github.com=%s\n' "$(op read "{{ item }}")" >"$conf"
+    echo "wrote $conf"
+    nix config show access-tokens | sed 's/=.*/= <set>/'
+
 # Update system flake lockfile.
 [group('Nix')]
 [working-directory("nix")]
