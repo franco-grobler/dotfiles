@@ -14,22 +14,24 @@
 { lib, modulesPath, ... }:
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
+  boot = {
 
-  # Broad enough to find the root device on SATA, NVMe, USB or a VM disk.
-  boot.initrd.availableKernelModules = [
-    "ahci"
-    "nvme"
-    "sd_mod"
-    "sr_mod"
-    "usb_storage"
-    "usbhid"
-    "xhci_pci"
-    "virtio_blk"
-    "virtio_pci"
-    "virtio_scsi"
-  ];
-  boot.initrd.kernelModules = [ ];
-  boot.extraModulePackages = [ ];
+    # Broad enough to find the root device on SATA, NVMe, USB or a VM disk.
+    initrd.availableKernelModules = [
+      "ahci"
+      "nvme"
+      "sd_mod"
+      "sr_mod"
+      "usb_storage"
+      "usbhid"
+      "xhci_pci"
+      "virtio_blk"
+      "virtio_pci"
+      "virtio_scsi"
+    ];
+    initrd.kernelModules = [ ];
+    extraModulePackages = [ ];
+  };
 
   fileSystems."/" = {
     device = "/dev/disk/by-label/nixos";
@@ -47,12 +49,14 @@
 
   swapDevices = [ ];
 
-  # Wifi and GPU firmware; without this a laptop typically has no network.
-  hardware.enableRedistributableFirmware = true;
+  hardware = {
+    # Wifi and GPU firmware; without this a laptop typically has no network.
+    enableRedistributableFirmware = true;
 
-  # Harmless to enable both — each only applies on its own vendor's silicon.
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault true;
-  hardware.cpu.amd.updateMicrocode = lib.mkDefault true;
+    # Harmless to enable both — each only applies on its own vendor's silicon.
+    cpu.intel.updateMicrocode = lib.mkDefault true;
+    cpu.amd.updateMicrocode = lib.mkDefault true;
+  };
 
   networking.useDHCP = lib.mkDefault true;
 }

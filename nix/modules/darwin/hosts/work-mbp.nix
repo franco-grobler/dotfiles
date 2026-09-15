@@ -20,7 +20,7 @@
     channel = "stable";
   };
 
-  dotfiles.users.francogrobler = {
+  dotfiles.users."franco.grobler" = {
     description = "Franco Grobler";
     modules = with home; [
       base
