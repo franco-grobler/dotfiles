@@ -44,7 +44,15 @@ return {
   {
     "neovim/nvim-lspconfig",
     opts = {
-      servers = { eslint = {} },
+      servers = {
+        eslint = {},
+        tinymist = {
+          init_options = {
+            formatterPrintWidth = 80,
+            formatterProseWrap = true,
+          },
+        },
+      },
       setup = {
         eslint = function()
           require("snacks.util").lsp.on(function(_, client)
