@@ -38,6 +38,157 @@ in
     };
   };
 
+  # tmux session layouts for the projects that only exist on the personal
+  # machines. Captured from the live sessions these replaced; see
+  # terminal/tmuxinator for the schema. Shared projects (Dotfiles) live there.
+  dotfiles.sessions = {
+    "Anke van Zyl" = {
+      root = "~/Code/Tweedill/anke-van-zyl/anke-van-zyl-website";
+      windows = [
+        { name = "editor"; }
+        {
+          name = "dev";
+          layout = "main-vertical";
+          panes = [
+            "."
+            "."
+            "."
+          ];
+        }
+      ];
+    };
+
+    "Costing calculator" = {
+      root = "~/Code/GrowCreativeCo/costing-calculator";
+      windows = [
+        { name = "editor"; }
+        {
+          name = "dev";
+          layout = "main-vertical";
+          panes = [
+            "."
+            "src-tauri"
+            "."
+          ];
+        }
+      ];
+    };
+
+    "Cowsay" = {
+      root = "~/Code/Personal/cowsay-rs";
+      windows = [
+        { name = "editor"; }
+        { name = "shell"; }
+      ];
+    };
+
+    # Three git worktrees of the same repo, one window each.
+    "Khula" = {
+      root = "~/Code/GrowCreativeCo/Khula/khula/feat/hookup";
+      windows = [
+        { name = "editor"; }
+        {
+          name = "dev";
+          layout = "main-vertical";
+          panes = [
+            "."
+            "."
+            "."
+          ];
+        }
+        {
+          name = "dashboard";
+          root = "~/Code/GrowCreativeCo/Khula/khula/feat/dashboard";
+        }
+        {
+          name = "llm-integration";
+          root = "~/Code/GrowCreativeCo/Khula/khula/feat/llm-integration";
+        }
+      ];
+    };
+
+    "MSc" = {
+      root = "~/Documents/University/Masters of Computer Science/Thesis/Report.nosync";
+      windows = [
+        { name = "editor"; }
+        {
+          name = "dev";
+          layout = "even-horizontal";
+          panes = [
+            "."
+            "."
+          ];
+        }
+      ];
+    };
+
+    "Personal site" = {
+      root = "~/Code/Personal/franco-grobler.github.io";
+      windows = [
+        { name = "editor"; }
+        {
+          name = "dev";
+          layout = "even-horizontal";
+          panes = [
+            "."
+            "."
+          ];
+        }
+        {
+          name = "portfolio";
+          root = "~/Code/Personal/porfolio";
+        }
+      ];
+    };
+
+    "Streamy backend" = {
+      root = "~/Documents/University/Masters of Computer Science/Thesis/Code.nosync/streamy-backend";
+      windows = [
+        { name = "editor"; }
+        {
+          name = "dev";
+          layout = "even-horizontal";
+          panes = [
+            "."
+            "."
+          ];
+        }
+      ];
+    };
+
+    "go-api-gen" = {
+      root = "~/Code/Personal/go-api-gen/main";
+      windows = [
+        { name = "editor"; }
+        {
+          name = "dev";
+          layout = "even-horizontal";
+          panes = [
+            "."
+            "."
+          ];
+        }
+      ];
+    };
+
+    # Was a fourth window on the Dotfiles session; split out so the shared
+    # Dotfiles project stays valid on the work mac, which has no qmk checkout.
+    "QMK" = {
+      root = "~/qmk_firmware";
+      windows = [
+        { name = "editor"; }
+        {
+          name = "dev";
+          layout = "even-horizontal";
+          panes = [
+            "."
+            "~/dotfiles"
+          ];
+        }
+      ];
+    };
+  };
+
   home.packages = with pkgs; [
     devbox
     devenv

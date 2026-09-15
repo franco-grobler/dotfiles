@@ -5,5 +5,7 @@
     ghostty
     alacritty
     tmux
+    tmuxinator
+    sesh
   ];
 }

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 let
   catppuccin = pkgs.tmuxPlugins.mkTmuxPlugin {
     pluginName = "catppuccin";
@@ -14,20 +14,20 @@ in
 {
   programs.tmux = {
     enable = true;
-    aggressiveResize = true;
     baseIndex = 1;
     escapeTime = 0;
     historyLimit = 1000000;
     keyMode = "vi";
     mouse = true;
     secureSocket = false;
-    terminal = "screen-256color";
-    prefix = "C-a";
+    terminal = "\${TERM}";
     plugins = with pkgs.tmuxPlugins; [
       sensible
       yank
       resurrect
       continuum
+      tmux-fzf
+      fzf-tmux-url
       catppuccin
     ];
     extraConfig = ''
@@ -44,7 +44,16 @@ in
       set -g pane-active-border-style 'fg=magenta,bg=default'
       set -g pane-border-style 'fg=brightblack,bg=default'
 
-      set -g @continuum-restore 'on'
+      # nixpkgs pins resurrect to 2022-05-01, which predates its XDG support and
+      # defaults to ~/.tmux/resurrect. The existing save history lives under
+      # XDG_DATA_HOME, so point it there or every restore silently finds nothing.
+      set -g @resurrect-dir "${config.xdg.dataHome}/tmux/resurrect"
+
+      # Save-only: continuum keeps a 15-minute snapshot history as a crash net,
+      # but no longer respawns every pane at server start. Sessions come back
+      # on demand via sesh/tmuxinator instead. Restore a snapshot deliberately
+      # with resurrect's own binding (prefix + C-r).
+      set -g @continuum-restore 'off'
       set -g @resurrect-strategy-nvim 'session'
 
       set -g @catppuccin_flavor "mocha"
@@ -60,6 +69,12 @@ in
       set -g status-left "#{E:@catppuccin_status_session}"
       set -g status-right "#{E:@catppuccin_status_directory}"
       set -ag status-right "#{E:@catppuccin_status_date_time}"
+
+      # Home Manager emits plugin run-shell lines *before* extraConfig, so the
+      # status-right above wipes the #{continuum_save} hook that continuum
+      # appends there -- which silently stops all automatic saving. Re-run
+      # continuum last so it re-arms against the final status-right.
+      run-shell ${pkgs.tmuxPlugins.continuum}/share/tmux-plugins/continuum/continuum.tmux
     '';
   };
 

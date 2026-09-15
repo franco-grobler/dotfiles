@@ -27,6 +27,12 @@ in
     };
   };
 
+  # Work-only tmux session layouts. Nothing here yet -- none of the sessions
+  # captured when this was set up were Cloudsmiths projects. Add entries in the
+  # same shape as profile/personal.nix; the schema is in terminal/tmuxinator.
+  # Shared projects (Dotfiles) come from there and need no repetition.
+  dotfiles.sessions = { };
+
   home.packages = with pkgs; [
     awscli2
     google-cloud-sdk
