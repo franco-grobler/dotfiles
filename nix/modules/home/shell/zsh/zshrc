@@ -31,16 +31,3 @@ fi
 
 # AWS
 alias awsp="source _awsp"
-
-# Startship
-eval "$(starship init zsh)"
-export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
-
-# Git cliff
-export GIT_CLIFF_CONFIG="$HOME/.config/git-cliff/cliff.toml"
-
-# FZF
-export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow'
-
-# Prettierd
-export PRETTIERD_DEFAULT_CONFIG="$HOME/.config/prettierd/default.json"
