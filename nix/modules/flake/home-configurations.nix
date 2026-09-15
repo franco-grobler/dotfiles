@@ -35,5 +35,7 @@ let
     ) host.config.dotfiles.users;
 in
 {
-  flake.homeConfigurations = lib.listToAttrs (lib.concatLists (lib.mapAttrsToList homesFor hosts));
+  flake.homeConfigurations = lib.listToAttrs (
+    lib.concatLists (lib.mapAttrsToList homesFor hosts)
+  );
 }

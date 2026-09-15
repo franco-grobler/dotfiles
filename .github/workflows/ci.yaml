@@ -33,21 +33,32 @@ jobs:
         run: nix flake check --print-build-logs
 
       # Evaluation is cross-platform, so a linux runner can still prove the
-      # darwin hosts resolve and that every referenced file exists.
+      # darwin hosts resolve and that every referenced file exists. The list
+      # comes from the flake, so adding a host stays a one-file change.
       - name: Evaluate the darwin hosts
         working-directory: nix
         run: |
-          for host in Francos-MacBook-Air work-mbp; do
+          hosts=$(nix eval --raw .#darwinConfigurations \
+            --apply 'c: builtins.concatStringsSep " " (builtins.attrNames c)')
+          echo "hosts: $hosts"
+          for host in $hosts; do
             echo "::group::$host"
             nix eval --raw ".#darwinConfigurations.$host.system.drvPath"
             echo
             echo "::endgroup::"
           done
 
-      # The one host that cannot be built from a mac, so CI is the only place
-      # it ever gets compiled.
-      - name: Build the linux host
+      # These cannot be built from a mac, so CI is the only place they ever
+      # get compiled. Derived from the flake for the same reason as above.
+      - name: Build the linux hosts
         working-directory: nix
         run: |
-          nix build --print-build-logs \
-            ".#nixosConfigurations.nixos-x86_64.config.system.build.toplevel"
+          hosts=$(nix eval --raw .#nixosConfigurations \
+            --apply 'c: builtins.concatStringsSep " " (builtins.attrNames c)')
+          echo "hosts: $hosts"
+          for host in $hosts; do
+            echo "::group::$host"
+            nix build --print-build-logs \
+              ".#nixosConfigurations.$host.config.system.build.toplevel"
+            echo "::endgroup::"
+          done

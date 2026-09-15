@@ -48,7 +48,8 @@ let
       stable = importChannel inputs.nixpkgs;
       unstable = importChannel inputs.nixpkgs-unstable;
 
-      base = if channel == "unstable" then inputs.nixpkgs-unstable else inputs.nixpkgs;
+      base =
+        if channel == "unstable" then inputs.nixpkgs-unstable else inputs.nixpkgs;
 
       channelsOverlay = _final: _prev: { inherit stable unstable; };
 

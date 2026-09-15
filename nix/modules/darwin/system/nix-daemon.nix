@@ -12,7 +12,9 @@
   ...
 }:
 let
-  trustedUsers = lib.concatStringsSep " " ([ "root" ] ++ lib.attrNames config.dotfiles.users);
+  trustedUsers = lib.concatStringsSep " " (
+    [ "root" ] ++ lib.attrNames config.dotfiles.users
+  );
 in
 {
   nix.enable = false;

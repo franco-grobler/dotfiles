@@ -3,6 +3,7 @@
 { features, ... }:
 {
   imports = with features; [
+    state-version
     xdg
     locale
     fonts

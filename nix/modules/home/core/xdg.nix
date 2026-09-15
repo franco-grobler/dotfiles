@@ -1,6 +1,5 @@
-# The home-manager floor: XDG directories and the state version. Every bundle
-# assumes this is present.
+# The home-manager floor: XDG directories. Every bundle assumes this is
+# present, and most modules place their config with `xdg.configFile`.
 {
-  home.stateVersion = "25.05";
   xdg.enable = true;
 }

@@ -4,6 +4,13 @@
 { lib, pkgs, ... }:
 let
   inherit (pkgs.stdenv) isDarwin;
+
+  # GitHub is reached over ssh, so this only covers the occasional https
+  # remote. Either way it stays off disk: the `store` helper would write the
+  # password in cleartext to ~/.git-credentials, which is the one secret in
+  # this config that would not live in 1Password.
+  credentialHelper = if isDarwin then "osxkeychain" else "cache --timeout=86400";
+
   opSshSign =
     if isDarwin then
       "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
@@ -25,9 +32,12 @@ in
       color.ui = true;
       commit.gpgsign = true;
       core.askPass = "";
-      credential.helper = "store";
+      credential.helper = credentialHelper;
       gpg.format = "ssh";
       "gpg \"ssh\"".program = opSshSign;
+      # One github account for both identities -- work and personal differ by
+      # commit email and signing key, not by who they log in as.
+      github.user = "franco-grobler";
       init.defaultBranch = "main";
       push.default = "tracking";
     };

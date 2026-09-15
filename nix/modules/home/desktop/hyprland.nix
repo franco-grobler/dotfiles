@@ -18,8 +18,12 @@ let
     k = "u";
     l = "r";
   };
-  focusBinds = lib.mapAttrsToList (key: dir: "$mod, ${key}, movefocus, ${dir}") directions;
-  moveBinds = lib.mapAttrsToList (key: dir: "$mod SHIFT, ${key}, movewindow, ${dir}") directions;
+  focusBinds = lib.mapAttrsToList (
+    key: dir: "$mod, ${key}, movefocus, ${dir}"
+  ) directions;
+  moveBinds = lib.mapAttrsToList (
+    key: dir: "$mod SHIFT, ${key}, movewindow, ${dir}"
+  ) directions;
 in
 {
   wayland.windowManager.hyprland = {

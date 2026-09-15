@@ -1,30 +1,31 @@
-# Work identity, apps and tooling. Scoped to the work mac; the personal hosts
-# never evaluate it.
+# Cloudsmiths identity, apps and tooling. Scoped to the work mac; the personal
+# hosts never evaluate it.
 #
-# TODO(franco): fill in the real work email, github handle and signing key. The
-# placeholders below evaluate fine but will attribute commits to the wrong
-# address until you replace them.
-{ pkgs, lib, ... }:
+# The github account is the same one the personal profile uses, so `github.user`
+# lives in vcs/git.nix rather than being restated here -- only the email, the
+# signing key and the key this machine authenticates with differ.
+let
+  signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOVJfZJqxCPBNQDp1GCcoPRh4ykifHfzlAmedvc13Cm+";
+in
+{ pkgs, ... }:
 {
-  programs.git.settings = {
-    github.user = "Franco-from-Owlish";
-    user = {
-      email = "franco@owlish.example";
-      name = "Franco Grobler";
+  programs = {
+    git = {
+      settings.user = {
+        email = "franco.grobler@cloudsmiths.ai";
+        name = "Franco Grobler";
+        inherit signingKey;
+      };
+
+      signing.key = signingKey;
     };
 
-    # No work signing key configured yet — signing stays off rather than
-    # silently falling back to the personal key.
-    commit.gpgsign = lib.mkForce false;
-  };
-
-  programs.git.signing.signByDefault = lib.mkForce false;
-
-  programs.ssh.settings."GitHub- Work" = {
-    host = "github.com";
-    user = "git";
-    identityFile = "~/.ssh/github/work.pub";
-    identitiesOnly = true;
+    # The attribute name is the `Host` pattern -- see personal.nix.
+    ssh.settings."github.com" = {
+      user = "git";
+      identityFile = "~/.ssh/github/cloudsmiths.pub";
+      identitiesOnly = true;
+    };
   };
 
   home.packages = with pkgs; [

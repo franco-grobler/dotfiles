@@ -5,35 +5,37 @@ let
 in
 { pkgs, ... }:
 {
-  programs.git.settings = {
-    github.user = "franco-from-gcc";
-    user = {
-      email = "franco@grobler.fyi";
-      name = "Franco Grobler";
-      inherit signingKey;
-    };
-  };
+  programs = {
+    git = {
+      settings.user = {
+        email = "franco@grobler.fyi";
+        name = "Franco Grobler";
+        inherit signingKey;
+      };
 
-  programs.git.signing.key = signingKey;
-
-  programs.ssh.settings = {
-    "GitHub- Personal" = {
-      host = "github.com";
-      user = "git";
-      identityFile = "~/.ssh/github/personal.pub";
-      identitiesOnly = true;
+      signing.key = signingKey;
     };
 
-    "Bamboo- Norm" = {
-      host = "192.168.1.100:8006";
-      user = "root";
-      port = 22;
-    };
+    # Each attribute name is the `Host` pattern itself, and the address it
+    # resolves to goes in `hostname`. A `host = ...` key here would be written
+    # out verbatim as a `host` line, which ssh_config reads as the start of a
+    # *new* block -- silently swallowing everything under it.
+    ssh.settings = {
+      "github.com" = {
+        user = "git";
+        identityFile = "~/.ssh/github/personal.pub";
+        identitiesOnly = true;
+      };
 
-    "OpenWRT" = {
-      host = "192.168.1.1";
-      user = "root";
-      port = 22;
+      bamboo = {
+        hostname = "192.168.1.100";
+        user = "root";
+      };
+
+      openwrt = {
+        hostname = "192.168.1.1";
+        user = "root";
+      };
     };
   };
 

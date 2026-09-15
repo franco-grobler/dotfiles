@@ -35,7 +35,8 @@ let
             let
               path = sub + "/${entry}";
               stem = lib.removeSuffix ".nix" entry;
-              descend = if depth == null then (if entry == "hosts" then 0 else null) else depth + 1;
+              descend =
+                if depth == null then (if entry == "hosts" then 0 else null) else depth + 1;
             in
             if type == "directory" then
               walk descend entry path
