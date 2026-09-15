@@ -19,6 +19,7 @@
       "balenaetcher"
       "claude-code@latest"
       "drawio"
+      "figma"
       # "flutter"
       # "freecad"
       "ghostty"
