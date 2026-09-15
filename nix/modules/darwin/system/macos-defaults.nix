@@ -36,8 +36,23 @@
         FirstClickThreshold = 1;
         SecondClickThreshold = 1;
         TrackpadRightClick = true;
-        TrackpadThreeFingerDrag = true;
+        TrackpadThreeFingerDrag = false;
       };
+
+      # Three-finger swipe between spaces. macOS gives the three-finger gesture
+      # to drag or to swipe, not both, so TrackpadThreeFingerDrag is off above.
+      # Set on both trackpad domains; nix-darwin has no option for these keys.
+      CustomUserPreferences =
+        let
+          swipe = {
+            TrackpadThreeFingerHorizSwipeGesture = 2;
+            TrackpadFourFingerHorizSwipeGesture = 0;
+          };
+        in
+        {
+          "com.apple.AppleMultitouchTrackpad" = swipe;
+          "com.apple.driver.AppleBluetoothMultitouch.trackpad" = swipe;
+        };
     };
 
     keyboard = {
