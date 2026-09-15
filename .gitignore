@@ -21,5 +21,3 @@ nix/result-*
 .*~
 *.un~
 
-# zsh runtime state left over from the pre-nix stow layout
-/zsh
