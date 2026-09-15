@@ -14,8 +14,10 @@
     casks = [
       "1password"
       "claude-code@latest"
+      "figma"
       "ghostty"
       "google-chrome"
+      "slack"
     ];
 
     caskArgs = {

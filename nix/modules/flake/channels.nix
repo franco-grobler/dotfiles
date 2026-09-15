@@ -22,6 +22,7 @@
 let
   # Packages that should track unstable even on stable-based hosts.
   unstableCherryPicks = [
+    "atlas"
     "direnv"
     "gh"
     "neovim"

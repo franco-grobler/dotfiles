@@ -10,10 +10,7 @@
   ...
 }:
 {
-  imports = with features; [
-    base
-    work
-  ];
+  imports = with features; [ base ];
 
   nixpkgs.pkgs = mkPkgs {
     system = "aarch64-darwin";

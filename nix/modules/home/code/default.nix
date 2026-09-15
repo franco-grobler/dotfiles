@@ -2,6 +2,7 @@
 { features, ... }:
 {
   imports = with features; [
+    atlas
     neovim
     languages
     go
