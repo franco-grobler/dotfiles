@@ -48,15 +48,18 @@ nix-switch:
       homeConfigurations)   home-manager switch --flake ".#${NIXNAME}" ;;
     esac
 
-# Activate without making the generation the boot/rollback default.
+# Dry run: build this host and run its activation checks, without activating.
 [group('Nix')]
 [working-directory("nix")]
 nix-test:
     #!/usr/bin/env bash
-    set -euxo pipefail
+    # nix-darwin has no `test`; `check` is the equivalent, and it is what
+    # catches things like unexpected files in /etc before a real switch.
+    set -euo pipefail
     . ../_scripts/set_nix_envs.sh
+    echo "Checking ${NIXCONFIG}.${NIXNAME}"
     case "${NIXCONFIG}" in
-      darwinConfigurations) sudo darwin-rebuild test --flake ".#${NIXNAME}" ;;
+      darwinConfigurations) sudo darwin-rebuild check --flake ".#${NIXNAME}" ;;
       nixosConfigurations)  sudo nixos-rebuild test --flake ".#${NIXNAME}" ;;
       homeConfigurations)   home-manager build --flake ".#${NIXNAME}" ;;
     esac
