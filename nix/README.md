@@ -120,13 +120,21 @@ A host file is a flat inventory of what the machine is made of:
 # modules/darwin/hosts/work-mbp.nix
 { features, home, mkPkgs, ... }:
 {
-  imports = with features; [ base francogrobler work ];
+  imports = with features; [ base work ];
 
   nixpkgs.pkgs = mkPkgs { system = "aarch64-darwin"; channel = "stable"; };
 
-  home-manager.users.francogrobler.imports = with home; [ base dev terminal work ];
+  dotfiles.users.francogrobler = {
+    description = "Franco Grobler";
+    modules = with home; [ base dev terminal work ];
+  };
 }
 ```
+
+`dotfiles.users` is the only place a username appears. The account, the
+home-manager hand-off, `trusted-users`, `system.primaryUser` and group
+membership all follow from it, so adding a host or a second person is a
+declaration rather than a grep. See `darwin/users.nix`.
 
 | Host | Class | Takes |
 | --- | --- | --- |
@@ -187,7 +195,20 @@ just nix-check    # evaluate all three hosts
 just nix-update   # refresh flake.lock
 ```
 
+## Secrets
+
+1Password is the store. The ssh agent, `op-ssh-sign` for git signing and
+`op read` for anything else. Nothing secret is committed and there is no
+sops/age key to carry between machines.
+
+To add a secret, reference it by `op://` URI and read it at the point of use:
+
+```nix
+home.sessionVariables.SOME_API_KEY = "op://Personal/Some Service/credential";
+home.shellAliases.some-cli = "SOME_API_KEY=$(op read $SOME_API_KEY) some-cli";
+```
+
 ## What nix does not manage
 
-`nvim/` and `nvim-prime/` are still stowed into `~/.config` by `install.sh`;
-lazy.nvim manages its own plugin lockfile and does not want nix in the way.
+`install.sh` symlinks `nvim/` into `~/.config` directly; lazy.nvim manages its
+own plugin lockfile and does not want nix in the way.

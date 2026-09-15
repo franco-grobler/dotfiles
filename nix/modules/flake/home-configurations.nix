@@ -1,61 +1,39 @@
-# Stand-alone home-manager outputs, for machines where nix does not own the OS
-# (a work box you do not admin, a remote shell account, WSL). They compose from
-# exactly the same aggregates the system configurations use.
+# Stand-alone home-manager outputs, derived from the hosts rather than restated.
+#
+# Every account a host declares in `dotfiles.users` gets a matching
+# `homeConfigurations."<user>@<host>"`, built from that user's own module list
+# and that host's pkgs. Nothing here needs touching when a host gains a user or
+# changes what it imports.
 {
   config,
   inputs,
-  mkPkgs,
+  lib,
   ...
 }:
 let
-  home = config.flake.modules.homeManager;
+  hosts = config.flake.darwinConfigurations // config.flake.nixosConfigurations;
 
-  mkHome =
-    {
-      system,
-      channel ? "stable",
-      hostName,
-      homeDirectory,
-      modules ? [ ],
-    }:
-    inputs.home-manager.lib.homeManagerConfiguration {
-      pkgs = mkPkgs { inherit system channel; };
-      extraSpecialArgs = {
-        inherit inputs hostName;
-        features = home;
-      };
-      modules = [
-        home.francogrobler
-        { home.homeDirectory = homeDirectory; }
-      ]
-      ++ modules;
-    };
+  homesFor =
+    hostName: host:
+    lib.mapAttrsToList (
+      user: settings:
+      lib.nameValuePair "${user}@${hostName}" (
+        inputs.home-manager.lib.homeManagerConfiguration {
+          inherit (host) pkgs;
+          extraSpecialArgs = {
+            inherit inputs hostName;
+            features = config.flake.modules.homeManager;
+          };
+          modules = settings.modules ++ [
+            {
+              home.username = user;
+              home.homeDirectory = host.config.users.users.${user}.home;
+            }
+          ];
+        }
+      )
+    ) host.config.dotfiles.users;
 in
 {
-  flake.homeConfigurations = {
-    "francogrobler@nixos-x86_64" = mkHome {
-      system = "x86_64-linux";
-      hostName = "nixos-x86_64";
-      homeDirectory = "/home/francogrobler";
-      modules = with home; [
-        base
-        dev
-        terminal
-        desktop
-        personal
-      ];
-    };
-
-    "francogrobler@work-mbp" = mkHome {
-      system = "aarch64-darwin";
-      hostName = "work-mbp";
-      homeDirectory = "/Users/francogrobler";
-      modules = with home; [
-        base
-        dev
-        terminal
-        work
-      ];
-    };
-  };
+  flake.homeConfigurations = lib.listToAttrs (lib.concatLists (lib.mapAttrsToList homesFor hosts));
 }
