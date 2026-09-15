@@ -1,33 +1,36 @@
 #!/usr/bin/env bash
+# Resolves which flake output this machine builds from.
+#
+# Host configurations are keyed by the machine's own hostname, so adding a host
+# to nix/modules/hosts/ is all it takes for this script to find it. Override by
+# exporting NIXNAME before sourcing.
 set -euo pipefail
 
 is_nixos() {
-	# Check if /etc/NixOS/release file exists
-	if [ -f "/etc/NixOS/release" ]; then
-		return 0
-	fi
-
-	# Check if the nixos-version command exists and is executable
-	if command -v nixos-version &>/dev/null; then
-		return 0
-	fi
-
-	# If neither condition is met, it's likely not NixOS
+	[ -f "/etc/NixOS/release" ] && return 0
+	command -v nixos-version &>/dev/null && return 0
 	return 1
 }
 
 os=$(uname -s)
-if [[ $os == "Darwin" ]]; then
-	export NIXNAME="apple-silicone"
+case "$os" in
+Darwin)
+	export NIXNAME="${NIXNAME:-$(scutil --get LocalHostName)}"
 	export NIXCONFIG="darwinConfigurations"
-elif [[ $os == "Linux" ]]; then
-	export NIXNAME="x86_64-linux"
+	;;
+Linux)
+	host="${NIXNAME:-$(hostname -s)}"
 	if is_nixos; then
+		export NIXNAME="$host"
 		export NIXCONFIG="nixosConfigurations"
 	else
+		# Not NixOS: fall back to the stand-alone home-manager output.
+		export NIXNAME="${USER}@${host}"
 		export NIXCONFIG="homeConfigurations"
 	fi
-else
-	echo "Unsupported OS: $os"
+	;;
+*)
+	echo "Unsupported OS: $os" >&2
 	exit 1
-fi
+	;;
+esac

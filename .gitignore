@@ -9,6 +9,7 @@ nvim/*/lazy-lock.json
 
 # Nix
 nix/result
+nix/result-*
 
 # Neovim spell files
 *.spl
@@ -20,6 +21,5 @@ nix/result
 .*~
 *.un~
 
-# zsh
+# zsh runtime state left over from the pre-nix stow layout
 /zsh
-!/zsh/zshrc

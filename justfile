@@ -13,36 +13,65 @@ generate-changelog:
 add-hooks:
     cp pre-push.sh .git/hooks/pre-push
 
-# Bootstrap nix config for the first time.
+# Show which flake output this machine resolves to.
 [group('Nix')]
-nix-bootstrap:
+nix-target:
     #!/usr/bin/env bash
     set -euo pipefail
-    just nix-switch
+    . ./_scripts/set_nix_envs.sh
+    echo "${NIXCONFIG}.${NIXNAME}"
 
-# Update system config.
+# Build this host's configuration without activating it.
+[group('Nix')]
+[working-directory("nix")]
+nix-build:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    . ../_scripts/set_nix_envs.sh
+    case "${NIXCONFIG}" in
+      darwinConfigurations) nix build ".#${NIXCONFIG}.${NIXNAME}.system" ;;
+      nixosConfigurations)  nix build ".#${NIXCONFIG}.${NIXNAME}.config.system.build.toplevel" ;;
+      homeConfigurations)   nix build ".#${NIXCONFIG}.${NIXNAME}.activationPackage" ;;
+    esac
+
+# Activate this host's configuration.
 [group('Nix')]
 [working-directory("nix")]
 nix-switch:
     #!/usr/bin/env bash
     set -euo pipefail
     . ../_scripts/set_nix_envs.sh
-    echo "Update nix config with: "
-    printenv | grep "^NIX[^_]"
-    nix build ".#${NIXCONFIG}.${NIXNAME}.system"
-    sudo ./result/sw/bin/darwin-rebuild switch --flake "$(pwd)#${NIXNAME}"
+    echo "Switching to ${NIXCONFIG}.${NIXNAME}"
+    case "${NIXCONFIG}" in
+      darwinConfigurations) sudo darwin-rebuild switch --flake ".#${NIXNAME}" ;;
+      nixosConfigurations)  sudo nixos-rebuild switch --flake ".#${NIXNAME}" ;;
+      homeConfigurations)   home-manager switch --flake ".#${NIXNAME}" ;;
+    esac
 
-# Test home manager flake.
+# Activate without making the generation the boot/rollback default.
 [group('Nix')]
 [working-directory("nix")]
 nix-test:
     #!/usr/bin/env bash
     set -euxo pipefail
     . ../_scripts/set_nix_envs.sh
-    echo "Test nix config with: "
-    printenv | grep "^NIX[^_]"
-    nix build ".#${NIXCONFIG}.${NIXNAME}.system"
-    sudo ./result/sw/bin/darwin-rebuild test --flake "$(pwd)#${NIXNAME}"
+    case "${NIXCONFIG}" in
+      darwinConfigurations) sudo darwin-rebuild test --flake ".#${NIXNAME}" ;;
+      nixosConfigurations)  sudo nixos-rebuild test --flake ".#${NIXNAME}" ;;
+      homeConfigurations)   home-manager build --flake ".#${NIXNAME}" ;;
+    esac
+
+# Evaluate every host, not just this one.
+[group('Nix')]
+[working-directory("nix")]
+nix-check:
+    nix flake check
+
+# Format every nix file in the repo.
+[group('Nix')]
+[working-directory("nix")]
+nix-fmt:
+    nix fmt
 
 # Update system flake lockfile.
 [group('Nix')]
@@ -51,12 +80,22 @@ nix-update:
     command -v brew >/dev/null 2>&1 && brew update || true
     command -v mas >/dev/null 2>&1 && mas upgrade || true
     nix flake update
-    git add-and-commit nix/flake.lock "chore(nix): update nix flake lockfile" || true
+    git add-and-commit flake.lock "chore(nix): update nix flake lockfile" || true
 
-# Bootstrap nix config for the first time.
+# First run on a fresh machine, before darwin-rebuild/nixos-rebuild exist.
 [group('Nix')]
+[working-directory("nix")]
 nix-bootstrap:
-    just nix-switch
+    #!/usr/bin/env bash
+    set -euo pipefail
+    . ../_scripts/set_nix_envs.sh
+    case "${NIXCONFIG}" in
+      darwinConfigurations)
+        nix build ".#${NIXCONFIG}.${NIXNAME}.system"
+        sudo ./result/sw/bin/darwin-rebuild switch --flake ".#${NIXNAME}"
+        ;;
+      *) just nix-switch ;;
+    esac
 
 # Set up Claude Code MCP servers.
 [group('Dev')]
