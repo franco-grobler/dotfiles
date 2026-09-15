@@ -20,5 +20,5 @@ jobs:
         uses: orhun/git-cliff-action@104a6cf3c9aa0fdfe4eab129f9c1900e1eb8f7fd # main
         id: git-cliff
         with:
-          config: git-cliff/cliff.toml
+          config: nix/modules/home/vcs/git-cliff/cliff.toml
           args: -vv --latest --no-exec --github-repo ${{ github.repository }}
