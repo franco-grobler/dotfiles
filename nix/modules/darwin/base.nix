@@ -2,6 +2,7 @@
 {
   imports = with features; [
     system
+    users
     homebrew
   ];
 }

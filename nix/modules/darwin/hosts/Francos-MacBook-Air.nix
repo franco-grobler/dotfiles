@@ -8,7 +8,6 @@
 {
   imports = with features; [
     base
-    francogrobler
     personal
   ];
 
@@ -17,11 +16,14 @@
     channel = "stable";
   };
 
-  home-manager.users.francogrobler.imports = with home; [
-    base
-    dev
-    terminal
-    monitor
-    personal
-  ];
+  dotfiles.users.francogrobler = {
+    description = "Franco Grobler";
+    modules = with home; [
+      base
+      dev
+      terminal
+      monitor
+      personal
+    ];
+  };
 }

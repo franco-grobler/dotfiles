@@ -7,6 +7,14 @@
 # Determinate's nix.conf ends with `!include nix.custom.conf`, which is the
 # supported place for local settings, and nix-darwin can own that file.
 {
+  config,
+  lib,
+  ...
+}:
+let
+  trustedUsers = lib.concatStringsSep " " ([ "root" ] ++ lib.attrNames config.dotfiles.users);
+in
+{
   nix.enable = false;
 
   environment.etc."nix/nix.custom.conf" = {
@@ -22,7 +30,7 @@
     ];
 
     text = ''
-      trusted-users = root francogrobler
+      trusted-users = ${trustedUsers}
 
       extra-substituters = https://devenv.cachix.org
       extra-trusted-public-keys = devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=

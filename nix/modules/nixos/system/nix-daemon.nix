@@ -1,3 +1,4 @@
+{ config, lib, ... }:
 {
   nix.settings = {
     experimental-features = [
@@ -6,10 +7,8 @@
     ];
     keep-outputs = true;
     keep-derivations = true;
-    trusted-users = [
-      "root"
-      "francogrobler"
-    ];
+    # NixOS already defaults this to [ "root" ]; the list merges.
+    trusted-users = lib.attrNames config.dotfiles.users;
     extra-substituters = [ "https://devenv.cachix.org" ];
     extra-trusted-public-keys = [
       "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="

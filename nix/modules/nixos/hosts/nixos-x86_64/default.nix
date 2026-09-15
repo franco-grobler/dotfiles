@@ -8,7 +8,6 @@
 {
   imports = with features; [
     base
-    francogrobler
     docker
     desktop
     ./hardware-configuration.nix
@@ -26,14 +25,17 @@
     efi.canTouchEfiVariables = true;
   };
 
-  home-manager.users.francogrobler.imports = with home; [
-    base
-    dev
-    terminal
-    monitor
-    desktop
-    personal
-    # A single program can be added here too — e.g. `lazysql` — without going
-    # through a group.
-  ];
+  dotfiles.users.francogrobler = {
+    description = "Franco Grobler";
+    modules = with home; [
+      base
+      dev
+      terminal
+      monitor
+      desktop
+      personal
+      # A single program can be added here too -- e.g. `lazysql` -- without
+      # going through a group.
+    ];
+  };
 }

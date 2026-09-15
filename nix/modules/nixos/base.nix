@@ -1,4 +1,7 @@
 { features, ... }:
 {
-  imports = with features; [ system ];
+  imports = with features; [
+    system
+    users
+  ];
 }
