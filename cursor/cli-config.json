@@ -28,38 +28,116 @@
       "Shell(git pull)",
       "Shell(git:pull*)",
       "Shell(git push)",
-      "Shell(git:push*)"
+      "Shell(git:push*)",
+      "Shell(gh)",
+      "Shell(gh *)",
+      "Shell(gh:*)"
     ]
   },
   "version": 1,
   "editor": {
     "vimMode": true
   },
+  "display": {
+    "showLineNumbers": true,
+    "showThinkingBlocks": true,
+    "showStatusIndicators": true,
+    "showStatusLineRunningTime": false
+  },
   "notifications": true,
   "hints": true,
   "rewind": false,
-  "suggestNextPrompt": true,
+  "suggestNextPrompt": false,
   "model": {
-    "modelId": "default",
-    "displayModelId": "auto",
-    "displayName": "Auto",
-    "displayNameShort": "Auto",
-    "aliases": ["auto"],
+    "modelId": "grok-4.5",
+    "displayModelId": "grok-4.5",
+    "displayName": "Cursor Grok 4.5 High Fast",
+    "displayNameShort": "Cursor Grok 4.5 High Fast",
+    "aliases": [],
     "maxMode": false
   },
   "hasChangedDefaultModel": true,
   "maxMode": false,
   "modelParameters": {
-    "default": []
+    "default": [],
+    "claude-fable-5": [
+      {
+        "id": "thinking",
+        "value": "true"
+      },
+      {
+        "id": "context",
+        "value": "300k"
+      },
+      {
+        "id": "effort",
+        "value": "high"
+      }
+    ],
+    "gpt-5.3-codex": [
+      {
+        "id": "reasoning",
+        "value": "medium"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ],
+    "gpt-5.6-sol": [
+      {
+        "id": "context",
+        "value": "1m"
+      },
+      {
+        "id": "reasoning",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ],
+    "grok-4.5": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "true"
+      }
+    ],
+    "composer-2.5": [
+      {
+        "id": "fast",
+        "value": "true"
+      }
+    ],
+    "glm-5.2": [
+      {
+        "id": "reasoning",
+        "value": "max"
+      }
+    ]
   },
   "selectedModel": {
-    "modelId": "default",
-    "parameters": []
+    "modelId": "grok-4.5",
+    "parameters": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "true"
+      }
+    ]
   },
   "privacyCache": {
     "ghostMode": true,
     "privacyMode": 2,
-    "updatedAt": 1780039963600
+    "updatedAt": 1785743336999
   },
   "serverConfigCache": {
     "backendUrl": "https://api2.cursor.sh",
@@ -71,7 +149,7 @@
     },
     "cliSandboxDefaultEnabled": false,
     "serverHttp2Config": 0,
-    "updatedAt": 1779975841823
+    "updatedAt": 1785493569381
   },
   "authInfo": {
     "email": "franco.grobler@cloudsmiths.ai",
@@ -86,8 +164,13 @@
   },
   "approvalMode": "unrestricted",
   "sandbox": {
-    "mode": "disabled"
+    "mode": "disabled",
+    "networkAccess": "user_config_with_defaults"
   },
   "showSandboxIntro": false,
-  "runEverythingSettingsPromptStreak": 0
+  "runEverythingSettingsPromptStreak": 0,
+  "attribution": {
+    "attributeCommitsToAgent": true,
+    "attributePRsToAgent": true
+  }
 }
