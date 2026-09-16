@@ -136,6 +136,8 @@ All notable changes to this project will be documented in this file.
 - *(nix)* [**breaking**] Rebuild the flake as a dendritic module tree
 - *(nix)* Derive the stand-alone home configs from the hosts
 - *(nix)* Macos defaults
+- *(nix)* Tmux config and colour palette
+- *(nix)* Zsh cleanup
 
 ### 📚 Documentation
 
@@ -395,6 +397,9 @@ All notable changes to this project will be documented in this file.
 - Cleanup
 - *(nix)* Cleanup
 - Claude said it could improve
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- Generate changelog
 
 ## [1.0.0] - 2025-07-16
 
