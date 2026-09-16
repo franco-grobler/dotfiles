@@ -7,12 +7,6 @@
     dotDir = "${config.xdg.configHome}/zsh";
     syntaxHighlighting.enable = true;
     initContent = ''
-      # Nix
-      if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
-        . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
-      fi
-      # End Nix
-
       # hm-session-vars.sh guards itself with __HM_SESS_VARS_SOURCED, which is
       # exported and therefore inherited by every child process. Long-lived
       # parents (the tmux server, Ghostty) keep that flag set across a rebuild,
@@ -22,7 +16,7 @@
       . "${config.home.profileDirectory}/etc/profile.d/hm-session-vars.sh"
 
       # Dotfiles
-      source "$HOME/.config/zsh/zshrc"
+      source "${config.xdg.configHome}/zsh/zshrc"
     '';
   };
 

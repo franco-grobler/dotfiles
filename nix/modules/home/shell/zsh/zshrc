@@ -1,7 +1,7 @@
 # Nix file limits
 ulimit -n 10240
 
-# Autocomplete
+# Keybindings
 bindkey '^w' autosuggest-execute
 bindkey '^e' autosuggest-accept
 bindkey '^u' autosuggest-toggle
@@ -9,25 +9,21 @@ bindkey '^L' vi-forward-word
 bindkey '^k' up-line-or-search
 bindkey '^j' down-line-or-search
 
-if [[ $(uname) == 'Darwin' ]]; then
-	# Homebrew
-	export PATH="/opt/homebrew/bin:$PATH"
-	export PATH="/opt/homebrew/sbin:$PATH"
-	eval "$(/opt/homebrew/bin/brew shellenv)"
+# Aliases
+alias awsp="source _awsp"
 
-	# NVM
-	export NVM_DIR="$HOME/.nvm"
-	[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"                                       # This loads nvm
-	[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
+if [[ "$(uname)" == 'Darwin' ]]; then
+  # Homebrew (sets PATH, MANPATH, INFOPATH for bin/ and sbin/)
+  eval "$(/opt/homebrew/bin/brew shellenv)"
 
-  # Rust builds
+  # Rust builds (LLVM toolchain)
   export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
   export CC="/opt/homebrew/opt/llvm/bin/clang"
   export AR="/opt/homebrew/opt/llvm/bin/llvm-ar"
 
-  # Mole
-  if output="$(mole completion zsh 2>/dev/null)"; then eval "$output"; fi
+  # Mole completions
+  if _mole_completion="$(mole completion zsh 2>/dev/null)"; then
+    eval "$_mole_completion"
+  fi
+  unset _mole_completion
 fi
-
-# AWS
-alias awsp="source _awsp"
