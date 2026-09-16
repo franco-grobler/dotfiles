@@ -59,7 +59,7 @@ let
       inherit isLinux;
     })
     (import "${currentDir}/programs/python.nix")
-    (import "${currentDir}/programs/shells.nix" { inherit shellAliases; })
+    (import "${currentDir}/programs/shells.nix" { inherit shellAliases config; })
     (import "${currentDir}/programs/tuis.nix")
     (import "${currentDir}/programs/utils.nix" {
       inherit osConfig systemName isDarwin;
@@ -106,7 +106,7 @@ in
         lolcat
         neovim
         nodejs
-        nixfmt-rfc-style
+        nixfmt
         ookla-speedtest
         posting
         python314

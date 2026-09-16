@@ -1,4 +1,4 @@
-{ shellAliases }:
+{ shellAliases, config }:
 {
   programs = {
     bash = {
@@ -21,6 +21,7 @@
         enable = true;
       };
       defaultKeymap = "vicmd";
+      dotDir = "${config.xdg.configHome}/zsh";
       initContent = ''
         # Nix
         if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then

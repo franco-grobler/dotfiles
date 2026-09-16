@@ -38,6 +38,7 @@
       "podman-desktop"
       "slack"
       "skim"
+      "sonarqube-cli"
       "vial"
       "qmk-toolbox"
     ];
