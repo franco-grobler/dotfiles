@@ -20,7 +20,11 @@ in
     keyMode = "vi";
     mouse = true;
     secureSocket = false;
-    terminal = "\${TERM}";
+    # default-terminal describes the terminal tmux *emulates* for the programs
+    # inside it, not the one it is running in. Passing the outer ${TERM} through
+    # makes those programs believe they are talking to Ghostty directly and emit
+    # sequences tmux does not implement, which renders as subtly wrong colours.
+    terminal = "tmux-256color";
     plugins = with pkgs.tmuxPlugins; [
       sensible
       yank
@@ -28,13 +32,41 @@ in
       continuum
       tmux-fzf
       fzf-tmux-url
-      catppuccin
+      # catppuccin builds window-status-format and the theme palette at
+      # run-shell time, so every @catppuccin_* option has to be set *before*
+      # the plugin loads. Home Manager emits a plugin's own extraConfig ahead
+      # of its run-shell line; the global extraConfig below runs after every
+      # plugin, which is far too late.
+      {
+        plugin = catppuccin;
+        extraConfig = ''
+          set -g @catppuccin_flavor "mocha"
+          set -g @catppuccin_directory_text "#{b:pane_current_path}"
+          set -g @catppuccin_date_time_text "%Y-%m-%d %H:%M"
+          set -g @catppuccin_window_status_style "rounded"
+          set -g @catppuccin_window_current_text "#W#{?window_zoomed_flag,(),}"
+          set -g @catppuccin_window_text "#W"
+
+          # The *_current_* separators are derived from the plain ones with
+          # `set -ogqF`, i.e. only-if-unset, so they survive a re-source and
+          # keep whatever the last load computed. Switching style (or reloading
+          # after fixing one) otherwise leaves the current window wearing the
+          # old style's separators. Clear them so each source-file recomputes.
+          set -guq @catppuccin_window_current_left_separator
+          set -guq @catppuccin_window_current_middle_separator
+          set -guq @catppuccin_window_current_right_separator
+        '';
+      }
     ];
     extraConfig = ''
       source-file ~/.config/tmux/tmux.reset.conf
 
       set-option -g allow-passthrough on
-      set-option -g terminal-overrides ',xterm*:Tc'
+      # Truecolor is a property of the *outer* terminal, so it is declared with
+      # terminal-features keyed on the client's TERM. RGB supersedes the older
+      # Tc override, and -as appends rather than clobbering tmux's own defaults.
+      set-option -as terminal-features ',xterm*:RGB'
+      set-option -as terminal-features ',*ghostty*:RGB'
 
       set-option -g renumber-windows on
       set-option -g detach-on-destroy off
@@ -55,13 +87,6 @@ in
       # with resurrect's own binding (prefix + C-r).
       set -g @continuum-restore 'off'
       set -g @resurrect-strategy-nvim 'session'
-
-      set -g @catppuccin_flavor "mocha"
-      set -g @catppuccin_directory_text "#{b:pane_current_path}"
-      set -g @catppuccin_date_time_text "%Y-%m-%d %H:%M"
-      set -g @catppuccin_window_status_style "rounded"
-      set -g @catppuccin_window_current_text "#W#{?window_zoomed_flag,(),}"
-      set -g @catppuccin_window_text "#W"
 
       set -g status-position top
       set -g status-right-length 100
