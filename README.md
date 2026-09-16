@@ -38,4 +38,4 @@ the lints, and is what CI runs on both linux and macOS. `nix fmt` formats the
 whole repo -- nix, shell, lua, and the workflows.
 
 A program that ships config files is a folder holding both — e.g.
-`nix/modules/home/terminal/tmux/{default.nix,tmux.reset.conf}`.
+`nix/modules/home/terminal/tmux/{default.nix,tmux.conf,theme.conf,keybindings.conf}`.

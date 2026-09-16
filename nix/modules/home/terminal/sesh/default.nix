@@ -2,7 +2,7 @@
 # zoxide's frecent directories, and `connect -T` starts a project through
 # tmuxinator when it isn't already running -- so a session costs nothing until
 # it is chosen, and choosing it is the same keystroke either way.
-{ config, pkgs, ... }:
+{ _, pkgs, ... }:
 {
   home.packages = [ pkgs.sesh ];
 
@@ -25,7 +25,7 @@
     bind-key -N "Pick a session" o run-shell -b "${pkgs.sesh}/bin/sesh connect -T \"$(${pkgs.sesh}/bin/sesh list -T -t -z -i -H | ${pkgs.fzf}/bin/fzf-tmux -p 80%,70% --no-sort --ansi --prompt='session> ')\""
 
     # C-o -- jump back to the previous session. (Plain L is next-window in
-    # tmux.reset.conf, and o/C-o only shadow tmux's default select-pane.)
+    # tmux's keybindings.conf, and o/C-o only shadow tmux's default select-pane.)
     bind-key -N "Last session" C-o run-shell "${pkgs.sesh}/bin/sesh last"
   '';
 }
