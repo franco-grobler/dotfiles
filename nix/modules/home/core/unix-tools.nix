@@ -24,7 +24,6 @@
       wget
       yazi
       yq
-      zoxide
     ]
     ++ lib.optionals pkgs.stdenv.isLinux [ xclip ];
 }

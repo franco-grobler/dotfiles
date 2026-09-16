@@ -10,6 +10,7 @@
     atuin
     carapace
     direnv
+    zoxide
     just
   ];
 }
