@@ -6,6 +6,400 @@ All notable changes to this project will be documented in this file.
 
 ### 🚀 Features
 
+- *(nvim)* Add copilot chat and edgy
+- *(nix)* Use homebrew for flutter and dependencies
+- *(nix)* Configure 1password commit signing
+- *(nix)* Update lockfile
+- *(nvim)* Add file type for arb files
+- *(nix)* Add sshs package to home configuration
+- *(nix)* Add podman compose
+- *(nix)* Add norm to ssh config
+- *(nvim)* Lazy load flutter plugins
+- *(nix)* Add wireguard to mas apps
+- *(nix)* Add uv to packages
+- *(nix)* Get uv from unstable packages
+- *(nvim)* Add spelling config
+- *(nvim)* Configure sql formatter
+- *(nix)* Add devenv
+- *(nix)* Add keka
+- *(nix)* Add denvenv cachix config
+- *(nix)* Add openwrt ssh config
+- *(nix)* Add vial
+- *(nix)* Add qmk
+- *(nix)* Add numbers to mas apps
+- *(nix)* Add vimlike safari extention
+- *(nix)* Add jaq and yq
+- *(zsh)* Cleanup zsh config
+- *(nix)* Add francogrobler to trusted users
+- *(nix)* Drop uv, add zoxide
+- *(nix)* Add python 3.14
+- *(nix)* Add drawio cask for mac
+- *(nix)* Add nix formatter
+- *(zsh)* Drop drawio alias
+- *(nvim)* Add opencode nvim
+- *(nvim)* Add inkskape and opencode
+- *(nix)* Add anydesk
+- *(zsh)* Load nvm config for darwin
+- *(nvim)* Lsp config
+- *(nix)* Add statix
+- *(nvim)* Autocommit lazy lockfile autocmd
+- *(nix)* Add add and commit git alias
+- Autocommit nix flake lockfile on nix-update recipe
+- *(bat)* Update config
+- *(nix)* Add tui programs
+- *(lazygit)* Update config file
+- *(nix)* Format clis and add bat
+- *(nix)* Add lazysql
+- *(tmux)* Cleanup and update base index
+- *(nvim)* Drop ai plugins
+- *(atuin)* Update filters
+- *(nix)* Bump nix version
+- *(nix)* Add devbox
+- *(lazygit)* Allow gpg override
+- *(nix)* Add duf
+- *(nix)* Add mole
+- *(zsh)* Add mole completions
+- *(nix)* Add kicad
+- *(nix)* Add posting to installed apps
+- *(nix)* Add jqp
+- *(nvim)* Update spell
+- *(nix)* Add git alias for clearing untracked files
+- *(nvim)* Use tex-fmt for latex formatter
+- *(nix)* Use unstable direnv
+- *(nix)* Colima migration (#7)
+- *(nvim)* Add colour line at column 80
+- *(colima)* Add default config and ssh config
+- *(btop)* Add config
+- *(htop)* Add config
+- *(lazysql)* Add config
+- *(posting)* Add config
+- *(pnpm)* Add config
+- *(nix)* Add claude code
+- Add opencode and claude configs
+- *(nvim)* Setup tinymist
+- *(nix)* Install figma
+- *(colima)* Update config
+- *(nix)* Add slack
+- *(nvim)* Add colour line at column 80
+- *(nix)* Drop podman
+- *(claude)* Add config
+- *(nvim)* Typst lsp settings
+- *(nix)* Give the linux host a hyprland session
+- *(nix)* Run dockerd natively on linux
+- *(nix)* Declare a host's accounts instead of hardcoding one
+- *(nix)* Declare slack, figma and atlas
+- Add just nix-hardware to regenerate the linux hardware config
+- *(nix)* Add work profile
+- *(nix)* Add sesh and tmuxinator
+- *(nix)* Update tmux config
+
+### 🐛 Bug Fixes
+
+- *(zsh)* Add homebrew to path on darwin
+- *(nix)* Supress podman compose warning logs
+- *(ghostty)* Add theme
+- *(nix)* Homebrew upgrades
+- *(nix)* Gemini cli alias
+- *(nix)* Update drawio alias
+- *(nvim)* Fix lsps
+- *(nix)* Autocommit lockfile on update
+- *(nix)* Comment broken configs
+- *(nix)* Drop deprecated package
+- *(nix)* Update git config
+- *(nix)* Update outdated configs
+- *(nvim)* Lazy lockfile autocommit
+- *(gh)* Update username
+- *(zsh)* Clear unused setups
+- *(nix)* Vsc aliasses
+- *(nix)* Use git alias to for autocommand
+- *(nvim)* Autocommit lockfile on update
+- *(nix)* Go path
+- *(nix)* Go path
+- *(nix)* Set dotdir for zsh shell
+- *(nix)* Make the linux host bootable
+- *(ci)* Point git-cliff at the relocated config
+- *(nix)* Make the darwin nix settings actually apply
+- Link the neovim configs directly, drop stow and sops
+- *(nix)* Host updates
+- Use darwin-rebuild check, not test
+- *(nix)* Three finger swipe being reset
+
+### 💼 Other
+
+- *(nix)* Configure 1password ssh agent
+- *(nix)* Dentric configuration
+
+### 🚜 Refactor
+
+- *(nix)* Install gui apps with homebrew on darwin
+- *(nix)* Use with syntax for package list
+- *(nix)* [**breaking**] Rebuild the flake as a dendritic module tree
+- *(nix)* Derive the stand-alone home configs from the hosts
+- *(nix)* Macos defaults
+
+### 📚 Documentation
+
+- *(nix)* Document the module layout
+
+### ⚙️ Miscellaneous Tasks
+
+- *(nix)* Update flake
+- *(nvim)* Update lockfile
+- *(nvim)* Update lockfile
+- *(nix)* Update flake lockfile
+- Add flake update recipe to justfile
+- *(nix)* Update flake lockfile
+- *(nix)* Update flake lockfile
+- *(nix)* Update lockfile
+- *(nvim)* Update lockfile
+- *(nix)* Add comment for homebrew chrome installations
+- *(nix)* Update flake lockfile
+- *(nvim)* Update lazy lockfile
+- Run brew update as part of nix update
+- *(nix)* Update flake lockfile
+- *(nix)* Update flake lockfile
+- *(nvim)* Update lockfile
+- *(nix)* Format nix files
+- *(nix)* Cleanup
+- *(nix)* Update lockfile
+- *(nvim)* Formatting and cleanup
+- *(nix)* Cleanup vscs
+- *(nix)* Update lockfile
+- *(nvim)* Update lockfile
+- *(nvim)* Update lockfile
+- *(nvim)* Update lockfile
+- *(nix)* Update lockfile
+- *(nix)* Update nix flake lockfile
+- *(nix)* Format shells
+- *(nix)* Cleanup home manager
+- *(nvim)* Update lazynvim lockfile
+- *(nvim)* Update lazynvim lockfile
+- *(nvim)* Update lazynvim lockfile
+- *(nvim)* Update lazynvim lockfile
+- *(nvim)* Update lazynvim lockfile
+- *(nvim)* Update lazynvim lockfile
+- *(nvim)* Update lazynvim lockfile
+- *(nvim)* Update lazynvim lockfile
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lazynvim lockfile
+- *(nvim)* Update lazynvim lockfile
+- *(nix)* Format flake
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lazynvim lockfile
+- *(nvim)* Update lockfile
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nix)* Cleanup darwin module
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lazy lockfile
+- *(nix)* Update nix flake lockfile
+- *(nix)* Formatting
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lockfile
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nix)* Update nix flake lockfile
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nix)* Update nix flake lockfile
+- *(nix)* Homebrew installed casks cleanup
+- *(nvim)* Update lazy lockfile
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nix)* Update nix flake lockfile
+- *(nix)* Cleanup
+- Update git ignore
+- *(nvim)* Update lazy lockfile
+- *(nix)* Cleanup quotes
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nix)* Update nix flake lockfile
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update spelling
+- *(nvim)* Update lazy lockfile
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update spelling
+- *(nvim)* Update lockfile
+- *(nvim)* Ignore spelling binary files
+- *(nix)* Update nix flake lockfile
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Spell list update
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lazy lockfile
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Spelling and lazynvim extra
+- Update mas on nix update recipe
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lazy lockfile
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update colour column location
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nix)* Update nix flake lockfile
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nix)* Update nix flake lockfile
+- *(nix)* Update nix flake lockfile
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lazy lockfile
+- *(nix)* Bump to 26-05
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lazy lockfile
+- Update zsh ignores
+- *(nix)* Fix warnings
+- *(nvim)* Update lazy lockfile
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lazy lockfile
+- *(nix)* Update nix flake lockfile
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nix)* Update nix flake lockfile
+- *(nvim)* Update lockfile
+- *(claude)* Updated permissions
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nvim)* Update lazy lockfile
+- *(nix)* Update lockfile
+- *(nix)* Cleanup and migration
+- (nvim): lazyvim settings and lockfile
+- Add node modules to stow ignore
+- Ignore zsh with stow
+- Drop configs already superseded by nix
+- Resolve the nix target from the machine's hostname
+- *(nvim)* Update lazy lockfile
+- Evaluate every host and build the linux one on push
+- Provision the nix github token from 1password
+- *(nvim)* Update lockfile
+- Stop home-manager writing its zsh dotdir into the repo
+- Cleanup plan file
+- Cleanup
+- Cleanup
+- *(nix)* Cleanup
+- Claude said it could improve
+
+## [1.0.0] - 2025-07-16
+
+### 🚀 Features
+
 - *(alacritty)* Added alacritty config
 - *(homebrew)* Added homebrew leaves
 - *(starship)* Added starship config files
@@ -79,6 +473,8 @@ All notable changes to this project will be documented in this file.
 - *(lazygit)* Override gpg key
 - *(just)* Add lols
 - *(zsh)* Add atlas autocomplete
+- *(nvim)* Add biome formatter
+- *(nvim)* Add nvim coverage
 - *(nix)* Add config file
 - *(nix)* Refactor setup
 - *(nix)* Set home manager backup file extension
@@ -88,6 +484,33 @@ All notable changes to this project will be documented in this file.
 - *(nushell)* Add basic config files
 - Add nix home manager tet as justfile recipe
 - *(nix)* Fix flake
+- *(nix)* Add adobe acrobat reader for darwin
+- *(nix)* Add missing packages
+- *(nix)* Handle all homebrew config in homemanager
+- *(nix)* Enable autosuggestions in home-manager
+- *(nix)* Disable homebrew upgrade on switch
+- *(nix)* Update home manager config
+- *(nix)* Add mkcofnig for non nix linux os configurations
+- *(nix)* Add nixos configuration
+- *(nix)* Add some system configs to darwin
+- *(nix)* Add nh nix util
+- *(starship)* Enable direnv
+- *(nvim)* Add opentofu config
+- *(nvim)* Add copilot ai extra
+- *(nix)* Add rustup and ookla speedtest packages
+- *(nvim)* Enable spellcheck by default
+- *(nix)* Add gemini cli
+- *(atuin)* Create config file
+- Ensure just recipe nix-switch will run on all operating systems correctly
+- *(nix)* Add stow to darwin packages
+- *(nvim)* Add ansibel lang pack
+- *(nix)* Add wsl machine
+- *(nix)* Add nix wsl config
+- *(nix)* Add freecad to darwin brew casks
+- *(ci)* Add cd workflow
+- Cleanup stow ignore and rc file
+- Set wsl in set nix envs script
+- *(ci)* Publish changelog on tag
 
 ### 🐛 Bug Fixes
 
@@ -101,6 +524,16 @@ All notable changes to this project will be documented in this file.
 - *(zsh)* Specify editor independent of installer
 - *(lazygit)* Fix all branches log commands
 - *(just)* Fix global justfile reboot and shutdown recipes
+- *(nix)* Remove user groups from nix conf
+- *(nix)* Split programs into separate files
+- *(nix)* Fix homebrew casks directory
+- *(nix)* Enable zsh for default shell
+- *(nix)* Fix nh config
+- *(nix)* Disable ctrl fn key swap
+- *(nvim)* Remove filetype.nvim
+- *(nix)* Gemini cli is not available for darwin
+- *(nix)* Fix nh config
+- *(cd)* Fix git cliff config file location
 
 ### 💼 Other
 
@@ -113,6 +546,14 @@ All notable changes to this project will be documented in this file.
 - *(just)* Remove private recipes for system group
 - *(zsh)* Cleanup rc file
 - *(nvim)* Backup old nvim config
+- *(zsh)* Cleanup zshrc
+- *(zsh)* Cleanup unnecessary sourced file
+- *(zsh)* Cleanup config set in home manager
+- Cleanup config set in home manager
+- *(nix)* Split programs into separate files
+- *(nix)* Rename system to nixos
+- *(nix)* Rename machine to machine system
+- *(nix)* Cleanup configs
 
 ### ⚙️ Miscellaneous Tasks
 
@@ -164,9 +605,27 @@ All notable changes to this project will be documented in this file.
 - Update changelog
 - Update changelog
 - *(nvim)* Update lockfile
+- *(nvim)* Update lockfile
+- *(nvim)* Update lockfile
 - Update changelog
 - Update changelog
 - Ignore nix builds
 - *(nix)* Formatting
+- Update changelog
+- *(nix)* Cleanup & fix files
+- Do not show full trace for nix-darwin builds
+- *(nix)* Create config file directory
+- *(nvim)* Update lockfile
+- *(nvim)* Update lockfile
+- *(nvim)* Cleanup redundancies and fix flutter setup call
+- Update readme
+- *(nu)* Delete nu shell config
+- *(nvim)* Update lockfile
+- Ignore nix results in results
+
+### ◀️ Revert
+
+- *(nix)* Give up on conditional imports for programs
+- *(nix)* Remove istat menus from homebrew casks
 
 <!-- generated by git-cliff -->
