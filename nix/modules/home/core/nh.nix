@@ -1,6 +1,11 @@
 # `nh os switch` / `nh home switch` without having to remember which output
 # class this host lives under.
-{ pkgs, hostName, ... }:
+{
+  config,
+  pkgs,
+  hostName,
+  ...
+}:
 let
   inherit (pkgs.stdenv) isDarwin isLinux;
   outputClass =
@@ -18,6 +23,6 @@ in
       enable = true;
       extraArgs = "--keep-since 7d --keep 2";
     };
-    flake = "$HOME/dotfiles/nix#${outputClass}.${hostName}";
+    flake = "${config.dotfiles.root}/nix#${outputClass}.${hostName}";
   };
 }

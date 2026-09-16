@@ -1,6 +1,6 @@
 # Nix configuration
 
-Nothing is listed anywhere. The tree *is* the configuration: files are
+Nothing is listed anywhere. The tree _is_ the configuration: files are
 discovered by `modules/flake/leaves.nix`, and where a file sits determines what
 it is called.
 
@@ -26,7 +26,7 @@ paste it straight out of the home-manager manual:
 }
 ```
 
-That file *is* `flake.modules.homeManager.lazygit`.
+That file _is_ `flake.modules.homeManager.lazygit`.
 
 A program that ships config files gets a folder of its own, so the module and
 its files travel together and the files keep their natural names:
@@ -46,13 +46,13 @@ vcs/
 
 ## Naming
 
-| Path | Aggregate |
-| --- | --- |
-| `home/vcs/git.nix` | `homeManager.git` |
-| `home/vcs/lazygit/default.nix` | `homeManager.lazygit` |
-| `home/vcs/default.nix` | `homeManager.vcs` |
-| `home/base.nix` | `homeManager.base` |
-| `darwin/hosts/work-mbp.nix` | `darwin."hosts/work-mbp"` |
+| Path                           | Aggregate                 |
+| ------------------------------ | ------------------------- |
+| `home/vcs/git.nix`             | `homeManager.git`         |
+| `home/vcs/lazygit/default.nix` | `homeManager.lazygit`     |
+| `home/vcs/default.nix`         | `homeManager.vcs`         |
+| `home/base.nix`                | `homeManager.base`        |
+| `darwin/hosts/work-mbp.nix`    | `darwin."hosts/work-mbp"` |
 
 **A file is named after itself, wherever it sits.** Folders are for reading, not
 for naming — moving `lazygit.nix` from `vcs/` to `code/` changes nothing. Two
@@ -136,11 +136,11 @@ home-manager hand-off, `trusted-users`, `system.primaryUser` and group
 membership all follow from it, so adding a host or a second person is a
 declaration rather than a grep. See `darwin/users.nix`.
 
-| Host | Class | Takes |
-| --- | --- | --- |
-| `Francos-MacBook-Air` | darwin | base, dev, terminal, monitor, **personal** |
-| `work-mbp` | darwin | base, dev, terminal, **work** — no `monitor`, no personal identity |
-| `nixos-x86_64` | nixos | base, dev, terminal, monitor, **desktop**, **personal** |
+| Host                  | Class  | Takes                                                              |
+| --------------------- | ------ | ------------------------------------------------------------------ |
+| `Francos-MacBook-Air` | darwin | base, dev, terminal, monitor, **personal**                         |
+| `work-mbp`            | darwin | base, dev, terminal, **work** — no `monitor`, no personal identity |
+| `nixos-x86_64`        | nixos  | base, dev, terminal, monitor, **desktop**, **personal**            |
 
 The filename is the configuration name, so `darwin-rebuild switch --flake .`
 resolves by hostname. Stand-alone home-manager outputs exist too:
@@ -176,14 +176,18 @@ nixpkgs' release matches its own branch. To base a host on unstable, move
 `modules/flake/` is the only place flake-parts modules live, and the only place
 `flake.modules` is mentioned.
 
-| File | Role |
-| --- | --- |
-| `leaves.nix` | walks the tree and turns paths into aggregates |
-| `module-classes.nix` | declares `flake.modules.<class>.<name>` as a lazy option tree |
-| `channels.nix` | provides the `mkPkgs` argument |
-| `configurations.nix` | `hosts/*` → `darwinConfigurations` / `nixosConfigurations` |
-| `home-configurations.nix` | stand-alone home-manager outputs |
-| `systems.nix`, `formatter.nix` | `perSystem` outputs: formatter, dev shell |
+| File                      | Role                                                                         |
+| ------------------------- | ---------------------------------------------------------------------------- |
+| `leaves.nix`              | walks the tree and turns paths into aggregates                               |
+| `module-classes.nix`      | declares `flake.modules.<class>.<name>` as a lazy option tree                |
+| `channels.nix`            | provides the `mkPkgs` argument                                               |
+| `configurations.nix`      | `hosts/*` → `darwinConfigurations` / `nixosConfigurations`                   |
+| `home-configurations.nix` | stand-alone home-manager outputs                                             |
+| `systems.nix`             | which systems `perSystem` outputs are built for                              |
+| `formatter.nix`           | `nix fmt` for the whole repo, not just the nix tree                          |
+| `checks.nix`              | re-exposes every host as a `checks` output, so `nix flake check` builds them |
+| `git-hooks.nix`           | the pre-commit / pre-push hooks, installed by the dev shell                  |
+| `dev-shell.nix`           | `nix develop`: the hooks, the linters, `nixd`                                |
 
 ## Day to day
 

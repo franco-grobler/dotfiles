@@ -4,10 +4,12 @@
 {
   imports = with features; [
     state-version
+    repo
     xdg
     locale
     fonts
     unix-tools
+    nix-tools
     bat
     glow
     nh

@@ -53,10 +53,17 @@ let
 
       channelsOverlay = _final: _prev: { inherit stable unstable; };
 
+      # A cherry-pick that upstream has renamed or dropped would otherwise
+      # fail as a bare "attribute missing" at whichever module happened to use
+      # it, with nothing pointing back at this list. Name the culprit here.
       cherryPickOverlay =
         _final: prev:
         prev.lib.optionalAttrs (channel != "unstable") (
-          prev.lib.genAttrs unstableCherryPicks (name: unstable.${name})
+          prev.lib.genAttrs unstableCherryPicks (
+            name:
+            unstable.${name}
+              or (throw "unstableCherryPicks: '${name}' no longer exists in nixpkgs-unstable -- rename or remove it in modules/flake/channels.nix")
+          )
         );
     in
     import base {

@@ -66,7 +66,9 @@ let
   # $HOME/ -- that survives quoting, which the paths with spaces in them need.
   shellPath = p: q (if lib.hasPrefix "~/" p then "$HOME/" + lib.removePrefix "~/" p else p);
 
-  mkPane = root: p: if p == "." then "        -" else "        - cd ${shellPath p}";
+  # Pane paths are resolved by tmuxinator against the window's own root, so
+  # this does not need to know it.
+  mkPane = p: if p == "." then "        -" else "        - cd ${shellPath p}";
 
   mkWindow =
     w:
@@ -81,7 +83,7 @@ let
         ++ lib.optional (w.root != null) "      root: ${q w.root}"
         ++ lib.optional (w.layout != null) "      layout: ${q w.layout}"
         ++ [ "      panes:" ]
-        ++ map (mkPane w.root) w.panes
+        ++ map mkPane w.panes
       );
 
   # `sesh connect -T` looks the project up by the session name, so the tmuxinator

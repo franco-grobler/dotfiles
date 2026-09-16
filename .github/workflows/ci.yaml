@@ -12,8 +12,23 @@ concurrency:
 
 jobs:
   check:
-    name: Evaluate and build
-    runs-on: ubuntu-latest
+    # Every host is a `checks` output (nix/modules/flake/checks.nix), so this
+    # matrix is the whole story: each runner builds the hosts that belong to
+    # its own system and skips the rest. Adding a host changes nothing here.
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: linux
+            os: ubuntu-latest
+          # The machines actually in daily use are macs, so they get built
+          # rather than merely evaluated -- this is the job that catches a
+          # broken darwin build before a `just nix-switch` does.
+          - name: macos
+            os: macos-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -24,41 +39,46 @@ jobs:
       - name: Cache the store
         uses: DeterminateSystems/magic-nix-cache-action@6221693898146dc97e38ad0e013488a16477a4c4 # v9
 
+      # Optional: set the CACHIX_CACHE variable and the CACHIX_AUTH_TOKEN
+      # secret to push what this builds to your own cache, so the other mac
+      # downloads the unstable cherry-picks instead of rebuilding them. Inert
+      # until those are configured.
+      - name: Use the personal cache
+        if: vars.CACHIX_CACHE != ''
+        uses: cachix/cachix-action@0fc020193b5a1fa30ac646a09fa6324c2b66fec5 # v15
+        with:
+          name: ${{ vars.CACHIX_CACHE }}
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+
+      # Repo-wide: treefmt's root is the git repo, not the flake directory.
       - name: Check formatting
         working-directory: nix
         run: nix fmt -- --ci
 
+      # Builds every host for this runner's system, plus the pre-commit lints
+      # (statix, deadnix). The same command developers run locally.
       - name: Flake check
         working-directory: nix
         run: nix flake check --print-build-logs
 
-      # Evaluation is cross-platform, so a linux runner can still prove the
-      # darwin hosts resolve and that every referenced file exists. The list
-      # comes from the flake, so adding a host stays a one-file change.
-      - name: Evaluate the darwin hosts
+      # Cheap proof that the hosts belonging to the *other* runner still
+      # evaluate and that every file they reference exists -- evaluation is
+      # cross-platform even where building is not.
+      - name: Evaluate every host
         working-directory: nix
         run: |
-          hosts=$(nix eval --raw .#darwinConfigurations \
-            --apply 'c: builtins.concatStringsSep " " (builtins.attrNames c)')
-          echo "hosts: $hosts"
-          for host in $hosts; do
-            echo "::group::$host"
-            nix eval --raw ".#darwinConfigurations.$host.system.drvPath"
-            echo
-            echo "::endgroup::"
-          done
-
-      # These cannot be built from a mac, so CI is the only place they ever
-      # get compiled. Derived from the flake for the same reason as above.
-      - name: Build the linux hosts
-        working-directory: nix
-        run: |
-          hosts=$(nix eval --raw .#nixosConfigurations \
-            --apply 'c: builtins.concatStringsSep " " (builtins.attrNames c)')
-          echo "hosts: $hosts"
-          for host in $hosts; do
-            echo "::group::$host"
-            nix build --print-build-logs \
-              ".#nixosConfigurations.$host.config.system.build.toplevel"
-            echo "::endgroup::"
+          for class in darwinConfigurations nixosConfigurations; do
+            hosts=$(nix eval --raw ".#${class}" \
+              --apply 'c: builtins.concatStringsSep " " (builtins.attrNames c)')
+            for host in $hosts; do
+              echo "::group::${class}.${host}"
+              case "$class" in
+                darwinConfigurations)
+                  nix eval --raw ".#${class}.\"${host}\".system.drvPath" ;;
+                nixosConfigurations)
+                  nix eval --raw ".#${class}.\"${host}\".config.system.build.toplevel.drvPath" ;;
+              esac
+              echo
+              echo "::endgroup::"
+            done
           done

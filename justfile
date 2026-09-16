@@ -8,10 +8,13 @@ default:
 generate-changelog:
     git cliff -r .
 
-# Add pre-push hook
+# Install the git hooks (also done automatically by entering the dev shell).
 [group('Git')]
 add-hooks:
-    cp pre-push.sh .git/hooks/pre-push
+    #!/usr/bin/env bash
+    set -euo pipefail
+    nix develop ./nix --command true
+    echo "hooks installed"
 
 # Show which flake output this machine resolves to.
 [group('Nix')]

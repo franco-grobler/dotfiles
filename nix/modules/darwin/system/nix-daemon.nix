@@ -34,8 +34,10 @@ in
     text = ''
       trusted-users = ${trustedUsers}
 
-      extra-substituters = https://devenv.cachix.org
-      extra-trusted-public-keys = devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=
+      # nix-community serves the unstable cherry-picks (channels.nix) and the
+      # community tooling; without it each mac rebuilds them from source.
+      extra-substituters = https://devenv.cachix.org https://nix-community.cachix.org
+      extra-trusted-public-keys = devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw= nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=
 
       keep-outputs = true
       keep-derivations = true
