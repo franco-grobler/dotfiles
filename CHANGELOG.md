@@ -399,7 +399,6 @@ All notable changes to this project will be documented in this file.
 - Claude said it could improve
 - *(nvim)* Update lazy lockfile
 - *(nvim)* Update lazy lockfile
-- Generate changelog
 
 ## [1.0.0] - 2025-07-16
 

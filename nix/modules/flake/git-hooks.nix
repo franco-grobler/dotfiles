@@ -35,17 +35,6 @@
               enable = true;
               settings.noLambdaPatternNames = true;
             };
-
-            # Was pre-push.sh. Same behaviour, same stage, one less file to
-            # copy into place.
-            changelog = {
-              enable = true;
-              name = "regenerate the changelog";
-              entry = "just generate-changelog";
-              stages = [ "pre-push" ];
-              pass_filenames = false;
-              always_run = true;
-            };
           };
         };
       };

@@ -3,7 +3,9 @@ set export := true
 default:
     just --list
 
-# Generate Changelog
+# Regenerate CHANGELOG.md. Run this by hand when cutting a tag -- it is
+# deliberately not a git hook: the hook rewrote a tracked file on every push,
+# which failed the push and then needed a commit that changed the file again.
 [group('Chores')]
 generate-changelog:
     git cliff -r .
