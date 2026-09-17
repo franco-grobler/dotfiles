@@ -1,7 +1,16 @@
 {
   "permissions": {
-    "allow": ["Bash", "Edit", "Write", "Read", "WebFetch", "WebSearch"],
-    "deny": ["Bash(git push:*)"]
+    "allow": [
+      "Bash",
+      "Edit",
+      "Write",
+      "Read",
+      "WebFetch",
+      "WebSearch"
+    ],
+    "deny": [
+      "Bash(git push:*)"
+    ]
   },
   "model": "opus",
   "enabledPlugins": {
@@ -11,10 +20,10 @@
     "modern-web-guidance@claude-plugins-official": true
   },
   "effortLevel": "low",
-  "theme": "dark",
   "modelSettings": {
     "claude-opus-5": {
       "effortLevel": "high"
     }
-  }
+  },
+  "theme": "dark"
 }
