@@ -5,7 +5,7 @@
   home.packages = with pkgs; [
     _1password-gui
     alacritty
-    blueberry
+    blueman
     chromium
     firefox
     freecad-wayland

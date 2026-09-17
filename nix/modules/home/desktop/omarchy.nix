@@ -28,7 +28,7 @@ let
           printf "%-35s → %s\n", key_combo, action;
         }
       }' |
-      walker --dmenu -p "Hyprland Keybindings…"
+      walker --dmenu --prompt "Hyprland Keybindings…"
   '';
 
   menu = pkgs.writeShellScriptBin "omarchy-menu" ''
@@ -46,7 +46,7 @@ let
       "Exit Hyprland (Super+Shift+Esc)" \
       "Reboot (Super+Ctrl+Esc)" \
       "Power off (Super+Shift+Ctrl+Esc)" \
-      | walker --dmenu -p "Omarchy…")
+      | walker --dmenu --prompt "Omarchy…")
 
     case "$choice" in
       "Launcher"*) walker ;;

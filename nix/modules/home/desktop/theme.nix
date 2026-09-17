@@ -4,7 +4,7 @@
 # top of each file); this module covers the toolkits that read a theme name
 # instead: GTK3/4 via Adwaita:dark, Qt via adwaita-qt, and a dark preference
 # so Firefox/Chromium/file pickers follow suit.
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 {
   gtk = {
     enable = true;
@@ -12,6 +12,7 @@
       name = "Adwaita-dark";
       package = pkgs.gnome-themes-extra;
     };
+    gtk4.theme = config.gtk.theme;
     iconTheme = {
       name = "Adwaita";
       package = pkgs.adwaita-icon-theme;

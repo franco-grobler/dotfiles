@@ -206,7 +206,7 @@ in
         "tile, class:^(chromium)$"
 
         # Settings / pickers float.
-        "float, class:^(org.pulseaudio.pavucontrol|blueberry.py)$"
+        "float, class:^(org.pulseaudio.pavucontrol|blueman-manager)$"
         "float, class:^(steam)$"
         "fullscreen, class:^(com.libretro.RetroArch)$"
 
@@ -352,6 +352,6 @@ in
     swayosd
     wl-clip-persist
     wl-clipboard
-    xorg.xrdb
+    xrdb
   ];
 }
