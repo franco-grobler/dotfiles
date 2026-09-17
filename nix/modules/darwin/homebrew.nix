@@ -5,6 +5,7 @@
     enable = true;
 
     brews = [
+      "anomalyco/tap/opencode"
       "colima"
       "container"
       "llvm"
@@ -37,5 +38,9 @@
       autoUpdate = false;
       upgrade = true;
     };
+
+    taps = [
+      "anomalyco/tap"
+    ];
   };
 }
