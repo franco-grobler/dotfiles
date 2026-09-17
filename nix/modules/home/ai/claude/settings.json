@@ -1,9 +1,20 @@
 {
-  "model": "opus",
-  "effortLevel": "low",
-  "theme": "dark",
   "permissions": {
     "allow": ["Bash", "Edit", "Write", "Read", "WebFetch", "WebSearch"],
-    "deny": ["Bash(git commit:*)", "Bash(git push:*)"]
+    "deny": ["Bash(git push:*)"]
+  },
+  "model": "opus",
+  "enabledPlugins": {
+    "playwright@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true,
+    "chrome-devtools-mcp@claude-plugins-official": true,
+    "modern-web-guidance@claude-plugins-official": true
+  },
+  "effortLevel": "low",
+  "theme": "dark",
+  "modelSettings": {
+    "claude-opus-5": {
+      "effortLevel": "high"
+    }
   }
 }
