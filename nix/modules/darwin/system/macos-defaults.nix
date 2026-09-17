@@ -2,7 +2,6 @@
   system = {
     defaults = {
       finder = {
-
         AppleShowAllExtensions = true;
         FXPreferredViewStyle = "Nlsv";
         FXRemoveOldTrashItems = true;
