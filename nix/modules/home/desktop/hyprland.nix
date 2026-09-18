@@ -55,12 +55,13 @@ in
       # the output names (`hyprctl monitors`).
       monitor = ",preferred,auto,1";
 
-      # Session services. hyprpaper/hypridle/mako also have systemd user units
-      # via their home-manager modules; exec-once here covers the ones that
-      # must run inside the Hyprland session (tray apps, clipboard, OSD).
+      # Session services. hyprpaper/hypridle/mako are started by their own
+      # systemd user units (home-manager, wanted by graphical-session.target),
+      # so they must NOT be listed here -- a second mako cannot take the
+      # org.freedesktop.Notifications bus name and dies on startup. exec-once
+      # only covers what has no unit: the bar, tray apps, clipboard and OSD.
       exec-once = [
         "waybar"
-        "mako"
         "hyprsunset"
         "swayosd-server"
         "systemctl --user start hyprpolkitagent"
@@ -71,18 +72,25 @@ in
         "xrdb -merge ~/.Xresources"
       ];
 
-      # Re-apply the bar when the config is reloaded (`hyprctl reload`).
-      exec = [
-        "pkill -SIGUSR2 waybar || waybar"
-      ];
+      # NOTE: no `exec` block. Hyprland queues `exec` entries into the same
+      # first-launch list as `exec-once` (it only differs on reload), so
+      # "pkill -SIGUSR2 waybar || waybar" started a *second* bar at login.
+      # Restart the bar by hand after a reload if you need to.
 
+      # Hyprland's `env` is a plain setenv(): the value is taken literally,
+      # with no shell expansion. Anything that needs to *append* to an existing
+      # variable therefore cannot live here -- "$XDG_DATA_DIRS:..." exported the
+      # dollar sign verbatim and destroyed the session's data dirs, which is
+      # what emptied Walker, hid every icon and made GTK apps abort on missing
+      # gsettings schemas. NixOS already puts /run/current-system/sw/share and
+      # /etc/profiles/per-user/$USER/share on XDG_DATA_DIRS for the session.
+      #
+      # Cursor theme/size belongs to pointer.nix and the GTK theme to theme.nix;
+      # setting them again here just gave the desktop two disagreeing answers.
+      # HiDPI is a per-monitor `scale` in the `monitor` line above, never
+      # GDK_SCALE -- that scaled GTK apps a second time on top of the
+      # compositor and is why everything came up twice the size it should be.
       env = [
-        # Cursor size / theme.
-        "XCURSOR_SIZE,24"
-        "HYPRCURSOR_SIZE,24"
-        "XCURSOR_THEME,Adwaita"
-        "HYPRCURSOR_THEME,Adwaita"
-
         # Force all apps onto Wayland where they support it.
         "GDK_BACKEND,wayland"
         "QT_QPA_PLATFORM,wayland"
@@ -92,15 +100,7 @@ in
         "OZONE_PLATFORM,wayland"
         "CHROMIUM_FLAGS,\"--enable-features=UseOzonePlatform --ozone-platform=wayland --gtk-version=4\""
 
-        # Make .desktop files available to Walker (nix-profile + system).
-        "XDG_DATA_DIRS,$XDG_DATA_DIRS:$HOME/.nix-profile/share:/nix/var/nix/profiles/default/share"
-
-        "XCOMPOSEFILE,~/.XCompose"
         "EDITOR,nvim"
-
-        # Dark GTK follows the Tokyo Night theme.
-        "GTK_THEME,Adwaita:dark"
-        "GDK_SCALE,2"
       ];
 
       xwayland = {
@@ -130,7 +130,6 @@ in
           enabled = false;
           range = 30;
           render_power = 3;
-          ignore_window = true;
           color = "rgba(00000045)";
         };
         blur = {
@@ -169,7 +168,6 @@ in
       };
 
       dwindle = {
-        pseudotile = true;
         preserve_split = true;
         force_split = 2;
       };
@@ -194,44 +192,51 @@ in
         };
       };
 
-      gestures = {
-        workspace_swipe = false;
-      };
+      # NOTE: no `gestures` block. Hyprland 0.51 replaced the old
+      # `gestures:workspace_swipe` toggle with the `gesture` keyword, and an
+      # unknown key is a hard config error -- that is the red banner on login.
+      # Trackpad gestures are opt-in now, e.g.:
+      #   gesture = 3, horizontal, workspace
 
+      # Hyprland 0.55 parses window rules as v3: each comma-separated element is
+      # `<name> <value>`, and matchers are prefixed with `match:`. The old
+      # `float, class:^(x)$` form reads as an effect with no value and is
+      # rejected, so every rule here was dead. `windowrulev2` is gone too.
+      # https://wiki.hypr.land/Configuring/Window-Rules/
       windowrule = [
-        # See https://wiki.hyprland.org/Configuring/Window-Rules/ for more.
-        "suppressevent maximize, class:.*"
+        "suppress_event maximize, match:class .*"
 
         # Chromium --app windows report as bare chromium; keep them tiled.
-        "tile, class:^(chromium)$"
+        "tile true, match:class ^(chromium)$"
 
         # Settings / pickers float.
-        "float, class:^(org.pulseaudio.pavucontrol|blueman-manager)$"
-        "float, class:^(steam)$"
-        "fullscreen, class:^(com.libretro.RetroArch)$"
+        "float true, match:class ^(org.pulseaudio.pavucontrol|blueman-manager)$"
+        "float true, match:class ^(steam)$"
+        "fullscreen true, match:class ^(com.libretro.RetroArch)$"
 
         # A dash of transparency; opaque where it matters (video, games).
-        "opacity 0.97 0.9, class:.*"
-        "opacity 1 1, class:^(chromium|google-chrome|google-chrome-unstable)$, title:.*[Yy]outube.*"
-        "opacity 1 0.97, class:^(chromium|google-chrome|google-chrome-unstable)$"
-        "opacity 0.97 0.9, initialClass:^(chrome-.*-Default)$"
-        "opacity 1 1, initialClass:^(chrome-youtube.*-Default)$"
-        "opacity 1 1, class:^(zoom|vlc|org.kde.kdenlive|com.obsproject.Studio)$"
-        "opacity 1 1, class:^(com.libretro.RetroArch|steam)$"
+        "opacity 0.97 0.9, match:class .*"
+        "opacity 1 1, match:class ^(chromium|google-chrome|google-chrome-unstable)$, match:title .*[Yy]outube.*"
+        "opacity 1 0.97, match:class ^(chromium|google-chrome|google-chrome-unstable)$"
+        "opacity 0.97 0.9, match:initial_class ^(chrome-.*-Default)$"
+        "opacity 1 1, match:initial_class ^(chrome-youtube.*-Default)$"
+        "opacity 1 1, match:class ^(zoom|vlc|org.kde.kdenlive|com.obsproject.Studio)$"
+        "opacity 1 1, match:class ^(com.libretro.RetroArch|steam)$"
 
         # Fix some dragging issues with XWayland.
-        "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0"
+        "no_focus true, match:class ^$, match:title ^$, match:xwayland true, match:float true, match:fullscreen false, match:pin false"
 
         # Clipboard manager floats centered and keeps focus.
-        "float, class:(clipse)"
-        "size 622 652, class:(clipse)"
-        "stayfocused, class:(clipse)"
+        "float true, match:class (clipse)"
+        "size 622 652, match:class (clipse)"
+        "stay_focused true, match:class (clipse)"
       ];
 
+      # Same v3 syntax as windowrule; layers match on `namespace`.
       layerrule = [
         # Proper background blur for the launcher and bar.
-        "blur,walker"
-        "blur,waybar"
+        "blur true, match:namespace walker"
+        "blur true, match:namespace waybar"
       ];
 
       bind =
@@ -250,16 +255,19 @@ in
           "SUPER, Space, exec, $menu"
           "SUPER ALT, Space, exec, $omarchyMenu"
           "SUPER SHIFT, Space, exec, pkill -SIGUSR1 waybar"
-          "SUPER, K, exec, omarchy-show-keybindings"
+          # Super+? -- Super+K would collide with the hjkl focus bind below.
+          "SUPER SHIFT, slash, exec, omarchy-show-keybindings"
           "CTRL SUPER, V, exec, ghostty --class clipse -e clipse"
 
           # Window management.
           "SUPER, W, killactive,"
           "SUPER, Backspace, killactive,"
           "SUPER, V, togglefloating,"
-          "SUPER, J, togglesplit,"
+          # Not Super+J: that is movefocus down (hjkl, appended below).
+          "SUPER, E, layoutmsg, togglesplit"
           "SUPER, P, pseudo,"
-          "SUPER SHIFT, Plus, fullscreen,"
+          # Not Super+Shift+Plus: same physical key as Super+Shift+equal below.
+          "SUPER SHIFT, F, fullscreen,"
 
           # Move focus with arrows (Omarchy) -- hjkl appended below.
           "SUPER, left, movefocus, l"
@@ -301,7 +309,6 @@ in
           ", Print, exec, hyprshot -m region"
           "SHIFT, Print, exec, hyprshot -m window"
           "CTRL, Print, exec, hyprshot -m output"
-          ''SUPER SHIFT, S, exec, grim -g "$(slurp)" - | wl-copy''
 
           # Colour picker.
           "SUPER, Print, exec, hyprpicker -a"

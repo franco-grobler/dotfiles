@@ -2,7 +2,7 @@
 #
 # Both are plain Walker dmenu wrappers so they follow the Tokyo Night Walker
 # theme with no extra styling. Keybindings live in hyprland.nix:
-#   Super+K              -> omarchy-show-keybindings
+#   Super+Shift+/        -> omarchy-show-keybindings
 #   Super+Alt+Space      -> omarchy-menu (also the Waybar logo click)
 { pkgs, ... }:
 let
@@ -35,7 +35,7 @@ let
     set -euo pipefail
     choice=$(printf '%s\n' \
       "Launcher (Super+Space)" \
-      "Keybindings (Super+K)" \
+      "Keybindings (Super+Shift+/)" \
       "Clipboard (Ctrl+Super+V)" \
       "Screenshot region" \
       "Screenshot window" \
