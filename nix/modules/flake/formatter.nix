@@ -19,7 +19,7 @@
     {
       formatter = pkgs.treefmt.withConfig {
         runtimeInputs = with pkgs; [
-          nixfmt-rfc-style
+          nixfmt
           shfmt
           stylua
           prettier

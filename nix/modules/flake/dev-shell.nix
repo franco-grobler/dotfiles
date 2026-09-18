@@ -15,7 +15,7 @@
 
           # The same lints the hooks and CI run, for running by hand --
           # `statix fix` and `deadnix --edit` rewrite what they find.
-          nixfmt-rfc-style
+          nixfmt
           statix
           deadnix
 
