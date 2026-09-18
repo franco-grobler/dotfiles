@@ -82,6 +82,22 @@ in
       ];
     };
 
+    "Edge" = {
+      root = "~/Code/Tweedill/edge/main/";
+      windows = [
+        { name = "editor"; }
+        {
+          name = "dev";
+          layout = "main-vertical";
+          panes = [
+            "."
+            "."
+            "."
+          ];
+        }
+      ];
+    };
+
     # Three git worktrees of the same repo, one window each.
     "Khula" = {
       root = "~/Code/GrowCreativeCo/Khula/khula/feat/hookup";
