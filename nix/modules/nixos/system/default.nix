@@ -4,5 +4,6 @@
     nix-daemon
     locale
     networking
+    ssh
   ];
 }

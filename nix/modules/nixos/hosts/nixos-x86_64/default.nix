@@ -27,6 +27,10 @@
 
   dotfiles.users.francogrobler = {
     description = "Franco Grobler";
+
+    authorizedKeys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIJ9idmuyl8gR255rm13mXTRG/tt2aINtYuSEQG40TKF"
+    ];
     modules = with home; [
       base
       dev

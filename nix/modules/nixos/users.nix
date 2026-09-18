@@ -34,6 +34,15 @@ in
               default = [ ];
               description = "home-manager aggregates this user gets.";
             };
+            authorizedKeys = lib.mkOption {
+              type = lib.types.listOf lib.types.str;
+              default = [ ];
+              description = ''
+                Public keys that may ssh in as this account. Empty means the
+                account is unreachable over ssh, which is what a host that never
+                imports `ssh` wants anyway.
+              '';
+            };
           };
         }
       )
