@@ -20,9 +20,13 @@
 
   networking.hostName = "nixos-x86_64";
 
-  boot.loader = {
-    systemd-boot.enable = true;
-    efi.canTouchEfiVariables = true;
+  # Legacy BIOS/MBR: the disk is a single ext4 partition with no EFI system
+  # partition, so systemd-boot (UEFI-only) cannot be used here. GRUB installs
+  # its boot code into the MBR gap ahead of sda1.
+  boot.loader.grub = {
+    enable = true;
+    device = "/dev/sda";
+    useOSProber = false;
   };
 
   dotfiles.users.francogrobler = {
