@@ -83,7 +83,7 @@ nix-fmt:
 
 # Raise nix's GitHub fetch rate limit, once per machine.
 [group('Nix')]
-nix-token item="op://Personal/Nix GitHub PAT/credential":
+nix-token item="op://3qgfzteicksd5qcf74e5wphy7q/4hrgqattsgtiqhrvqd7l5jbese/credential":
     #!/usr/bin/env bash
     # Written to the user's nix.conf, outside the repo, so it is never committed.
     set -euo pipefail
