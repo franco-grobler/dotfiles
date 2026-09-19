@@ -5,5 +5,6 @@
     hyprland
     greetd
     audio
+    chrome
   ];
 }

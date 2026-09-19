@@ -1,0 +1,67 @@
+# Firefox and Zen (both Firefox-based) with the same force-installed
+# extensions: Vimium and 1Password from AMO.
+{ inputs, ... }:
+let
+  # Force-install one AMO extension by slug, e.g. "vimium-ff".
+  mkAmoExtension = slug: {
+    install_url = "https://addons.mozilla.org/firefox/downloads/latest/${slug}/latest.xpi";
+    installation_mode = "force_installed";
+  };
+
+  # Same extensions in every Firefox-based browser.
+  firefoxExtensionSettings = {
+    "{d7742d87-e61d-4b78-b8a1-b469842139fa}" = mkAmoExtension "vimium-ff"; # Vimium
+    "{d634138d-c276-4fc8-924b-40a0ea21d284}" =
+      mkAmoExtension "1password-x-password-manager"; # 1Password
+  };
+
+  sharedFirefoxPolicies = {
+    DisableTelemetry = true;
+    DisableFirefoxStudies = true;
+    DisablePocket = true;
+    # Zen is the system default; stop Firefox asking to take over.
+    DontCheckDefaultBrowser = true;
+    EnableTrackingProtection = {
+      Value = true;
+      Locked = true;
+      Cryptomining = true;
+      Fingerprinting = true;
+    };
+    ExtensionSettings = firefoxExtensionSettings;
+  };
+in
+{
+  imports = [ inputs.zen-browser.homeModules.beta ];
+
+  programs.firefox = {
+    enable = true;
+    policies = sharedFirefoxPolicies;
+    profiles.default = {
+      id = 0;
+      name = "default";
+      isDefault = true;
+      settings = {
+        # New extensions land enabled, no manual click in about:addons.
+        "extensions.autoDisableScopes" = 0;
+        "browser.theme.color-scheme" = 1;
+        "browser.theme.toolbar-theme" = 0;
+      };
+    };
+  };
+
+  programs.zen-browser = {
+    enable = true;
+    policies = sharedFirefoxPolicies // {
+      DisableAppUpdate = true;
+    };
+    profiles.default = {
+      id = 0;
+      name = "default";
+      isDefault = true;
+      settings = {
+        "extensions.autoDisableScopes" = 0;
+        "browser.theme.color-scheme" = 1;
+      };
+    };
+  };
+}

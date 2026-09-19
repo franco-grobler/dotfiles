@@ -44,12 +44,12 @@ in
     settings = {
       "$mod" = "SUPER";
       "$terminal" = "ghostty";
-      "$browser" = "chromium --new-window --ozone-platform=wayland";
+      "$browser" = "zen-beta --new-window";
       "$fileManager" = "nautilus --new-window";
       "$passwordManager" = "1password";
       "$menu" = "walker";
       "$omarchyMenu" = "omarchy-menu";
-      "$webapp" = "chromium --new-window --ozone-platform=wayland --app";
+      "$webapp" = "google-chrome --new-window --ozone-platform=wayland --app";
 
       # Use whatever the display reports; override per-monitor once you know
       # the output names (`hyprctl monitors`).
@@ -206,8 +206,9 @@ in
       windowrule = [
         "suppress_event maximize, match:class .*"
 
-        # Chromium --app windows report as bare chromium; keep them tiled.
-        "tile true, match:class ^(chromium)$"
+        # Chrome --app windows report as chrome-*-Default; keep them tiled.
+        "tile true, match:class ^(chromium|google-chrome)$"
+        "tile true, match:initial_class ^(chrome-.*-Default)$"
 
         # Settings / pickers float.
         "float true, match:class ^(org.pulseaudio.pavucontrol|blueman-manager)$"
@@ -216,8 +217,8 @@ in
 
         # A dash of transparency; opaque where it matters (video, games).
         "opacity 0.97 0.9, match:class .*"
-        "opacity 1 1, match:class ^(chromium|google-chrome|google-chrome-unstable)$, match:title .*[Yy]outube.*"
-        "opacity 1 0.97, match:class ^(chromium|google-chrome|google-chrome-unstable)$"
+        "opacity 1 1, match:class ^(chromium|google-chrome|google-chrome-unstable|zen-beta|firefox)$, match:title .*[Yy]outube.*"
+        "opacity 1 0.97, match:class ^(chromium|google-chrome|google-chrome-unstable|zen-beta|firefox)$"
         "opacity 0.97 0.9, match:initial_class ^(chrome-.*-Default)$"
         "opacity 1 1, match:initial_class ^(chrome-youtube.*-Default)$"
         "opacity 1 1, match:class ^(zoom|vlc|org.kde.kdenlive|com.obsproject.Studio)$"

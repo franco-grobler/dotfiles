@@ -16,5 +16,6 @@
     pointer
     xresources
     gui-apps
+    browsers
   ];
 }
