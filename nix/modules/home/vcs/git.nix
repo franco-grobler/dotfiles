@@ -11,11 +11,17 @@ let
   # this config that would not live in 1Password.
   credentialHelper = if isDarwin then "osxkeychain" else "cache --timeout=86400";
 
+  # `op-ssh-sign` ships with the 1Password desktop app, not the CLI: the
+  # `_1password-cli` package only installs `$out/bin/op`, so pointing the
+  # signer there yields a store path with no binary behind it ("No such file
+  # or directory" at commit time). On linux the GUI package symlinks
+  # `$out/bin/op-ssh-sign`, and it is already in the closure via
+  # home/desktop/gui-apps.nix on every host that imports this module.
   opSshSign =
     if isDarwin then
       "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
     else
-      lib.getExe' pkgs._1password-cli "op-ssh-sign";
+      lib.getExe' pkgs._1password-gui "op-ssh-sign";
 in
 {
   programs.git = {
