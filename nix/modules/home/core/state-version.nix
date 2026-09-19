@@ -5,5 +5,5 @@
 # for already-migrated state. Leave it alone unless you have read the release
 # notes between this value and the one you are moving to.
 {
-  home.stateVersion = "25.05";
+  home.stateVersion = "26.05";
 }

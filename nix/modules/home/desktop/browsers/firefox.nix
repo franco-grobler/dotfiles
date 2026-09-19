@@ -1,6 +1,6 @@
 # Firefox and Zen (both Firefox-based) with the same force-installed
 # extensions: Vimium and 1Password from AMO.
-{ inputs, ... }:
+{ config, inputs, ... }:
 let
   # Force-install one AMO extension by slug, e.g. "vimium-ff".
   mkAmoExtension = slug: {
@@ -35,6 +35,11 @@ in
 
   programs.firefox = {
     enable = true;
+    # XDG location (the 26.05 default): profiles live under
+    # ~/.config/mozilla/firefox. Move ~/.mozilla/firefox there on each machine
+    # that has one -- Firefox starts blank until you do -- and leave the rest
+    # of ~/.mozilla (e.g. native-messaging-hosts) where it is.
+    configPath = "${config.xdg.configHome}/mozilla/firefox";
     policies = sharedFirefoxPolicies;
     profiles.default = {
       id = 0;
