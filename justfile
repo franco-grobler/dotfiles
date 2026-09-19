@@ -18,6 +18,30 @@ add-hooks:
     nix develop ./nix --command true
     echo "hooks installed"
 
+# Write this machine's GitHub SSH public key to its ssh identityFile (~/.ssh/github/*.pub).
+[group('Git')]
+[working-directory("nix")]
+ssh-keys:
+    #!/usr/bin/env bash
+    # Run once per machine, before the first fetch/push. The public half lives
+    # committed in this repo as the profile's git signing.key
+    # (profile/personal.nix, profile/work.nix); the private half never leaves
+    # 1Password -- ssh offers the key through the 1Password agent.
+    set -euo pipefail
+    . ../_scripts/set_nix_envs.sh
+    case "${NIXCONFIG}" in
+      nixosConfigurations | darwinConfigurations) home="${USER}@${NIXNAME}" ;;
+      *) home="${NIXNAME}" ;;
+    esac
+    ref=".#homeConfigurations.\"${home}\""
+    key=$(nix eval --raw --apply 'h: h.config.programs.git.signing.key' "$ref")
+    dst=$(nix eval --raw --apply 'h: h.config.programs.ssh.settings."github.com".data.identityFile' "$ref")
+    dst="${dst/#\~/$HOME}"
+    mkdir -p "$(dirname "$dst")"
+    printf '%s\n' "$key" >"$dst"
+    chmod 600 "$dst"
+    echo "wrote $dst"
+
 # Show which flake output this machine resolves to.
 [group('Nix')]
 nix-target:
@@ -100,7 +124,7 @@ nix-token item="op://3qgfzteicksd5qcf74e5wphy7q/4hrgqattsgtiqhrvqd7l5jbese/crede
 nix-hardware host="":
     #!/usr/bin/env bash
     # On a fresh install the hostname is not the flake attribute yet, so pass
-    # the host explicitly: `just nix-hardware nixos-x86_64`.
+    # the host explicitly: `just nix-hardware nixos-x8664`.
     set -euo pipefail
     [[ "$(uname -s)" == "Linux" ]] || { echo "run this on the machine it describes" >&2; exit 1; }
     command -v nixos-generate-config >/dev/null ||
