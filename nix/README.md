@@ -106,7 +106,7 @@ darwin/                 base homebrew francogrobler home-manager
 
 nixos/                  base francogrobler home-manager
 ├── system/             nix-daemon locale
-└── hosts/              nixos-x86_64
+└── hosts/              nixos-x8664
 ```
 
 Every folder with a `default.nix` is importable as one name; every file inside it
@@ -140,11 +140,11 @@ declaration rather than a grep. See `darwin/users.nix`.
 | --------------------- | ------ | ------------------------------------------------------------------ |
 | `Francos-MacBook-Air` | darwin | base, dev, terminal, monitor, **personal**                         |
 | `work-mbp`            | darwin | base, dev, terminal, **work** — no `monitor`, no personal identity |
-| `nixos-x86_64`        | nixos  | base, dev, terminal, monitor, **desktop**, **personal**            |
+| `nixos-x8664`         | nixos  | base, dev, terminal, monitor, **desktop**, **personal**            |
 
 The filename is the configuration name, so `darwin-rebuild switch --flake .`
 resolves by hostname. Stand-alone home-manager outputs exist too:
-`homeConfigurations."francogrobler@nixos-x86_64"` and `…@work-mbp`.
+`homeConfigurations."francogrobler@nixos-x8664"` and `…@work-mbp`.
 
 ## Adding things
 
@@ -202,7 +202,7 @@ just nix-update   # refresh flake.lock
 On the linux host, `just nix-hardware` regenerates its
 `hardware-configuration.nix` in place from `nixos-generate-config`. Pass the
 host explicitly on a fresh install, before the hostname matches the flake
-attribute: `just nix-hardware nixos-x86_64`.
+attribute: `just nix-hardware nixos-x8664`.
 
 ## Secrets
 

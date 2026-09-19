@@ -18,7 +18,7 @@
     channel = "stable";
   };
 
-  networking.hostName = "nixos-x86_64";
+  networking.hostName = "nixos-x8664";
 
   # Legacy BIOS/MBR: the disk is a single ext4 partition with no EFI system
   # partition, so systemd-boot (UEFI-only) cannot be used here. GRUB installs
