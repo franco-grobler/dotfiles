@@ -13,12 +13,18 @@
 # With the flag gone, `--cmd` is authoritative and the stale remembered path in
 # /var/cache/tuigreet is ignored. F3 at the greeter still lists the sessions if
 # you ever want to switch on purpose.
+#
+# `--cmd` must be `start-hyprland`, not bare `Hyprland`: upstream's
+# hyprland.desktop session Execs the start-hyprland watchdog (env setup,
+# readiness tracking, crash recovery), and Hyprland warns on startup when it is
+# launched without it. Both binaries ship in the same programs.hyprland package,
+# so PATH resolution is identical.
 { lib, pkgs, ... }:
 {
   services.greetd = {
     enable = true;
     settings.default_session = {
-      command = "${lib.getExe pkgs.tuigreet} --time --remember --cmd Hyprland";
+      command = "${lib.getExe pkgs.tuigreet} --time --remember --cmd start-hyprland";
       user = "greeter";
     };
   };
