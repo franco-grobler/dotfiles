@@ -158,7 +158,7 @@ nix-update:
     command -v brew >/dev/null 2>&1 && brew update || true
     command -v mas >/dev/null 2>&1 && mas upgrade || true
     nix flake update
-    git add-and-commit flake.lock "chore(nix): update nix flake lockfile" || true
+    git add-and-commit ./flake.lock "chore(nix): update nix flake lockfile" || true
 
 # First run on a fresh machine, before darwin-rebuild/nixos-rebuild exist.
 [group('Nix')]
