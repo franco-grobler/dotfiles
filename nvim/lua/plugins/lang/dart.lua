@@ -1,3 +1,9 @@
+-- No LazyVim extra for Dart; flutter-tools drives the dartls setup itself.
+
+-- .arb is Flutter's localization format -- JSON with a defined schema, but
+-- an extension nothing recognises on its own.
+vim.filetype.add({ extension = { arb = "json" } })
+
 return {
   {
     "nvim-flutter/flutter-tools.nvim",
@@ -9,7 +15,7 @@ return {
     },
     config = true,
   },
-  -- Update dependencies --
+  -- Cargo-style dependency management for pubspec.yaml.
   {
     "akinsho/pubspec-assist.nvim",
     ft = { "dart" },

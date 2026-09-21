@@ -21,12 +21,26 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- Extras are imported from the per-language files in lua/plugins/ rather than
+-- listed in lazyvim.json, so that everything about a language lives in one
+-- file. That puts the extra imports after `plugins` in the module order, which
+-- LazyVim warns about; the warning is the only consequence. Within each file
+-- the `import` line comes first, so our overrides still merge last.
+vim.g.lazyvim_check_order = false
+
 require("lazy").setup({
   spec = {
     -- add LazyVim and import its plugins
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-    -- import/override with your plugins
-    { import = "plugins" },
+    -- Our own plugins, grouped. lazy.nvim's `lsmod` does not recurse into
+    -- subdirectories on its own, but importing one by name does load every
+    -- file inside it -- so a new language only means a new file in lang/,
+    -- while adding a whole group is one line here.
+    { import = "plugins.core" }, -- lsp, formatting, debugging, testing
+    { import = "plugins.lang" }, -- one file per language
+    { import = "plugins.editor" }, -- editing behaviour, language-agnostic
+    { import = "plugins.ui" }, -- layout and appearance
+    { import = "plugins.tools" }, -- everything else
   },
   defaults = {
     -- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.
