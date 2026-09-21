@@ -5,10 +5,7 @@
     atlas
     neovim
     languages
-    go
     pnpm
-    prettierd
-    dlv
     octave
     posting
     lazysql

@@ -3,6 +3,7 @@
 {
   imports = with features; [
     claude
+    cursor-cli
     opencode
   ];
 }
