@@ -28,6 +28,17 @@
           # completion and go-to-definition on nixos/darwin/home-manager
           # options instead of being edited blind.
           nixd
+
+          # Editor tooling that is deliberately NOT in home.packages, because
+          # its behaviour is per-project: sqruff reads the repo's dialect from
+          # .sqruff, and tofu has to match the version the state was written
+          # with. Neovim picks both up from PATH, so they work in any project
+          # whose shell provides them -- see nvim/lua/plugins/lang/sql.lua.
+          #
+          # Nothing in this repo is .sql or .tf; these are here as the
+          # reference copy of the pattern. Drop them if that bothers you.
+          sqruff
+          opentofu
         ];
       };
     };
