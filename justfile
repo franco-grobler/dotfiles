@@ -153,12 +153,11 @@ nix-hardware host="":
 
 # Update system flake lockfile.
 [group('Nix')]
-[working-directory("nix")]
 nix-update:
     command -v brew >/dev/null 2>&1 && brew update || true
     command -v mas >/dev/null 2>&1 && mas upgrade || true
-    nix flake update
-    git add-and-commit ./flake.lock "chore(nix): update nix flake lockfile" || true
+    nix flake update --flake ./nix
+    git add-and-commit nix/flake.lock "chore(nix): update nix flake lockfile" || true
 
 # First run on a fresh machine, before darwin-rebuild/nixos-rebuild exist.
 [group('Nix')]
