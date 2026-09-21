@@ -7,50 +7,16 @@ local opt = vim.opt
 
 opt.colorcolumn = "80"
 opt.mouse = ""
-opt.spell = true -- Enable spell checking
-opt.wrap = true -- Enable line wrap
+opt.spell = true
+opt.wrap = true
 
 local g = vim.g
 
--- LazyVim
-g.lazyvim_python_lsp = "mypy"
+-- Which server the LazyVim python extra enables. It has to name a real
+-- language server -- lspconfig has no `mypy`, and setting it to that left
+-- python with no LSP at all, silently. mypy is a type checker and runs
+-- through nvim-lint instead; see lua/plugins/lang/python.lua.
+g.lazyvim_python_lsp = "ty"
 
--- VimTex
+-- Preview compiled PDFs in Skim.
 g.vimtex_view_method = "skim"
-
--- File types
-local ft = vim.filetype
-ft.add({
-  extension = {
-    arb = "json",
-  },
-})
-ft.add({
-  filename = {
-    ["atlas.hcl"] = "atlas-config",
-  },
-  pattern = {
-    [".*/*.my.hcl"] = "atlas-schema-mysql",
-    [".*/*.pg.hcl"] = "atlas-schema-postgresql",
-    [".*/*.lt.hcl"] = "atlas-schema-sqlite",
-    [".*/*.ch.hcl"] = "atlas-schema-clickhouse",
-    [".*/*.ms.hcl"] = "atlas-schema-mssql",
-    [".*/*.rs.hcl"] = "atlas-schema-redshift",
-    [".*/*.test.hcl"] = "atlas-test",
-    [".*/*.plan.hcl"] = "atlas-plan",
-    [".*/*.rule.hcl"] = "atlas-rule",
-  },
-})
-
-vim.treesitter.language.register("hcl", "atlas-config")
-vim.treesitter.language.register("hcl", "atlas-schema-mysql")
-vim.treesitter.language.register("hcl", "atlas-schema-postgresql")
-vim.treesitter.language.register("hcl", "atlas-schema-sqlite")
-vim.treesitter.language.register("hcl", "atlas-schema-clickhouse")
-vim.treesitter.language.register("hcl", "atlas-schema-mssql")
-vim.treesitter.language.register("hcl", "atlas-schema-redshift")
-vim.treesitter.language.register("hcl", "atlas-test")
-vim.treesitter.language.register("hcl", "atlas-plan")
-vim.treesitter.language.register("hcl", "atlas-rule")
-
-vim.lsp.enable("atlas")
