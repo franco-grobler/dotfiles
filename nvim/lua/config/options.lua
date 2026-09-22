@@ -13,9 +13,10 @@ opt.wrap = true
 local g = vim.g
 
 -- Which server the LazyVim python extra enables. It has to name a real
--- language server -- lspconfig has no `mypy`, and setting it to that left
--- python with no LSP at all, silently. mypy is a type checker and runs
--- through nvim-lint instead; see lua/plugins/lang/python.lua.
+-- language server: this once said `mypy`, which lspconfig has no entry for,
+-- and python was left with no LSP at all, silently. `ty` is Astral's type
+-- checker and is a real server, so it covers what mypy was here for -- see
+-- lua/plugins/lang/python.lua.
 g.lazyvim_python_lsp = "ty"
 
 -- Preview compiled PDFs in Skim.

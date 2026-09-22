@@ -7,22 +7,9 @@ return {
   -- lua/config/options.lua -- the extra reads that to decide which of
   -- pyright / basedpyright / ty to enable and disables the rest.
 
-  -- mypy as a linter, which is what it is -- it has no language server.
-  -- It runs on save and needs the project's interpreter, so pick the venv
-  -- with <leader>cvs first in a project that has one.
-  {
-    "mfussenegger/nvim-lint",
-    optional = true,
-    opts = {
-      linters_by_ft = {
-        python = { "mypy" },
-      },
-    },
-  },
-  {
-    "mason-org/mason.nvim",
-    opts = { ensure_installed = { "mypy" } },
-  },
+  -- No mypy. `ty` is the type checker here, and it is a language server, so
+  -- it reports through the LSP client rather than through nvim-lint -- there
+  -- is nothing for a second checker to add.
 
   -- Pick the interpreter for the current project. The python extra already
   -- pulls venv-selector in; this is just the keymaps and eager load.
