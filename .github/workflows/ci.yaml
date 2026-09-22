@@ -1,8 +1,14 @@
 name: Continuous Integration
 
+# Pull requests only. Building three hosts on every push to every branch is
+# minutes of runner time per `git push` on work nobody is reviewing yet, and
+# the checks that matter are the ones gating a merge.
+#
+# The trade is that a commit pushed straight to `main` is not checked by CI --
+# the pre-commit hook and `just nix-check` are what cover that locally.
+# `workflow_dispatch` stays as the manual escape hatch; it never fires on its
+# own.
 on:
-  push:
-    branches: ["**"]
   pull_request:
   workflow_dispatch:
 
