@@ -208,8 +208,8 @@ nixpkgs' release matches its own branch. To base a host on unstable, move
 | `systems.nix`             | which systems `perSystem` outputs are built for                              |
 | `formatter.nix`           | `nix fmt` for the whole repo, not just the nix tree                          |
 | `checks.nix`              | re-exposes every host as a `checks` output, so `nix flake check` builds them |
-| `git-hooks.nix`           | the pre-commit / pre-push hooks, installed by the dev shell                  |
-| `dev-shell.nix`           | `nix develop`: the hooks, the linters, `nixd`                                |
+| `lints.nix`               | statix + deadnix as a `checks` output, so CI gates on them                   |
+| `dev-shell.nix`           | `nix develop`: installs the git hooks, and the tools they call               |
 
 ## Day to day
 

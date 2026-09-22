@@ -60,7 +60,7 @@
             "nvim/lazyvim.json" # LazyVim
             "nvim/spell/*"
             # Both spellings: `nix fmt` runs from the repo root, the
-            # pre-commit check runs from the flake root (nix/).
+            # lints check runs from the flake root (nix/).
             "nix/modules/home/**" # vendored program configs -- see above
             "modules/home/**"
             "*.lock"
@@ -119,8 +119,8 @@
             };
 
             # Markdown, with the same config the editor's panache reads --
-            # passed explicitly because the pre-commit check runs sandboxed,
-            # where the copy home-manager puts in ~/.config does not exist.
+            # passed explicitly rather than discovered, so this does not
+            # depend on the copy home-manager puts in ~/.config existing.
             panache = {
               command = "panache";
               options = [

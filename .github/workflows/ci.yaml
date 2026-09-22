@@ -55,7 +55,7 @@ jobs:
         working-directory: nix
         run: nix fmt -- --ci
 
-      # Builds every host for this runner's system, plus the pre-commit lints
+      # Builds every host for this runner's system, plus the nix lints
       # (statix, deadnix). The same command developers run locally.
       - name: Flake check
         working-directory: nix

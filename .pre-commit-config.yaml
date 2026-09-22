@@ -1,0 +1,44 @@
+# Git hooks, run by prek -- a drop-in pre-commit that is one Rust binary.
+#
+# This file used to be generated: git-hooks.nix built it from
+# nix/modules/flake/git-hooks.nix and symlinked it in from the store. That
+# worked until the store path went stale, at which point the hook silently ran
+# a *previous* formatter and reverted work it disagreed with. It also dragged
+# nixpkgs' `pre-commit` in, which depends on dotnet-sdk and so has to build the
+# dotnet source tarball -- minutes of CPU when it works, and a hard failure
+# when it does not.
+#
+# Now it is an ordinary committed file and every entry is a bare command name,
+# resolved from the dev shell's PATH (nix/modules/flake/dev-shell.nix). Nothing
+# here pins a store path, so nothing here can go stale.
+#
+# The same lints run in CI as a `nix flake check` output -- see
+# nix/modules/flake/lints.nix -- rather than by running this file twice.
+default_stages: [pre-commit]
+
+repos:
+  - repo: local
+    hooks:
+      # The repo's own `nix fmt`. The dev shell puts the configured treefmt on
+      # PATH, so this is the same binary, with the same config, that `nix fmt`
+      # and CI use.
+      - id: treefmt
+        name: treefmt
+        entry: treefmt --fail-on-change --no-cache
+        language: system
+        pass_filenames: true
+
+      # Lints, not formatters -- they report rather than rewrite. `statix fix`
+      # and `deadnix --edit` are there by hand when you want the rewrite.
+      - id: statix
+        name: statix
+        entry: statix check
+        language: system
+        files: \.nix$
+        pass_filenames: false
+
+      - id: deadnix
+        name: deadnix
+        entry: deadnix --no-lambda-pattern-names --fail
+        language: system
+        files: \.nix$
