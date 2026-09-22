@@ -1,0 +1,420 @@
+# panache -- language server, formatter and linter for markdown, in one binary.
+#
+# Read from three places, which is why it lives in the flake tree rather than
+# being written by hand into ~/.config:
+#
+#   * the editor, via ~/.config/panache/config.toml (default.nix)
+#   * `nix fmt`, via --config (modules/flake/formatter.nix)
+#   * the pre-commit check, which is sandboxed and has no $HOME to fall back on
+#
+# Every option panache accepts is listed below. Only the handful this tree
+# actually disagrees with is live; the rest is commented out with what it does
+# and what it takes, so the file doubles as the reference panache does not
+# ship -- there is no config man page, only `panache <cmd> --help` for the CLI.
+#
+# Leaving the rest commented is deliberate. A key written at today's default
+# is a key this repo has silently promised to keep, and panache is young
+# enough that its defaults are still moving.
+#
+# Precedence, lowest to highest: built-in defaults, the flavour's defaults,
+# this file, then `--flavor` / `-o key=value` on the command line.
+
+# ---------------------------------------------------------------------------
+# Dialect
+# ---------------------------------------------------------------------------
+
+# Pull in another config file and layer this one on top. A string path,
+# relative to this file. There is nothing to inherit from here.
+# extend = "../shared/panache.toml"
+
+# Force one flavour for every file, whatever its extension. Too blunt for
+# this tree -- it would drag .qmd and .Rmd onto GFM as well -- so the glob
+# table below is used instead.
+#
+# One of: pandoc, quarto, rmarkdown, gfm, commonmark, multimarkdown.
+# flavor = "gfm"
+
+# Flavour per glob, as flavour = [patterns]. This is the one dialect setting
+# the tree needs.
+#
+# A .md file here is GitHub-flavoured, not pandoc. panache infers pandoc for
+# .md, and pandoc's source form of an em dash is `---` and of an ellipsis
+# `...` -- so formatting a README rewrites every `—` and `…` into something
+# GitHub then renders literally. .qmd and .Rmd keep their own flavours,
+# because they are not listed here.
+[flavors]
+gfm = ["*.md", "*.markdown", "*.mdown", "*.mkd", "*.mkdn"]
+
+# Individual syntax extensions, on top of whatever the flavour turned on.
+# Keys are pandoc extension names in kebab-case -- smart, footnotes,
+# fenced-divs, pipe-tables, grid-tables, definition-lists, tex-math-dollars,
+# east-asian-line-breaks and so on. Values are booleans, or a table for the
+# extensions that take settings. An unrecognised name is a hard error, not a
+# warning, so this cannot quietly rot.
+# [extensions]
+# east-asian-line-breaks = true
+
+# Target a specific pandoc or quarto release, so output stays within what that
+# version can parse. One of: latest, 3.7, 3.9, 3.10 (also spelled 3-7, v3.7,
+# v3-7, ...). `pandoc-compat` is the same setting for pandoc alone.
+# [compat]
+# pandoc = "latest"
+# quarto = "latest"
+
+# Prefixes panache should treat as cross-reference labels (`@fig-`, `@tbl-`),
+# beyond the ones the flavour knows. Quarto and R Markdown only.
+# crossref-prefixes = ["fig", "tbl", "eqn"]
+
+# ---------------------------------------------------------------------------
+# Formatting
+# ---------------------------------------------------------------------------
+
+[format]
+# Column prose is wrapped to, in Unicode display columns -- East Asian wide
+# characters count as two. 80 is panache's default; it is written out because
+# it is the width this tree wants and the one `wrap` below is measured
+# against. Nothing that cannot be broken is broken to reach it: table rows,
+# code spans and long URLs still overhang.
+line-width = 80
+
+# Refill paragraphs to line-width. This is a change from prettier, which ran
+# here with --prose-wrap=preserve and left every line break where the author
+# put it, so the first run rewraps prose across the tree. `preserve` is the
+# setting to go back to if that turns out to be the wrong trade.
+#
+# One of:
+#   preserve  leave the author's line breaks alone; line-width does nothing
+#   reflow    fill each paragraph to line-width
+#   sentence  one line per sentence, whatever its length
+#   semantic  break at clause boundaries -- smaller diffs, longer first churn
+wrap = "reflow"
+
+# panache indents GFM pipe tables by two spaces. Valid markdown, and GitHub
+# renders it, but it rewrites every table in the tree to no purpose.
+table-indent = 0
+
+# Newline style. One of: auto (match the file), lf, crlf.
+# line-ending = "auto"
+
+# What to do with hard tabs in source. One of: normalize (to spaces), preserve.
+# tab-stops = "normalize"
+
+# How wide a tab counts as when measuring against line-width.
+# tab-width = 4
+
+# How `---` and friends are written out. `line-width` pads the rule to the
+# full column width (the default, and why a thematic break becomes 80
+# dashes); `compact` leaves it short.
+# horizontal-rule-style = "line-width"
+
+# Math blocks. `math` is the layout -- one of: verbatim (byte-for-byte),
+# preserve, single-line, reflow. `math-delimiter-style` is the delimiter --
+# one of: preserve, dollars ($...$), backslash (\(...\)). `math-indent` is
+# the indent inside a display block. `math-signatures` is a map of macro name
+# to argument signature, so panache knows where a custom macro's arguments
+# end. Nothing here is LaTeX-heavy enough to care.
+# math = "preserve"
+# math-delimiter-style = "preserve"
+# math-indent = 2
+# math-signatures = { myvec = "{}{}" }
+
+# Use panache's own greedy wrapper rather than the layout-aware one. Faster,
+# and gives the line breaks prettier would have picked.
+# built-in-greedy-wrap = false
+
+# Abbreviations never to break a line after, so "Fig. 3" survives reflow.
+# A string, space-separated.
+# no-break-abbreviations = "Fig. Eq. cf. e.g. i.e."
+
+# Language tag used for locale-sensitive decisions, e.g. "en-GB".
+lang = "en-ZA"
+
+# ---------------------------------------------------------------------------
+# Linting
+# ---------------------------------------------------------------------------
+
+# Rule toggles, as rule-name = true|false. `rules` is the only key [lint]
+# takes -- there is no select/ignore/severity vocabulary.
+#
+# Rule names are the code in the diagnostic: `warning[table-column-count]:
+# ...` is switched off with `table-column-count = false`. Names are not
+# validated, so a typo silently does nothing. The ones this tree has actually
+# seen fire: undefined-reference-label, unused-definition-label,
+# duplicate-reference-labels, table-column-count.
+#
+# Everything is on by default and nothing here has been noisy yet.
+# [lint.rules]
+# table-column-count = false
+
+# ---------------------------------------------------------------------------
+# Fenced code blocks
+# ---------------------------------------------------------------------------
+
+# Hand the contents of a fenced code block to a real formatter for that
+# language, keyed by the block's info string.
+#
+# Every value names a [formatters.<name>] definition below -- no built-in
+# presets, for the reason given above those definitions. Each resolves to a
+# binary this machine actually has, from home.packages in default.nix and
+# the siblings under modules/home/code/languages/, and the same set is on
+# treefmt's runtimeInputs in modules/flake/formatter.nix, so `nix fmt` and
+# the pre-commit check do not depend on what happens to be on $PATH.
+#
+# Add a language here and you must add its binary in BOTH places or the block
+# is silently left alone -- panache logs "Skipping formatter" and exits 0, so
+# a missing tool looks exactly like a well-formatted file.
+#
+# panache aliases some info strings, so one entry covers the group. Verified
+# against 3.10: python covers py, rust covers rs, bash covers sh and zsh,
+# yaml covers yml, javascript covers js, typescript covers ts, tex covers
+# latex. NOT aliased, and so listed separately: golang, jsonc. `console` is
+# left out on purpose -- it holds shell *sessions* with prompts and output,
+# which shfmt would mangle.
+[formatters]
+nix = "nixfmt"
+lua = "stylua"
+python = "ruff"
+toml = "taplo"
+tex = "tex-fmt"
+
+# shfmt reads the shebang, so one entry is right for all three dialects.
+bash = "shfmt"
+shell = "shfmt"
+
+# gofumpt rather than gofmt: it is the superset, and it is what the go extra
+# already runs on .go buffers (nvim/lua/plugins/lang/go.lua).
+go = "gofumpt"
+golang = "gofumpt"
+
+# rustfmt comes from rustup, not from a nixpkgs package, so in the editor it
+# only works once a toolchain is installed -- `rustup default stable`. With
+# no toolchain the shim exits non-zero and the block is left alone. `nix fmt`
+# uses pkgs.rustfmt and does not have that caveat.
+rust = "rustfmt"
+
+# oxfmt is this tree's prettier (nvim/lua/plugins/core/formatting.lua). It
+# picks its parser from the filename, and a fenced block has no filename, so
+# each language needs its own definition handing it a plausible one.
+json = "oxfmt-json"
+jsonc = "oxfmt-json"
+yaml = "oxfmt-yaml"
+javascript = "oxfmt-js"
+jsx = "oxfmt-jsx"
+typescript = "oxfmt-ts"
+tsx = "oxfmt-tsx"
+css = "oxfmt-css"
+scss = "oxfmt-scss"
+less = "oxfmt-less"
+html = "oxfmt-html"
+graphql = "oxfmt-graphql"
+
+# Every definition below is spelled out rather than left to the built-in
+# preset of the same name, because the presets run these tools at THEIR
+# defaults, not at this tree's settings. Measured against 3.10's presets:
+# shfmt indents with 4 spaces and does not indent `case` arms; stylua indents
+# 4 where this tree wants 2 at column 80; nixfmt runs at its own default
+# width of 100 rather than 80. Code in a fence would have come out formatted
+# differently from the same code in a file.
+#
+# Where the tool can read a config file, these definitions pass no settings
+# and let it find one -- panache runs each tool in panache's own working
+# directory, which is the repo root for both `nix fmt` and nvim, so anything
+# at the root is discovered. shfmt reads .editorconfig, stylua reads
+# stylua.toml, and ruff/rustfmt/taplo/oxfmt would pick up a config of their
+# own if one were ever added. nixfmt is the exception: it has no config file
+# format at all, so --width=80 has to be repeated here.
+#
+# A definition shadows the preset it shares a name with -- `nix = "nixfmt"`
+# above resolves to [formatters.nixfmt] here, not to the built-in. The
+# `preset` field, which would have let these inherit and only add arguments,
+# is rejected outright inside a named definition in 3.10 and does nothing in
+# a [formatters] inline table, so there is no way to build on a preset today.
+#
+# Each of these takes the block on stdin and writes to stdout; the trailing
+# "-" is how most of them are told to read stdin rather than a path.
+
+# --width=80 to match nixfmt in modules/flake/formatter.nix.
+[formatters.nixfmt]
+cmd = "nixfmt"
+args = ["--width=80", "-"]
+stdin = true
+
+# No formatting flags on purpose: shfmt then reads the repo's .editorconfig,
+# which carries indent_size, switch_case_indent and simplify. Passing any
+# parser or printer flag makes shfmt ignore that file completely (man shfmt),
+# which is also why `nix fmt` -- which does pass flags -- is unaffected by it.
+#
+# --filename is a generic flag, not a formatting one, so it does not trigger
+# that rule. shfmt needs it because a fenced block arrives on stdin with no
+# path, and without a path there is nothing to look up .editorconfig against.
+[formatters.shfmt]
+cmd = "shfmt"
+args = ["--filename", "block.sh", "-"]
+stdin = true
+
+# No settings here either: stylua finds stylua.toml by searching upwards from
+# its working directory, and panache runs it in panache's own -- the repo
+# root for both `nix fmt` and nvim. That file used to live in nvim/, where a
+# fence in a root-level README could not see it; it is now at the root and
+# covers the whole tree.
+[formatters.stylua]
+cmd = "stylua"
+args = ["-"]
+stdin = true
+
+# taplo, ruff and rustfmt have no options set anywhere in this tree, so their
+# defaults ARE the setting -- these definitions exist only to pin the stdin
+# invocation and to keep every tool in one place. ruff and rustfmt reach .py
+# and .rs buffers through their language servers rather than conform, at the
+# same defaults.
+[formatters.taplo]
+cmd = "taplo"
+args = ["format", "-"]
+stdin = true
+
+[formatters.ruff]
+cmd = "ruff"
+args = ["format", "-"]
+stdin = true
+
+# goimports THEN gofumpt, which is the pair the go extra runs on .go buffers
+# in that order (nvim/lua/plugins/lang/go.lua). gofumpt alone leaves an unused
+# import in place; goimports is what drops it. panache maps one language to
+# one formatter, so the pair is a pipeline.
+[formatters.gofumpt]
+cmd = "sh"
+args = ["-c", "goimports | gofumpt"]
+stdin = true
+
+# rustfmt has no stdin flag; --emit stdout is how it is asked for one. It
+# reads no edition from a fence, so it parses as its default edition.
+[formatters.rustfmt]
+cmd = "rustfmt"
+args = ["--emit", "stdout"]
+stdin = true
+
+# --tabsize 1 to match the tex-fmt conform runs on .tex buffers; without it
+# tex-fmt indents nested environments two spaces per level instead of one.
+[formatters.tex-fmt]
+cmd = "tex-fmt"
+args = ["--stdin", "--tabsize", "1"]
+stdin = true
+
+[formatters.oxfmt-json]
+cmd = "oxfmt"
+args = ["--stdin-filepath", "block.json"]
+stdin = true
+
+[formatters.oxfmt-yaml]
+cmd = "oxfmt"
+args = ["--stdin-filepath", "block.yaml"]
+stdin = true
+
+[formatters.oxfmt-js]
+cmd = "oxfmt"
+args = ["--stdin-filepath", "block.js"]
+stdin = true
+
+[formatters.oxfmt-jsx]
+cmd = "oxfmt"
+args = ["--stdin-filepath", "block.jsx"]
+stdin = true
+
+[formatters.oxfmt-ts]
+cmd = "oxfmt"
+args = ["--stdin-filepath", "block.ts"]
+stdin = true
+
+[formatters.oxfmt-tsx]
+cmd = "oxfmt"
+args = ["--stdin-filepath", "block.tsx"]
+stdin = true
+
+[formatters.oxfmt-css]
+cmd = "oxfmt"
+args = ["--stdin-filepath", "block.css"]
+stdin = true
+
+[formatters.oxfmt-scss]
+cmd = "oxfmt"
+args = ["--stdin-filepath", "block.scss"]
+stdin = true
+
+[formatters.oxfmt-less]
+cmd = "oxfmt"
+args = ["--stdin-filepath", "block.less"]
+stdin = true
+
+[formatters.oxfmt-html]
+cmd = "oxfmt"
+args = ["--stdin-filepath", "block.html"]
+stdin = true
+
+[formatters.oxfmt-graphql]
+cmd = "oxfmt"
+args = ["--stdin-filepath", "block.graphql"]
+stdin = true
+
+# Presets 3.10 ships that this machine has no binary for, so they are not
+# wired up: black, isort, prettier, biome, gofmt, clang-format, beautysh,
+# alejandra, yamlfmt, yq, google-java-format, buf, mdformat, ormolu,
+# csharpier, rufo, gleam, cljfmt, astyle, typstyle, rubyfmt, ktfmt, air,
+# styler, sqlfmt, cmake-format, bibtex-tidy.
+#
+# Two worth knowing about: the `yq` preset wants mikefarah/yq (pkgs.yq-go),
+# not the python yq that pkgs.yq installs and that this tree has -- it exits
+# 0 and changes nothing, so yaml goes through oxfmt above instead.
+# clang-format exists here only via homebrew LLVM, which nix fmt cannot see.
+
+# The same, for linters: language = linter name. No nested definitions, so
+# only presets. Left off -- `panache lint` is wired into nvim-lint for prose
+# rules, and linting code inside a fence is the job of the repo that owns it.
+# [linters]
+# python = "ruff"
+
+# How many external formatters may run at once. Only applies when panache is
+# working on a single file, or with `--jobs 1`.
+# external-max-parallel = 4
+
+# ---------------------------------------------------------------------------
+# File selection and caching
+# ---------------------------------------------------------------------------
+
+# Which files panache walks when handed a directory. `include` and `exclude`
+# replace the built-in lists; the `extend-` forms add to them. .gitignore is
+# respected either way, and a file named explicitly on the command line
+# bypasses `exclude` unless --force-exclude is passed.
+#
+# Left alone here: `nix fmt` decides what to hand over (treefmt's own
+# global.excludes in modules/flake/formatter.nix), and the editor only ever
+# formats the buffer in front of it.
+# include = ["*.md", "*.qmd"]
+# extend-exclude = ["vendor/**"]
+# exclude = []
+# extend-include = []
+
+# Lint and format results are cached between runs. `cache = false` is the same
+# as --no-cache; `cache-dir` moves it off the platform default. PANACHE_CACHE
+# and PANACHE_CACHE_DIR do the same from the environment.
+# cache = true
+# cache-dir = "~/.cache/panache"
+
+# ---------------------------------------------------------------------------
+# Unstable
+# ---------------------------------------------------------------------------
+
+# Features still behind a flag. `format-math` is the only one 3.10 has.
+# [experimental]
+# format-math = true
+
+# ---------------------------------------------------------------------------
+# Deprecated -- listed so they are recognised if they turn up in an older
+# config, not because they should be used:
+#
+#   blank-lines           top-level and [format]; a no-op since 3.x, to be
+#                         removed
+#   line-width            top-level; moved into [format]
+#   line-ending           top-level; moved into [format]
+#   flavor-overrides      renamed to [flavors]; removal announced for
+#                         2027-03-08 or later
+# ---------------------------------------------------------------------------

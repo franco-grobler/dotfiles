@@ -1,6 +1,6 @@
 # Nix configuration
 
-Nothing is listed anywhere. The tree _is_ the configuration: files are
+Nothing is listed anywhere. The tree *is* the configuration: files are
 discovered by `modules/flake/leaves.nix`, and where a file sits determines what
 it is called.
 
@@ -26,7 +26,7 @@ paste it straight out of the home-manager manual:
 }
 ```
 
-That file _is_ `flake.modules.homeManager.lazygit`.
+That file *is* `flake.modules.homeManager.lazygit`.
 
 A program that ships config files gets a folder of its own, so the module and
 its files travel together and the files keep their natural names:
@@ -75,7 +75,11 @@ A folder's `default.nix` is therefore just a list:
 # modules/home/monitor/default.nix
 { features, ... }:
 {
-  imports = with features; [ btop htop fastfetch ];
+  imports = with features; [
+    btop
+    htop
+    fastfetch
+  ];
 }
 ```
 
@@ -87,30 +91,35 @@ Host modules also get `home` (the home-manager aggregates) and `mkPkgs`.
 home/
 ├── base.nix            core + shell — what every machine gets
 ├── dev.nix             vcs + code + ai + container
-├── francogrobler.nix
 ├── core/               xdg locale fonts unix-tools bat glow nh gpg ssh
-├── shell/              zsh bash nushell aliases starship atuin carapace direnv just
-├── terminal/           ghostty alacritty tmux
+│                       nix-tools repo state-version
+├── shell/              zsh bash nushell shell-aliases starship atuin carapace
+│                       direnv just zoxide
+├── terminal/           ghostty alacritty tmux tmuxinator sesh
 ├── vcs/                git gh lazygit git-cliff jujutsu
-├── code/               neovim languages go pnpm prettierd dlv octave posting lazysql
-├── ai/                 claude opencode
+├── code/               neovim languages atlas pnpm octave posting lazysql
+│   └── languages/      go python nix lua sh web tex markdown docker dlv misc
+├── ai/                 claude opencode cursor-cli
 ├── container/          colima lazydocker
 ├── monitor/            btop htop fastfetch
-├── desktop/            i3 pointer xresources gui-apps   (linux only)
+├── desktop/            hyprland hypridle hyprlock hyprpaper waybar rofi mako
+│                       walker omarchy theme browsers gui-apps wallpapers
+│                       pointer xresources                  (linux only)
 └── profile/            personal work
 
-darwin/                 base homebrew francogrobler home-manager
+darwin/                 base homebrew users home-manager
 ├── system/             nix-daemon locale macos-defaults touch-id
-├── profile/            personal work
+├── profile/            personal
 └── hosts/              Francos-MacBook-Air work-mbp
 
-nixos/                  base francogrobler home-manager
+nixos/                  base users home-manager docker networking ssh
 ├── system/             nix-daemon locale
+├── desktop/            hyprland greetd audio chrome
 └── hosts/              nixos-x8664
 ```
 
-Every folder with a `default.nix` is importable as one name; every file inside it
-is importable on its own. That is the whole reuse story.
+Every folder with a `default.nix` is importable as one name; every file inside
+it is importable on its own. That is the whole reuse story.
 
 ## Hosts
 
@@ -118,15 +127,28 @@ A host file is a flat inventory of what the machine is made of:
 
 ```nix
 # modules/darwin/hosts/work-mbp.nix
-{ features, home, mkPkgs, ... }:
 {
-  imports = with features; [ base work ];
+  features,
+  home,
+  mkPkgs,
+  ...
+}:
+{
+  imports = with features; [ base ];
 
-  nixpkgs.pkgs = mkPkgs { system = "aarch64-darwin"; channel = "stable"; };
+  nixpkgs.pkgs = mkPkgs {
+    system = "aarch64-darwin";
+    channel = "stable";
+  };
 
-  dotfiles.users.francogrobler = {
+  dotfiles.users."franco.grobler" = {
     description = "Franco Grobler";
-    modules = with home; [ base dev terminal work ];
+    modules = with home; [
+      base
+      dev
+      terminal
+      work
+    ];
   };
 }
 ```
@@ -163,9 +185,9 @@ channels regardless of which it is based on:
 - `pkgs.unstable.foo` — always `nixpkgs-unstable`
 - `pkgs.stable.foo` — always the pinned release
 
-A cherry-pick list (`neovim`, `gh`, `direnv`, `opencode`, `posting`, `uv`) is
-promoted from unstable to the top level on stable-based hosts, so modules never
-have to know which channel their host runs.
+A cherry-pick list (`atlas`, `direnv`, `gh`, `neovim`, `opencode`, `panache`,
+`posting`, `uv`) is promoted from unstable to the top level on stable-based
+hosts, so modules never have to know which channel their host runs.
 
 All three hosts are based on the pinned release, because nix-darwin asserts that
 nixpkgs' release matches its own branch. To base a host on unstable, move
@@ -192,11 +214,11 @@ nixpkgs' release matches its own branch. To base a host on unstable, move
 ## Day to day
 
 ```bash
-just nix-target   # which output does this machine resolve to?
-just nix-build    # build it, don't activate
-just nix-switch   # activate
-just nix-check    # evaluate all three hosts
-just nix-update   # refresh flake.lock
+just nix-target # which output does this machine resolve to?
+just nix-build  # build it, don't activate
+just nix-switch # activate
+just nix-check  # evaluate all three hosts
+just nix-update # refresh flake.lock
 ```
 
 On the linux host, `just nix-hardware` regenerates its
@@ -219,5 +241,8 @@ home.shellAliases.some-cli = "SOME_API_KEY=$(op read $SOME_API_KEY) some-cli";
 
 ## What nix does not manage
 
-`install.sh` symlinks `nvim/` into `~/.config` directly; lazy.nvim manages its
-own plugin lockfile and does not want nix in the way.
+The neovim *configuration*. `code/neovim.nix` points `~/.config/nvim` at the
+working copy with `mkOutOfStoreSymlink` rather than copying it into the store,
+so edits are live and lazy.nvim can write its own plugin lockfile. The symlink
+itself is made by `switch`, so there is no bootstrap script to run on a fresh
+machine.

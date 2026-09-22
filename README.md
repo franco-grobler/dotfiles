@@ -10,8 +10,8 @@ and a linux desktop — that share as much or as little as each one needs. See
 ## Install
 
 ```bash
-direnv allow      # dev shell: installs the git hooks, puts the tooling on PATH
-just nix-switch   # build and activate this machine's configuration
+direnv allow    # dev shell: installs the git hooks, puts the tooling on PATH
+just nix-switch # build and activate this machine's configuration
 ```
 
 The neovim config is symlinked into `~/.config` by the switch itself, so there
@@ -29,13 +29,18 @@ On a machine that has never had nix-darwin or nixos-rebuild, use
 | `nix/modules/flake/`                        | the plumbing that discovers the tree                           |
 | `nvim/`                                     | neovim config, symlinked live into `~/.config` by home-manager |
 | `_scripts/`, `justfile`                     | host resolution and the task runner                            |
+| `.editorconfig`, `stylua.toml`              | formatter settings, shared by `nix fmt` and the editor         |
 | `Credentials.md`                            | where secrets live (1Password; nothing secret is committed)    |
-
-## Checks
-
-`nix flake check` builds every host that belongs to the current system, plus
-the lints, and is what CI runs on both linux and macOS. `nix fmt` formats the
-whole repo -- nix, shell, lua, and the workflows.
 
 A program that ships config files is a folder holding both — e.g.
 `nix/modules/home/terminal/tmux/{default.nix,tmux.conf,theme.conf,keybindings.conf}`.
+
+## Checks
+
+`nix flake check` builds every host that belongs to the current system, plus the
+lints, and is what CI runs on both linux and macOS.
+
+`nix fmt` formats the whole repo, not just the nix tree: nix, shell, lua, toml,
+yaml, json and markdown. Every formatter is pinned in
+[`nix/modules/flake/formatter.nix`](nix/modules/flake/formatter.nix), and the
+pre-commit hook runs the same one, so CI cannot disagree with a laptop.

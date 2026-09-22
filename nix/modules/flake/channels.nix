@@ -27,6 +27,7 @@ let
     "gh"
     "neovim"
     "opencode"
+    "panache"
     "posting"
     "uv"
   ];

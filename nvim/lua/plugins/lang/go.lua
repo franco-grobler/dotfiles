@@ -27,8 +27,7 @@ return {
     -- Setting them explicitly also keeps out everything that would duplicate
     -- something else: the formatting sources (goimports, gofumpt,
     -- terraform_fmt) duplicate conform, and the diagnostic sources (hadolint,
-    -- cmake_lint, markdownlint-cli2) duplicate nvim-lint, which would report
-    -- each problem twice.
+    -- cmake_lint) duplicate nvim-lint, which would report each problem twice.
     config = function(_, opts)
       local nls = require("null-ls")
       opts.sources = {

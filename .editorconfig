@@ -1,0 +1,26 @@
+# Shared formatting settings, for the tools that read them rather than taking
+# flags. This exists mainly so the shell inside markdown code fences is
+# formatted the same way shell in a .sh file is -- panache hands a fenced
+# block to shfmt on stdin, where there is no formatter.nix to read.
+# See nix/modules/home/code/languages/markdown/config.toml.
+#
+# shfmt is all-or-nothing about this file: "if any parser or printer flags
+# are given to the tool, no EditorConfig formatting options will be used"
+# (man shfmt). modules/flake/formatter.nix passes flags, so `nix fmt` on a
+# real .sh file ignores everything here and keeps using those flags -- the
+# two have to be kept saying the same thing.
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# The shfmt settings from modules/flake/formatter.nix, spelled the way
+# EditorConfig spells them: --indent=2, --case-indent, --simplify.
+[*.{sh,bash}]
+indent_style = space
+indent_size = 2
+switch_case_indent = true
+simplify = true

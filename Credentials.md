@@ -24,8 +24,8 @@ Optional. It exists only to raise GitHub's fetch rate limit during
 with every scope left unchecked is correct and sufficient.
 
 ```bash
-just nix-token                                  # reads the default item
-just nix-token 'op://Work/Nix GitHub PAT/credential'   # or point it elsewhere
+just nix-token                                       # reads the default item
+just nix-token 'op://Work/Nix GitHub PAT/credential' # or point it elsewhere
 ```
 
 That writes `~/.config/nix/nix.conf`, which is outside this repo. It is not
@@ -43,9 +43,9 @@ outstanding incident.
 
 Everything above is 1Password, which works because the two macs run the
 1Password desktop app and get its ssh agent and `op-ssh-sign` for free. The
-linux desktop has no such story: it can read an `op://` URI with the CLI, but
-it has nothing to unlock the CLI with at boot, so a secret that has to exist
-_before_ a human logs in -- a wifi PSK, a service token, a borg passphrase --
+linux desktop has no such story: it can read an `op://` URI with the CLI, but it
+has nothing to unlock the CLI with at boot, so a secret that has to exist
+*before* a human logs in -- a wifi PSK, a service token, a borg passphrase --
 has nowhere to live today.
 
 Nothing currently needs one, which is why no key management is set up. When
@@ -56,9 +56,9 @@ something does, the decision to make is between:
   machine. This is the one to reach for first.
 - **[agenix]** -- the same shape, age instead of sops. Simpler, fewer features.
 
-Both mean committing ciphertext here, which is a change from the current "nothing
-secret is committed at all" rule -- worth making deliberately rather than at the
-moment something is needed.
+Both mean committing ciphertext here, which is a change from the current
+"nothing secret is committed at all" rule -- worth making deliberately rather
+than at the moment something is needed.
 
 [sops-nix]: https://github.com/Mic92/sops-nix
 [agenix]: https://github.com/ryantm/agenix
