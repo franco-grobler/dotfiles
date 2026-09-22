@@ -98,6 +98,22 @@ in
       ];
     };
 
+    "Homelab" = {
+      root = "~/Code/Personal/homelab-infra/main/";
+      windows = [
+        { name = "editor"; }
+        {
+          name = "dev";
+          layout = "main-vertical";
+          panes = [
+            "."
+            "."
+            "."
+          ];
+        }
+      ];
+    };
+
     # Three git worktrees of the same repo, one window each.
     "Khula" = {
       root = "~/Code/GrowCreativeCo/Khula/khula/feat/hookup";
