@@ -15,18 +15,6 @@
     "deny": [
       "Shell(docker volume rm)",
       "Shell(docker:volume:rm*)",
-      "Shell(git add)",
-      "Shell(git:add*)",
-      "Shell(git stage)",
-      "Shell(git:stage*)",
-      "Shell(git commit)",
-      "Shell(git:commit*)",
-      "Shell(git commit:-a*)",
-      "Shell(git commit:--all*)",
-      "Shell(git:commit*-a*)",
-      "Shell(git:commit*--all*)",
-      "Shell(git pull)",
-      "Shell(git:pull*)",
       "Shell(git push)",
       "Shell(git:push*)",
       "Shell(gh)",
@@ -42,22 +30,24 @@
     "showLineNumbers": true,
     "showThinkingBlocks": true,
     "showStatusIndicators": true,
-    "showStatusLineRunningTime": false
+    "showStatusLineRunningTime": false,
+    "zenMode": true
   },
   "notifications": true,
   "hints": true,
+  "modelSlashCommands": true,
   "rewind": false,
-  "suggestNextPrompt": false,
   "model": {
-    "modelId": "grok-4.5",
-    "displayModelId": "grok-4.5",
-    "displayName": "Cursor Grok 4.5 High Fast",
-    "displayNameShort": "Cursor Grok 4.5 High Fast",
+    "modelId": "claude-opus-5-5",
+    "displayModelId": "claude-opus-5-5",
+    "displayName": "Claude Opus 5.5 300K Medium",
+    "displayNameShort": "Claude Opus 5.5 300K Medium",
     "aliases": [],
     "maxMode": false
   },
   "hasChangedDefaultModel": true,
   "maxMode": false,
+  "maxModeAutoEnabled": false,
   "modelParameters": {
     "default": [],
     "claude-fable-5": [
@@ -119,11 +109,8 @@
         "id": "reasoning",
         "value": "max"
       }
-    ]
-  },
-  "selectedModel": {
-    "modelId": "grok-4.5",
-    "parameters": [
+    ],
+    "grok-4.6": [
       {
         "id": "effort",
         "value": "high"
@@ -132,12 +119,64 @@
         "id": "fast",
         "value": "true"
       }
+    ],
+    "auto-smart": [
+      {
+        "id": "optimize_for",
+        "value": "balanced"
+      }
+    ],
+    "claude-opus-5-5": [
+      {
+        "id": "context",
+        "value": "300k"
+      },
+      {
+        "id": "effort",
+        "value": "medium"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
     ]
   },
+  "selectedModel": {
+    "modelId": "claude-opus-5-5",
+    "parameters": [
+      {
+        "id": "context",
+        "value": "300k"
+      },
+      {
+        "id": "effort",
+        "value": "medium"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "modelSelectionHistory": [
+    "claude-opus-5-5",
+    "composer-2.5",
+    "auto-smart",
+    "grok-4.6",
+    "default",
+    "grok-4.5"
+  ],
   "privacyCache": {
     "ghostMode": true,
     "privacyMode": 2,
-    "updatedAt": 1785743336999
+    "updatedAt": 1790280947892
+  },
+  "autoReviewAvailabilityCache": {
+    "backendUrl": "https://api2.cursor.sh",
+    "authCacheKey": "auth:google-oauth2|user_01KPAGZ5KP8AC3TGBYF3DZ99VV",
+    "teamId": 17562873,
+    "available": true,
+    "updatedAt": 1785831298978
   },
   "serverConfigCache": {
     "backendUrl": "https://api2.cursor.sh",
@@ -149,7 +188,7 @@
     },
     "cliSandboxDefaultEnabled": false,
     "serverHttp2Config": 0,
-    "updatedAt": 1785493569381
+    "updatedAt": 1790279286003
   },
   "authInfo": {
     "email": "franco.grobler@cloudsmiths.ai",
@@ -163,6 +202,7 @@
     "useHttp1ForAgent": false
   },
   "approvalMode": "unrestricted",
+  "autoAcceptWebSearch": false,
   "sandbox": {
     "mode": "disabled",
     "networkAccess": "user_config_with_defaults"
