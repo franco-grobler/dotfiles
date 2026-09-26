@@ -15,6 +15,17 @@ let
       mkAmoExtension "1password-x-password-manager"; # 1Password
   };
 
+  # Prefs both Firefox and Zen want. The vaapi pair turns on hardware video
+  # decode, which needs hardware.graphics.extraPackages to supply the iHD
+  # driver (see nixos/desktop/hyprland.nix); without it these are inert.
+  sharedFirefoxSettings = {
+    # New extensions land enabled, no manual click in about:addons.
+    "extensions.autoDisableScopes" = 0;
+    "browser.theme.color-scheme" = 1;
+    "media.ffmpeg.vaapi.enabled" = true;
+    "media.hardware-video-decoding.force-enabled" = true;
+  };
+
   sharedFirefoxPolicies = {
     DisableTelemetry = true;
     DisableFirefoxStudies = true;
@@ -45,10 +56,7 @@ in
       id = 0;
       name = "default";
       isDefault = true;
-      settings = {
-        # New extensions land enabled, no manual click in about:addons.
-        "extensions.autoDisableScopes" = 0;
-        "browser.theme.color-scheme" = 1;
+      settings = sharedFirefoxSettings // {
         "browser.theme.toolbar-theme" = 0;
       };
     };
@@ -63,10 +71,7 @@ in
       id = 0;
       name = "default";
       isDefault = true;
-      settings = {
-        "extensions.autoDisableScopes" = 0;
-        "browser.theme.color-scheme" = 1;
-      };
+      settings = sharedFirefoxSettings;
     };
   };
 }

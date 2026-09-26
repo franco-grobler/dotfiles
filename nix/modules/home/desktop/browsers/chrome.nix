@@ -10,8 +10,11 @@
     enable = true;
     commandLineArgs = [
       "--ozone-platform=wayland"
-      "--enable-features=UseOzonePlatform"
       "--gtk-version=4"
+      # Chrome will not use VA-API unless asked, even with a driver present.
+      # The GL variant is the one that works on Wayland/iris; the plain
+      # VaapiVideoDecoder flag covers the older code path.
+      "--enable-features=AcceleratedVideoDecodeLinuxGL,VaapiVideoDecoder"
     ];
   };
 }
