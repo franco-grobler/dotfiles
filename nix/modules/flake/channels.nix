@@ -25,6 +25,7 @@ let
     "atlas"
     "direnv"
     "gh"
+    "glab"
     "neovim"
     "opencode"
     "panache"
