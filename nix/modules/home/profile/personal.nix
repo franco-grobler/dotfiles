@@ -5,6 +5,18 @@ let
 in
 { pkgs, ... }:
 {
+  # The key each host authenticates with; see core/ssh.nix. 1Password items are
+  # referenced by id because their titles collide with the login items.
+  dotfiles.ssh.keys = {
+    "github.com" = signingKey;
+    "codeberg.org" = "op://Private/fccik27zpnnf24wx4z53wueugy"; # Codeberg
+    "gitlab.com" = "op://Private/va5qrbuqdtn5u3roam7skzk4zu"; # GitLab
+    openwrt = "op://Private/aeqvst5p5aogunlkfhrvouxzjy"; # OpenWRT
+    bamboo = "op://Private/aeqvst5p5aogunlkfhrvouxzjy"; # OpenWRT
+    bamboo-rescue = "op://Private/aeqvst5p5aogunlkfhrvouxzjy"; # OpenWRT
+    nixos-laptop = "op://Private/bjsy5ygf4gz2smyjddnxveq564"; # NixOs Laptop
+  };
+
   programs = {
     git = {
       settings.user = {
@@ -20,11 +32,9 @@ in
     # out verbatim as a `host` line, which ssh_config reads as the start of a
     # *new* block -- silently swallowing everything under it.
     ssh.settings = {
-      "github.com" = {
-        user = "git";
-        identityFile = "~/.ssh/github/personal.pub";
-        identitiesOnly = true;
-      };
+      "github.com".user = "git";
+      "codeberg.org".user = "git";
+      "gitlab.com".user = "git";
 
       bamboo = {
         hostname = "192.168.1.100";
@@ -35,6 +45,13 @@ in
         hostname = "192.168.1.1";
         user = "root";
       };
+
+      bamboo-rescue = {
+        hostname = "192.168.99.1";
+        user = "root";
+      };
+
+      nixos-laptop.hostname = "192.168.10.249";
     };
   };
 

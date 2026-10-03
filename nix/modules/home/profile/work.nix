@@ -20,12 +20,11 @@ in
     };
 
     # The attribute name is the `Host` pattern -- see personal.nix.
-    ssh.settings."github.com" = {
-      user = "git";
-      identityFile = "~/.ssh/github/cloudsmiths.pub";
-      identitiesOnly = true;
-    };
+    ssh.settings."github.com".user = "git";
   };
+
+  # The signing key doubles as the github auth key; see core/ssh.nix.
+  dotfiles.ssh.keys."github.com" = signingKey;
 
   # Work-only tmux session layouts. Nothing here yet -- none of the sessions
   # captured when this was set up were Cloudsmiths projects. Add entries in the

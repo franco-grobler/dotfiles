@@ -18,15 +18,14 @@ add-hooks:
     nix develop ./nix --command true
     echo "hooks installed"
 
-# Write this machine's GitHub SSH public key to its ssh identityFile (~/.ssh/github/*.pub).
+# Write each ssh host's public key to ~/.ssh/<host>/key.pub (dotfiles.ssh.keys).
 [group('Git')]
 [working-directory("nix")]
 ssh-keys:
     #!/usr/bin/env bash
-    # Run once per machine, before the first fetch/push. The public half lives
-    # committed in this repo as the profile's git signing.key
-    # (profile/personal.nix, profile/work.nix); the private half never leaves
-    # 1Password -- ssh offers the key through the 1Password agent.
+    # Run once per machine, and again after adding a key. Only public halves
+    # are written; ssh hands them to the 1Password agent, which signs with the
+    # private half that never leaves 1Password. See nix/modules/home/core/ssh.nix.
     set -euo pipefail
     . ../_scripts/set_nix_envs.sh
     case "${NIXCONFIG}" in
@@ -34,13 +33,19 @@ ssh-keys:
       *) home="${NIXNAME}" ;;
     esac
     ref=".#homeConfigurations.\"${home}\""
-    key=$(nix eval --raw --apply 'h: h.config.programs.git.signing.key' "$ref")
-    dst=$(nix eval --raw --apply 'h: h.config.programs.ssh.settings."github.com".data.identityFile' "$ref")
-    dst="${dst/#\~/$HOME}"
-    mkdir -p "$(dirname "$dst")"
-    printf '%s\n' "$key" >"$dst"
-    chmod 600 "$dst"
-    echo "wrote $dst"
+    keys=$(nix eval --json --apply 'h: h.config.dotfiles.ssh.keys' "$ref")
+    jq -r 'to_entries[] | [.key, .value] | @tsv' <<<"$keys" |
+      while IFS=$'\t' read -r host src; do
+        case "$src" in
+          op://*) key=$(op read "${src}/public key" </dev/null) ;;
+          *) key="$src" ;;
+        esac
+        dst="$HOME/.ssh/${host}/key.pub"
+        mkdir -p -m 700 "$(dirname "$dst")"
+        printf '%s\n' "$key" >"$dst"
+        chmod 600 "$dst"
+        echo "wrote $dst"
+      done
 
 # Show which flake output this machine resolves to.
 [group('Nix')]
