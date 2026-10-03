@@ -3,7 +3,12 @@
 # operations fail. `mkOutOfStoreSymlink` keeps the file declarative while
 # leaving it writable: edits from either side land in the working copy, and
 # `git diff` shows what the tool changed.
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   # macOS gets Claude Code from Homebrew (claude-code@latest cask); install
   # the nix build everywhere else.
@@ -12,6 +17,5 @@
   home.sessionVariables.CLAUDE_CONFIG_DIR = "${config.xdg.configHome}/claude";
 
   xdg.configFile."claude/settings.json".source =
-    config.lib.file.mkOutOfStoreSymlink
-      "${config.dotfiles.root}/nix/modules/home/ai/claude/settings.json";
+    config.lib.file.mkOutOfStoreSymlink "${config.dotfiles.root}/nix/modules/home/ai/claude/settings.json";
 }

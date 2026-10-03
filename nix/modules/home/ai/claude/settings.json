@@ -1,16 +1,8 @@
 {
+  "$schema": "https://www.schemastore.org/claude-code-settings.json",
   "permissions": {
-    "allow": [
-      "Bash",
-      "Edit",
-      "Write",
-      "Read",
-      "WebFetch",
-      "WebSearch"
-    ],
-    "deny": [
-      "Bash(git push:*)"
-    ]
+    "allow": ["Edit", "Write", "Read", "WebFetch", "WebSearch"],
+    "deny": ["Bash(git push:*)"]
   },
   "model": "opus",
   "enabledPlugins": {
@@ -18,7 +10,8 @@
     "typescript-lsp@claude-plugins-official": true,
     "chrome-devtools-mcp@claude-plugins-official": true,
     "modern-web-guidance@claude-plugins-official": true,
-    "frontend-design@claude-plugins-official": true
+    "frontend-design@claude-plugins-official": true,
+    "rust-analyzer-lsp@claude-plugins-official": true
   },
   "effortLevel": "low",
   "modelSettings": {
@@ -31,5 +24,40 @@
   },
   "theme": "dark",
   "inputNeededNotifEnabled": true,
-  "agentPushNotifEnabled": true
+  "agentPushNotifEnabled": true,
+  "autoMode": {
+    "soft_deny": [
+      "$defaults",
+      "Bash(wrangler deploy:*) — Cloudflare Workers production deploy from this repo, scope to review before auto-approval",
+      "Bash(git-cliff:*) — changelog/version generation touches release artifacts, worth a confirmation gate"
+    ],
+    "environment": [
+      "### Org-wide",
+      "**Organization**: None configured",
+      "**Cloud provider(s)**: Cloudflare (Workers deploy target; site served from Cloudflare asset store, Turnstile and Email Sending referenced in .env.example)",
+      "**Repository visibility**: Not queryable here (org/repo not derivable from gitlab.com SSH-style remote); assume private per shipped default",
+      "**Internal sharing / snippet hosting**: None configured — treat public paste/gist services as outside the trust boundary",
+      "**Secrets management**: None configured",
+      "**Default / protected branches**: main (default branch, per repo facts); protection status not queryable via gh (unsupported host/remote shape) — treat as unverified",
+      "**CI/CD deploy targets**: Cloudflare Workers, via `pnpm deploy` (this repo only)",
+      "**Network posture**: None configured",
+      "**Host containment**: None configured — assume Claude Code runs on an ordinary developer machine with open internet",
+      "**Source control**: this repo (gitlab.com:tweedill/edge/edge-website.git) and its configured remote only",
+      "**Trusted internal domains**: edgeconsulting.biz and its subdomains (uat.edgeconsulting.biz, mr-1.uat.edgeconsulting.biz — seen as contacted hosts this project)",
+      "**Trusted cloud buckets**: None configured",
+      "**Key internal services**: mr-1.uat.edgeconsulting.biz, uat.edgeconsulting.biz (UAT/staging endpoints contacted in this project's transcripts)",
+      "**Internal package registry**: None configured",
+      "**Sensitive data locations & audiences**: .env, .env.local, .env.*.local (gitignored secrets — Turnstile secret key, email transport credentials); CONTACT_TO_EMAIL/CONTACT_FROM_EMAIL addresses; share only with audiences cleared at the Edge Consulting engineering bar",
+      "**Data retention / declassification**: None configured",
+      "**Sensitive remote targets**: any host or namespace with `prod`/`production` as a whole name segment (none currently observed — uat/mr-1 hosts are staging, not production)",
+      "**Protected deployment namespaces / environments**: None configured — fall back to the Sensitive remote targets heuristic",
+      "**Protected IaC scopes**: IAM, RBAC, networking, quota, and node-pool resources; anything whose name or tag carries `prod` or `production` as a whole word or name segment",
+      "### User-specific",
+      "**Primary use of Claude Code**: software development (Astro/Vue marketing site, Cloudflare Workers deploy)",
+      "**Trusted repo**: this git repository (/Users/francogrobler/Code/Tweedill/edge/main) and its origin remote (gitlab.com:tweedill/edge/edge-website.git) only",
+      "**Org-specific CLiS**: None configured",
+      "**Org-specific CLIs**: None configured",
+      "routine under this repo's src/content/, scripts/, and tests/ prefixes is in scope for this project"
+    ]
+  }
 }
