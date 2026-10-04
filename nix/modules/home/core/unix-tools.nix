@@ -22,6 +22,7 @@
       stow
       tree
       wget
+      wireguard-tools
       yazi
       yq
     ]

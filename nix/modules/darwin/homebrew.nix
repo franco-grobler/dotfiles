@@ -32,7 +32,10 @@
       brewfile = true;
     };
 
-    masApps."1Password for Safari" = 1569813296;
+    masApps = {
+      "1Password for Safari" = 1569813296;
+      Wireguard = 1451685025;
+    };
 
     onActivation = {
       autoUpdate = false;
