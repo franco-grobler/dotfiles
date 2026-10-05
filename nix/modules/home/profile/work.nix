@@ -23,7 +23,7 @@ in
     ssh.settings."github.com".user = "git";
   };
 
-  # The signing key doubles as the github auth key; see core/ssh.nix.
+  # The signing key doubles as the github auth key; see core/ssh/.
   dotfiles.ssh.keys."github.com" = signingKey;
 
   # Work-only tmux session layouts. Nothing here yet -- none of the sessions

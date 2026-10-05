@@ -38,6 +38,8 @@ in
   config = {
     home.packages = [ pkgs._1password-cli ];
 
+    xdg.configFile."1Password/ssh/agent.toml".source = ./agent.toml;
+
     programs.ssh = {
       enable = true;
       enableDefaultConfig = false;

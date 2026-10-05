@@ -5,7 +5,7 @@ let
 in
 { pkgs, ... }:
 {
-  # The key each host authenticates with; see core/ssh.nix. 1Password items are
+  # The key each host authenticates with; see core/ssh/. 1Password items are
   # referenced by id because their titles collide with the login items.
   dotfiles.ssh.keys = {
     "github.com" = signingKey;

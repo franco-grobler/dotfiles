@@ -1,0 +1,7 @@
+# Vaults the 1Password ssh agent serves keys from. Without this file it only
+# serves the Private vault (or each account's default vault).
+[[ssh-keys]]
+vault = "Private"
+
+[[ssh-keys]]
+vault = "Homelab"

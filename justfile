@@ -25,7 +25,7 @@ ssh-keys:
     #!/usr/bin/env bash
     # Run once per machine, and again after adding a key. Only public halves
     # are written; ssh hands them to the 1Password agent, which signs with the
-    # private half that never leaves 1Password. See nix/modules/home/core/ssh.nix.
+    # private half that never leaves 1Password. See nix/modules/home/core/ssh/.
     set -euo pipefail
     . ../_scripts/set_nix_envs.sh
     case "${NIXCONFIG}" in
