@@ -20,6 +20,7 @@
     misc
     nix
     python
+    rust
     sh
     tex
     web

@@ -4,10 +4,6 @@
 { pkgs, ... }:
 {
   home.packages = with pkgs; [
-    # Rust. rustup manages the rest of the toolchain itself, rust-analyzer
-    # included, so there is nothing else to install.
-    rustup
-
     # Typst. tinymist formats as well as serves, so typstyle is not needed --
     # but it is worth watching more than the version gap suggests, because it
     # changes its settings schema between releases and

@@ -46,3 +46,16 @@ cmatrix:
 cowsay ARGS:
   cowsay {{ ARGS }} | lolcat
 
+
+# Delete Rust build artifacts not used in the last N days
+[group("Dev")]
+cargo-sweep days="30":
+    #!/usr/bin/env bash
+    # cargo-sweep only works on a cargo project, and finds the target dir via
+    # `cargo metadata`. A throwaway crate therefore resolves to the shared
+    # target-dir from ~/.cargo/config.toml.
+    set -euo pipefail
+    stub=$(mktemp -d)
+    trap 'rm -rf "$stub"' EXIT
+    cargo init --quiet --vcs none --name sweep "$stub"
+    cargo sweep --time {{ days }} "$stub"
