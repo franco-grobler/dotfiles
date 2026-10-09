@@ -242,6 +242,6 @@ in
     devbox
     devenv
     qmk
-    sentry-cli
+    # sentry-cli
   ];
 }
