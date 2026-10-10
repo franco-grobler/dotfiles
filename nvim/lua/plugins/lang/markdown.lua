@@ -28,6 +28,20 @@ return {
         -- imports alone. See core/formatting.lua for oxfmt.
         ["markdown.mdx"] = { "oxfmt", "markdown-toc" },
       },
+      formatters = {
+        -- conform's built-in panache-fix pipes the buffer through
+        -- `panache lint --fix` on stdin, but panache only echoes the document
+        -- back when it fixed something -- a clean file comes back as the
+        -- status line "No issues found", and that replaced the buffer. Fixing
+        -- conform's temp file in place sidesteps stdout entirely. Exit code 1
+        -- means violations remain that --fix could not fix; nvim-lint reports
+        -- those, so they should not fail the format.
+        ["panache-fix"] = {
+          stdin = false,
+          args = { "lint", "--fix", "$FILENAME" },
+          exit_codes = { 0, 1 },
+        },
+      },
     },
   },
 
