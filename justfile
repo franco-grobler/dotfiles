@@ -81,6 +81,11 @@ nix-update:
 nix-bootstrap:
     @_scripts/nix_bootstrap.sh
 
+# Remove symlinks left in ~/.config by the old stow setup.
+[group('Nix')]
+stow-clean:
+    @_scripts/stow_clean.sh
+
 # Serve the docs book with live reload.
 [group('Docs')]
 [working-directory("docs")]
