@@ -7,7 +7,7 @@ be listed by hand, and a file's location gives it its name.
 | Host                  | Class  | Takes                                                   |
 | --------------------- | ------ | ------------------------------------------------------- |
 | `Francos-MacBook-Air` | darwin | base, dev, terminal, monitor, **personal**              |
-| `work-mbp`            | darwin | base, dev, terminal, **work**                           |
+| `CSLGPKPMH9Y4X`       | darwin | base, dev, terminal, **work**                           |
 | `nixos-x8664`         | nixos  | base, dev, terminal, monitor, **desktop**, **personal** |
 
 This book covers:

@@ -46,13 +46,13 @@ vcs/
 
 ## Naming
 
-| Path                           | Aggregate                 |
-| ------------------------------ | ------------------------- |
-| `home/vcs/git.nix`             | `homeManager.git`         |
-| `home/vcs/lazygit/default.nix` | `homeManager.lazygit`     |
-| `home/vcs/default.nix`         | `homeManager.vcs`         |
-| `home/base.nix`                | `homeManager.base`        |
-| `darwin/hosts/work-mbp.nix`    | `darwin."hosts/work-mbp"` |
+| Path                             | Aggregate                      |
+| -------------------------------- | ------------------------------ |
+| `home/vcs/git.nix`               | `homeManager.git`              |
+| `home/vcs/lazygit/default.nix`   | `homeManager.lazygit`          |
+| `home/vcs/default.nix`           | `homeManager.vcs`              |
+| `home/base.nix`                  | `homeManager.base`             |
+| `darwin/hosts/CSLGPKPMH9Y4X.nix` | `darwin."hosts/CSLGPKPMH9Y4X"` |
 
 **A file is named after itself, wherever it sits.** Folders are for reading, not
 for naming — moving `lazygit.nix` from `vcs/` to `code/` changes nothing. Two
@@ -110,7 +110,7 @@ home/
 darwin/                 base homebrew users home-manager
 ├── system/             nix-daemon locale macos-defaults touch-id
 ├── profile/            personal
-└── hosts/              Francos-MacBook-Air work-mbp
+└── hosts/              Francos-MacBook-Air CSLGPKPMH9Y4X
 
 nixos/                  base users home-manager docker networking ssh
 ├── system/             nix-daemon locale
@@ -126,7 +126,7 @@ it is importable on its own. That is the whole reuse story.
 A host file is a flat inventory of what the machine is made of:
 
 ```nix
-# modules/darwin/hosts/work-mbp.nix
+# modules/darwin/hosts/CSLGPKPMH9Y4X.nix
 {
   features,
   home,
@@ -134,7 +134,10 @@ A host file is a flat inventory of what the machine is made of:
   ...
 }:
 {
-  imports = with features; [ base ];
+  imports = with features; [
+    base
+    work
+  ];
 
   nixpkgs.pkgs = mkPkgs {
     system = "aarch64-darwin";
@@ -161,12 +164,12 @@ declaration rather than a grep. See `darwin/users.nix`.
 | Host                  | Class  | Takes                                                              |
 | --------------------- | ------ | ------------------------------------------------------------------ |
 | `Francos-MacBook-Air` | darwin | base, dev, terminal, monitor, **personal**                         |
-| `work-mbp`            | darwin | base, dev, terminal, **work** — no `monitor`, no personal identity |
+| `CSLGPKPMH9Y4X`       | darwin | base, dev, terminal, **work** — no `monitor`, no personal identity |
 | `nixos-x8664`         | nixos  | base, dev, terminal, monitor, **desktop**, **personal**            |
 
 The filename is the configuration name, so `darwin-rebuild switch --flake .`
 resolves by hostname. Stand-alone home-manager outputs exist too:
-`homeConfigurations."francogrobler@nixos-x8664"` and `…@work-mbp`.
+`homeConfigurations."francogrobler@nixos-x8664"` and `…@CSLGPKPMH9Y4X`.
 
 ## Adding things
 

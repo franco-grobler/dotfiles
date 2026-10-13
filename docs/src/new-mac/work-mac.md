@@ -5,13 +5,17 @@ is different.
 
 ## What it gets
 
-`nix/modules/darwin/hosts/work-mbp.nix`:
+`nix/modules/darwin/hosts/CSLGPKPMH9Y4X.nix`:
 
 - **Account**: `franco.grobler`. The personal hosts use `francogrobler`.
 - **Home modules**: `base`, `dev`, `terminal`, `work`. It leaves out `monitor`
   and the personal identity.
-- **System modules**: only `base`, so homebrew installs just the baseline from
-  `darwin/homebrew.nix`. There is no `darwin/profile/work.nix` yet.
+- **System modules**: `base` and `work`. `darwin/profile/work.nix` adds its
+  brews and casks on top of the baseline in `darwin/homebrew.nix`.
+- **No App Store apps**: the App Store is disabled on this Mac, so `mas` and
+  every `masApps` entry live in `darwin/profile/personal.nix`. Use a cask
+  instead where one exists. The WireGuard CLI (`wg`, `wg-quick`) still comes
+  from nix on every host.
 
 `nix/modules/home/profile/work.nix` adds:
 
@@ -24,19 +28,15 @@ is different.
 
 ### In the repo
 
-- [ ] Rename `work-mbp.nix` to the Mac's `LocalHostName` (there is a `TODO` in
-  the file), and update `nix/README.md` to match. Until then, prefix
-  commands with `NIXNAME=work-mbp`.
+- [x] Name the host file after the Mac's `LocalHostName` (`CSLGPKPMH9Y4X`).
+- [x] Add `darwin/profile/work.nix` and import it from the host.
 - [ ] Push the branch you will check out on the work Mac.
-- [ ] Optional: add `nix/modules/darwin/profile/work.nix` for work-only casks,
-  and import it from the host, the same way `personal` is imported on
-  `Francos-MacBook-Air`.
 
 ### On the machine
 
 - [ ] `whoami` prints `franco.grobler`.
-- [ ] Determinate Nix and Homebrew are installed, and you are signed in to the
-  App Store.
+- [ ] `scutil --get LocalHostName` prints `CSLGPKPMH9Y4X`.
+- [ ] Determinate Nix and Homebrew are installed.
 - [ ] 1Password is in `/Applications` with the SSH agent and CLI integration on.
 - [ ] The work signing key (the public key in `profile/work.nix`) is in the
   **Private** or **Homelab** vault, or that vault is added to
