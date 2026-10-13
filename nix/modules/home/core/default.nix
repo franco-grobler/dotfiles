@@ -5,6 +5,7 @@
   imports = with features; [
     state-version
     repo
+    stow-links
     xdg
     locale
     fonts

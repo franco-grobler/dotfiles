@@ -58,3 +58,15 @@ find ~ -maxdepth 3 -name '*.backup' 2>/dev/null
 
 Check what is in them, copy anything worth keeping into the repo, and delete
 them.
+
+## Links left by the old stow setup
+
+The old setup used stow to link whole folders into `~/.config`, such as
+`~/.config/alacritty -> ../dotfiles/alacritty`. Those folders have moved under
+`nix/modules/home/`, so the links are broken, and home-manager can't create its
+own files in their place ("mkdir: cannot create directory").
+
+Every switch removes these first (`nix/modules/home/core/stow-links.nix`). It
+only removes links that are broken *and* point into the dotfiles checkout. Stow
+links that still work are left alone; `just stow-clean` lists them and removes
+them once you confirm.
