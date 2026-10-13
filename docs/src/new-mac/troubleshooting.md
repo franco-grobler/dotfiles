@@ -29,9 +29,11 @@ just nix-token
 
 ## Determinate Nix is out of date
 
-`just nix-switch` tells you when an update is available, but never installs it
-for you, because upgrading restarts the daemon:
+`just nix-switch` (or `just nix-upgrade-check`) tells you when an update is
+available, but never installs it for you, because upgrading restarts the daemon:
 
 ```bash
 sudo determinate-nixd upgrade
 ```
+
+See [Updating Determinate Nix](../determinate-nix.md).

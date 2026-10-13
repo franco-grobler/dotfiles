@@ -13,4 +13,5 @@
 # Reference
 
 - [Day to day](day-to-day.md)
+- [Updating Determinate Nix](determinate-nix.md)
 - [How the tree works](architecture.md)
