@@ -1,5 +1,5 @@
 # Work MacBook (aarch64). Same toolchain as the personal mac, different identity
-# and app set — note it takes `dev` but not `personal`, and skips `monitor`.
+# and app set — note it takes `dev` but not `personal`.
 #
 # The account is `franco.grobler` here; the personal hosts use `francogrobler`.
 # That difference is why nothing in the tree hardcodes a username -- it all
@@ -30,6 +30,7 @@
       base
       dev
       terminal
+      monitor
       work
     ];
   };

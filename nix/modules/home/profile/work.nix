@@ -37,5 +37,16 @@ in
     google-cloud-sdk
     kubectl
     kubernetes-helm
+
+    # Carried over from the old work setup (branch feat/cloudsmiths), so the
+    # switch doesn't take them off PATH.
+    devbox
+    devenv
+    gemini-cli # the homebrew formula is deprecated
+    gnumake
+    gnused
+    hyperfine
+    qmk
+    uv
   ];
 }

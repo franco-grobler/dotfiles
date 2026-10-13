@@ -19,7 +19,11 @@
       "claude-code@latest"
       "figma"
       "ghostty"
-      "google-chrome"
+      {
+        # Ships without a checksum, so it can't meet the global require_sha.
+        name = "google-chrome";
+        args.require_sha = false;
+      }
       "slack"
     ];
 
