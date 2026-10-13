@@ -29,6 +29,11 @@ in
     knownSha256Hashes = [
       # Francos-MacBook-Air
       "afae59aee64e05709962ccbeef2efd48c6cbc80f4e65fce03f0a05c303914959"
+      # CSLGPKPMH9Y4X -- the installer's file is the same three lines on every
+      # mac with only the username changed, so this is that template with
+      # `franco.grobler`. If activation still aborts, the installer wrote
+      # something else there; add the real hash instead.
+      "edd93e8508f86c16ae80e63d79edb3f440041f586d80c963e7cfa04bd3001fbc"
     ];
 
     text = ''
