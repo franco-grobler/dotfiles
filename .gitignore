@@ -19,3 +19,8 @@ nix/result
 [._]*.s[a-v][a-z]
 .*~
 *.un~
+/zsh/.zcompdump
+/zsh/.zsh_history
+/zsh/.zshenv
+/zsh/.zshrc
+/1Password/telemetry-enabled
