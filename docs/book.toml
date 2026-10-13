@@ -1,0 +1,15 @@
+[book]
+title = "Dotfiles"
+description = "Setting up and running the dendritic nix configuration"
+authors = ["Franco Grobler"]
+language = "en"
+src = "src"
+
+[build]
+build-dir = "book"
+
+[output.html]
+# Served from https://franco-grobler.github.io/dotfiles/ (.github/workflows/docs.yaml).
+site-url = "/dotfiles/"
+git-repository-url = "https://github.com/franco-grobler/dotfiles"
+edit-url-template = "https://github.com/franco-grobler/dotfiles/edit/main/docs/{path}"

@@ -20,3 +20,6 @@ nix/result-*
 *.un~
 
 /result
+
+# mdbook output
+docs/book/

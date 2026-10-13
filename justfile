@@ -190,6 +190,18 @@ nix-bootstrap:
       *) just nix-switch ;;
     esac
 
+# Serve the docs book with live reload.
+[group('Docs')]
+[working-directory("docs")]
+docs:
+    mdbook serve --open
+
+# Build the docs book into docs/book/.
+[group('Docs')]
+[working-directory("docs")]
+docs-build:
+    mdbook build
+
 # Set up Claude Code MCP servers.
 [group('Dev')]
 claude-setup:

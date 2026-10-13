@@ -34,6 +34,9 @@
           statix
           deadnix
 
+          # Builds and serves the book in docs/ (`just docs`).
+          mdbook
+
           # Reading what a build or a closure actually did.
           nix-output-monitor
           nix-tree
