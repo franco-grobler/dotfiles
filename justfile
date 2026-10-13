@@ -46,6 +46,11 @@ nix-switch:
 nix-test:
     @_scripts/nix_test.sh
 
+# Check whether a newer Determinate Nix is available (never upgrades).
+[group('Nix')]
+nix-upgrade-check:
+    -@_scripts/nix_upgrade_check.sh
+
 # Evaluate every host, not just this one.
 [group('Nix')]
 [working-directory("nix")]

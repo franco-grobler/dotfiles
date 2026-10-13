@@ -13,12 +13,10 @@ case "${NIXCONFIG}" in
 esac
 
 # Determinate Nix is installed outside the flake, so a switch never updates
-# it. Only nag; the upgrade restarts the daemon.
-if [ "${NIXCONFIG}" = darwinConfigurations ] && command -v determinate-nixd &>/dev/null; then
-  notice=$(determinate-nixd version 2>/dev/null | grep -m1 "is now available" || true)
-  if [ -n "${notice}" ]; then
+# it. Only nag, and only when behind; the upgrade restarts the daemon.
+if [ "${NIXCONFIG}" = darwinConfigurations ]; then
+  if ! notice=$("${root}/_scripts/nix_upgrade_check.sh"); then
     echo
-    echo "${notice#Note: }"
-    echo "Upgrade with: sudo determinate-nixd upgrade"
+    echo "${notice}"
   fi
 fi
