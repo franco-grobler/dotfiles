@@ -8,6 +8,7 @@
 
     casks = [
       "balenaetcher"
+      "claude"
       "drawio"
       "freecad"
       "inkscape"
