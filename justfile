@@ -20,32 +20,8 @@ add-hooks:
 
 # Write each ssh host's public key to ~/.ssh/<host>/key.pub (dotfiles.ssh.keys).
 [group('Git')]
-[working-directory("nix")]
 ssh-keys:
-    #!/usr/bin/env bash
-    # Run once per machine, and again after adding a key. Only public halves
-    # are written; ssh hands them to the 1Password agent, which signs with the
-    # private half that never leaves 1Password. See nix/modules/home/core/ssh/.
-    set -euo pipefail
-    . ../_scripts/set_nix_envs.sh
-    case "${NIXCONFIG}" in
-      nixosConfigurations | darwinConfigurations) home="${USER}@${NIXNAME}" ;;
-      *) home="${NIXNAME}" ;;
-    esac
-    ref=".#homeConfigurations.\"${home}\""
-    keys=$(nix eval --json --apply 'h: h.config.dotfiles.ssh.keys' "$ref")
-    jq -r 'to_entries[] | [.key, .value] | @tsv' <<<"$keys" |
-      while IFS=$'\t' read -r host src; do
-        case "$src" in
-          op://*) key=$(op read "${src}/public key" </dev/null) ;;
-          *) key="$src" ;;
-        esac
-        dst="$HOME/.ssh/${host}/key.pub"
-        mkdir -p -m 700 "$(dirname "$dst")"
-        printf '%s\n' "$key" >"$dst"
-        chmod 600 "$dst"
-        echo "wrote $dst"
-      done
+    @_scripts/ssh_keys.sh
 
 # Show which flake output this machine resolves to.
 [group('Nix')]
@@ -57,57 +33,18 @@ nix-target:
 
 # Build this host's configuration without activating it.
 [group('Nix')]
-[working-directory("nix")]
 nix-build:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    . ../_scripts/set_nix_envs.sh
-    case "${NIXCONFIG}" in
-      darwinConfigurations) nix build ".#${NIXCONFIG}.${NIXNAME}.system" ;;
-      nixosConfigurations)  nix build ".#${NIXCONFIG}.${NIXNAME}.config.system.build.toplevel" ;;
-      homeConfigurations)   nix build ".#${NIXCONFIG}.${NIXNAME}.activationPackage" ;;
-    esac
+    @_scripts/nix_build.sh
 
 # Activate this host's configuration.
 [group('Nix')]
-[working-directory("nix")]
 nix-switch:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    . ../_scripts/set_nix_envs.sh
-    echo "Switching to ${NIXCONFIG}.${NIXNAME}"
-    case "${NIXCONFIG}" in
-      darwinConfigurations) sudo darwin-rebuild switch --flake ".#${NIXNAME}" ;;
-      nixosConfigurations)  sudo nixos-rebuild switch --flake ".#${NIXNAME}" ;;
-      homeConfigurations)   home-manager switch --flake ".#${NIXNAME}" ;;
-    esac
-
-    # Determinate Nix is installed outside the flake, so a switch never updates
-    # it. Only nag; the upgrade restarts the daemon.
-    if [ "${NIXCONFIG}" = darwinConfigurations ] && command -v determinate-nixd &>/dev/null; then
-      notice=$(determinate-nixd version 2>/dev/null | grep -m1 "is now available" || true)
-      if [ -n "${notice}" ]; then
-        echo
-        echo "${notice#Note: }"
-        echo "Upgrade with: sudo determinate-nixd upgrade"
-      fi
-    fi
+    @_scripts/nix_switch.sh
 
 # Dry run: build this host and run its activation checks, without activating.
 [group('Nix')]
-[working-directory("nix")]
 nix-test:
-    #!/usr/bin/env bash
-    # nix-darwin has no `test`; `check` is the equivalent, and it is what
-    # catches things like unexpected files in /etc before a real switch.
-    set -euo pipefail
-    . ../_scripts/set_nix_envs.sh
-    echo "Checking ${NIXCONFIG}.${NIXNAME}"
-    case "${NIXCONFIG}" in
-      darwinConfigurations) sudo darwin-rebuild check --flake ".#${NIXNAME}" ;;
-      nixosConfigurations)  sudo nixos-rebuild test --flake ".#${NIXNAME}" ;;
-      homeConfigurations)   home-manager build --flake ".#${NIXNAME}" ;;
-    esac
+    @_scripts/nix_test.sh
 
 # Evaluate every host, not just this one.
 [group('Nix')]
@@ -124,48 +61,12 @@ nix-fmt:
 # Raise nix's GitHub fetch rate limit, once per machine.
 [group('Nix')]
 nix-token item="op://3qgfzteicksd5qcf74e5wphy7q/4hrgqattsgtiqhrvqd7l5jbese/credential":
-    #!/usr/bin/env bash
-    # Written to the user's nix.conf, outside the repo, so it is never committed.
-    set -euo pipefail
-    command -v op >/dev/null || { echo "1Password CLI not found" >&2; exit 1; }
-    conf="${XDG_CONFIG_HOME:-$HOME/.config}/nix/nix.conf"
-    mkdir -p "$(dirname "$conf")"
-    umask 077
-    printf 'access-tokens = github.com=%s\n' "$(op read "{{ item }}")" >"$conf"
-    echo "wrote $conf"
-    nix config show access-tokens | sed 's/=.*/= <set>/'
+    @_scripts/nix_token.sh "{{ item }}"
 
 # Regenerate this machine's hardware-configuration.nix (run on the linux host).
 [group('Nix')]
 nix-hardware host="":
-    #!/usr/bin/env bash
-    # On a fresh install the hostname is not the flake attribute yet, so pass
-    # the host explicitly: `just nix-hardware nixos-x8664`.
-    set -euo pipefail
-    [[ "$(uname -s)" == "Linux" ]] || { echo "run this on the machine it describes" >&2; exit 1; }
-    command -v nixos-generate-config >/dev/null ||
-      { echo "nixos-generate-config not found -- is this NixOS?" >&2; exit 1; }
-
-    name="{{ host }}"
-    if [[ -z ${name} ]]; then
-      . ./_scripts/set_nix_envs.sh
-      name="${NIXNAME}"
-    fi
-
-    dir="nix/modules/nixos/hosts/${name}"
-    [[ -d ${dir} ]] || {
-      echo "no host directory at ${dir}" >&2
-      echo "known hosts: $(ls nix/modules/nixos/hosts | tr '\n' ' ')" >&2
-      exit 1
-    }
-
-    {
-      echo "# Generated by \`just nix-hardware\`. Do not hand-edit -- rerun that recipe."
-      nixos-generate-config --show-hardware-config
-    } >"${dir}/hardware-configuration.nix"
-
-    echo "wrote ${dir}/hardware-configuration.nix"
-    git --no-pager diff --stat -- "${dir}/hardware-configuration.nix"
+    @_scripts/nix_hardware.sh "{{ host }}"
 
 # Update system flake lockfile.
 [group('Nix')]
@@ -177,18 +78,8 @@ nix-update:
 
 # First run on a fresh machine, before darwin-rebuild/nixos-rebuild exist.
 [group('Nix')]
-[working-directory("nix")]
 nix-bootstrap:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    . ../_scripts/set_nix_envs.sh
-    case "${NIXCONFIG}" in
-      darwinConfigurations)
-        nix build ".#${NIXCONFIG}.${NIXNAME}.system"
-        sudo ./result/sw/bin/darwin-rebuild switch --flake ".#${NIXNAME}"
-        ;;
-      *) just nix-switch ;;
-    esac
+    @_scripts/nix_bootstrap.sh
 
 # Serve the docs book with live reload.
 [group('Docs')]
