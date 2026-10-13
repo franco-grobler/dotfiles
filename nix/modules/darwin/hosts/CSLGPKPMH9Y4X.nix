@@ -5,8 +5,8 @@
 # That difference is why nothing in the tree hardcodes a username -- it all
 # comes back out of `dotfiles.users`.
 #
-# TODO(franco): rename this file to the machine's real LocalHostName
-# (`scutil --get LocalHostName`); the filename is the configuration name.
+# The filename is the machine's LocalHostName (`scutil --get LocalHostName`),
+# which is how `just nix-switch` finds this configuration.
 {
   features,
   home,
@@ -14,7 +14,10 @@
   ...
 }:
 {
-  imports = with features; [ base ];
+  imports = with features; [
+    base
+    work
+  ];
 
   nixpkgs.pkgs = mkPkgs {
     system = "aarch64-darwin";

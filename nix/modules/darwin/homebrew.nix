@@ -1,5 +1,8 @@
 # The homebrew baseline every mac gets. Role-specific apps are added by the
 # personal / work profiles, which merge into these same lists.
+#
+# No `masApps` here: the work mac has the App Store disabled, so anything from
+# it (and `mas` itself) lives in profile/personal.nix.
 {
   homebrew = {
     enable = true;
@@ -9,7 +12,6 @@
       "colima"
       "container"
       "llvm"
-      "mas"
     ];
 
     casks = [
@@ -30,11 +32,6 @@
     global = {
       autoUpdate = false;
       brewfile = true;
-    };
-
-    masApps = {
-      "1Password for Safari" = 1569813296;
-      Wireguard = 1451685025;
     };
 
     onActivation = {
