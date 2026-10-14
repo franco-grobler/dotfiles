@@ -7,7 +7,7 @@
 # server start, 36 idle shells at ~5 MB each whether or not they were wanted.
 #
 # `dotfiles.sessions` is the single source of truth. Shared projects live here;
-# machine-specific ones are added by profile/{personal,work}.nix, so the work
+# machine-specific ones are added by profile/{personal,work}/, so the work
 # mac never renders a project for a repo it does not have checked out.
 {
   config,

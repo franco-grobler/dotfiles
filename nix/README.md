@@ -109,7 +109,7 @@ home/
 
 darwin/                 base homebrew users home-manager
 ├── system/             nix-daemon locale macos-defaults touch-id
-├── profile/            personal
+├── profile/            personal work
 └── hosts/              Francos-MacBook-Air CSLGPKPMH9Y4X
 
 nixos/                  base users home-manager docker networking ssh

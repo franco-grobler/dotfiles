@@ -7,7 +7,12 @@
 let
   signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOVJfZJqxCPBNQDp1GCcoPRh4ykifHfzlAmedvc13Cm+";
 in
-{ pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   programs = {
     git = {
@@ -19,21 +24,29 @@ in
       signing.key = signingKey;
     };
 
-    # The attribute name is the `Host` pattern -- see personal.nix.
+    # The attribute name is the `Host` pattern -- see profile/personal/.
     ssh.settings."github.com".user = "git";
   };
 
-  # The signing key doubles as the github auth key; see core/ssh/.
-  dotfiles.ssh.keys."github.com" = signingKey;
+  dotfiles = {
+    # The signing key doubles as the github auth key; see core/ssh/.
+    ssh.keys."github.com" = signingKey;
 
-  # Work-only tmux session layouts. Nothing here yet -- none of the sessions
-  # captured when this was set up were Cloudsmiths projects. Add entries in the
-  # same shape as profile/personal.nix; the schema is in terminal/tmuxinator.
-  # Shared projects (Dotfiles) come from there and need no repetition.
-  dotfiles.sessions = { };
+    # Work-only tmux session layouts. Nothing here yet -- none of the sessions
+    # captured when this was set up were Cloudsmiths projects. Add entries in the
+    # same shape as profile/personal/; the schema is in terminal/tmuxinator.
+    # Shared projects (Dotfiles) come from there and need no repetition.
+    sessions = { };
+
+    # The picker: sesh.toml next to this file, plus a session for every repo +
+    # worktree under the roots. The schema is in terminal/sesh.
+    sesh = {
+      settings = lib.importTOML ./sesh.toml;
+      worktreeRoots = [ "${config.home.homeDirectory}/Code/Cloudsmiths" ];
+    };
+  };
 
   home.packages = with pkgs; [
-    awscli2
     google-cloud-sdk
     kubectl
     kubernetes-helm

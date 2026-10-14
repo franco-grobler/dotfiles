@@ -40,9 +40,10 @@ that `nix --version` works.
 nix-darwin's `homebrew` module drives `brew` but does not install it. Install it
 from [brew.sh](https://brew.sh).
 
-On a personal Mac, sign in to the **App Store** as well: `profile/personal.nix`
-installs App Store apps through `mas`, which needs a signed-in account. The work
-Mac has the App Store disabled, so nothing it gets comes from there.
+On a personal Mac, sign in to the **App Store** as well:
+`profile/personal/default.nix` installs App Store apps through `mas`, which
+needs a signed-in account. The work Mac has the App Store disabled, so nothing
+it gets comes from there.
 
 ## 5. Install and set up 1Password
 

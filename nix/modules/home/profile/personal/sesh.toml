@@ -1,0 +1,10 @@
+# This profile's sesh settings, read into `dotfiles.sesh.settings` by
+# default.nix next to it; terminal/sesh renders them to ~/.config/sesh/sesh.toml.
+
+# Session 0 is the throwaway tmux creates when a server starts with no
+# target; it is never worth picking. Top-level keys go above the first table
+# header, or TOML files them under it.
+blacklist = ["0"]
+
+[default_session]
+startup_command = "clear"

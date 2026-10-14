@@ -10,14 +10,14 @@ is different.
 - **Account**: `franco.grobler`. The personal hosts use `francogrobler`.
 - **Home modules**: `base`, `dev`, `terminal`, `work`. It leaves out `monitor`
   and the personal identity.
-- **System modules**: `base` and `work`. `darwin/profile/work.nix` adds its
-  brews and casks on top of the baseline in `darwin/homebrew.nix`.
+- **System modules**: `base` and `work`. `darwin/profile/work/default.nix` adds
+  its brews and casks on top of the baseline in `darwin/homebrew.nix`.
 - **No App Store apps**: the App Store is disabled on this Mac, so `mas` and
-  every `masApps` entry live in `darwin/profile/personal.nix`. Use a cask
-  instead where one exists. The WireGuard CLI (`wg`, `wg-quick`) still comes
-  from nix on every host.
+  every `masApps` entry live in `darwin/profile/personal/default.nix`. Use a
+  cask instead where one exists. The WireGuard CLI (`wg`, `wg-quick`) still
+  comes from nix on every host.
 
-`nix/modules/home/profile/work.nix` adds:
+`nix/modules/home/profile/work/default.nix` adds:
 
 - the Cloudsmiths commit email and its own SSH signing key, which is also the
   github.com auth key;
@@ -29,7 +29,7 @@ is different.
 ### In the repo
 
 - [x] Name the host file after the Mac's `LocalHostName` (`CSLGPKPMH9Y4X`).
-- [x] Add `darwin/profile/work.nix` and import it from the host.
+- [x] Add `darwin/profile/work/default.nix` and import it from the host.
 - [ ] Push the branch you will check out on the work Mac.
 
 ### On the machine
@@ -38,8 +38,8 @@ is different.
 - [ ] `scutil --get LocalHostName` prints `CSLGPKPMH9Y4X`.
 - [ ] Determinate Nix and Homebrew are installed.
 - [ ] 1Password is in `/Applications` with the SSH agent and CLI integration on.
-- [ ] The work signing key (the public key in `profile/work.nix`) is in the
-  **Private** or **Homelab** vault, or that vault is added to
+- [ ] The work signing key (the public key in `profile/work/default.nix`) is in
+  the **Private** or **Homelab** vault, or that vault is added to
   `core/ssh/agent.toml`.
 - [ ] The repo is cloned to `~/dotfiles`.
 - [ ] [Bootstrap](bootstrap.md), then add this Mac's `nix.custom.conf` hash and

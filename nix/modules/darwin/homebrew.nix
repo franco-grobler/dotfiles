@@ -2,7 +2,7 @@
 # personal / work profiles, which merge into these same lists.
 #
 # No `masApps` here: the work mac has the App Store disabled, so anything from
-# it (and `mas` itself) lives in profile/personal.nix.
+# it (and `mas` itself) lives in profile/personal/.
 {
   homebrew = {
     enable = true;
