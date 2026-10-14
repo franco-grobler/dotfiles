@@ -12,7 +12,7 @@ Run these from the repo root. `just` with no arguments lists them all.
 | `just nix-check`         | `nix flake check`: builds every host, plus statix and deadnix       |
 | `just nix-fmt`           | Formats the whole repo with treefmt                                 |
 | `just nix-update`        | Updates brew and mas, refreshes `flake.lock` and commits it         |
-| `just ssh-keys`          | Writes each SSH host's public key to `~/.ssh/<host>/key.pub`        |
+| `just ssh-keys`          | Writes every 1Password SSH key to `~/.ssh/<host>/key.pub`           |
 | `just nix-token`         | Puts a GitHub token in your user `nix.conf`                         |
 | `just docs`              | Serves this book with live reload                                   |
 

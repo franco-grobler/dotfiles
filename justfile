@@ -18,7 +18,7 @@ add-hooks:
     nix develop ./nix --command true
     echo "hooks installed"
 
-# Write each ssh host's public key to ~/.ssh/<host>/key.pub (dotfiles.ssh.keys).
+# Write every 1Password SSH key to ~/.ssh/<host>/key.pub, hosts from item URLs.
 [group('Git')]
 ssh-keys:
     @_scripts/ssh_keys.sh

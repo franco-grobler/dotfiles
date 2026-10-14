@@ -14,7 +14,8 @@ This is normal on a new Mac. See
 ## `Too many authentication failures` over SSH
 
 The agent is offering every key. Run `just ssh-keys` so each host gets its own
-`IdentityFile`, and check that the host has an entry in `dotfiles.ssh.keys`.
+key, and check that the host is listed as a URL on its 1Password SSH Key item
+(or pinned in `dotfiles.ssh.keys`).
 
 ## Commit signing fails with `No such file or directory`
 

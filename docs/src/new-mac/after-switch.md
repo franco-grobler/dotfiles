@@ -6,9 +6,10 @@ toolchain are on `PATH` from here on.
 ## SSH keys
 
 The 1Password agent offers every key it has, and servers give up after about six
-attempts ("Too many authentication failures"). `dotfiles.ssh.keys` ties each
-host to one key. This recipe writes the public halves to
-`~/.ssh/<host>/key.pub`:
+attempts ("Too many authentication failures"), so each host gets one key. This
+recipe writes the public half of every SSH Key item in 1Password to
+`~/.ssh/<host>/key.pub`, once for each URL on the item, and ssh offers only that
+key to the host:
 
 ```bash
 just ssh-keys
@@ -16,6 +17,16 @@ just ssh-keys
 
 Run it again whenever you add a key. Only public keys are written to disk; the
 private keys stay in 1Password.
+
+Each profile can steer it with two settings (see `nix/modules/home/core/ssh/`):
+
+- `dotfiles.ssh.keys` pins a host to a key, for a host two items claim or an
+  alias no item lists (the work profile pins `github.com` and
+  `github.com-personal`).
+- `dotfiles.ssh.ignore` skips items (by title or id) or hosts.
+
+If two keys claim a host and neither setting settles it, the recipe leaves that
+host alone, names both items and exits with an error.
 
 Check that it works, then switch the repo to SSH:
 

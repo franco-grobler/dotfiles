@@ -38,8 +38,8 @@ in
       color.ui = true;
       core.askPass = "";
       credential.helper = credentialHelper;
-      # One github account for both identities -- work and personal differ by
-      # commit email and signing key, not by who they log in as.
+      # The personal account. The work profile logs in as a separate one, and
+      # switches back to this for ~/Code/Personal and the dotfiles.
       github.user = "franco-grobler";
       init.defaultBranch = "main";
       push.default = "tracking";
