@@ -4,7 +4,7 @@
     "allow": ["Edit", "Write", "Read", "WebFetch", "WebSearch"],
     "deny": ["Bash(git push:*)"]
   },
-  "model": "opus",
+  "model": "opus[1m]",
   "enabledPlugins": {
     "playwright@claude-plugins-official": true,
     "typescript-lsp@claude-plugins-official": true,
