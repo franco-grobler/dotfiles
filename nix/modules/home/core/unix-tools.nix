@@ -18,6 +18,7 @@
       lolcat
       ookla-speedtest
       ripgrep
+      scc
       sshs
       stow
       tree
