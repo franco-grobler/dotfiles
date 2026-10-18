@@ -3,12 +3,14 @@ set export := true
 default:
     just --list
 
-# Regenerate CHANGELOG.md. Run this by hand when cutting a tag -- it is
-# deliberately not a git hook: the hook rewrote a tracked file on every push,
-# which failed the push and then needed a commit that changed the file again.
+# CHANGELOG.md is written by .github/workflows/release.yaml on every merge to
+# main, so this only prints -- a local rewrite would conflict with the release
+# commit.
+#
+# Preview the changelog section the next release will get.
 [group('Chores')]
-generate-changelog:
-    git cliff -r .
+preview-changelog:
+    git cliff -r . --unreleased --bump --strip header --output -
 
 # Install the git hooks (also done automatically by entering the dev shell).
 [group('Git')]

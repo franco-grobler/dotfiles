@@ -1,0 +1,71 @@
+# Every merge to main cuts a release: git-cliff picks the next version from the
+# conventional commits since the last tag, rewrites CHANGELOG.md, and the job
+# commits that, tags it and publishes a GitHub release with the new section.
+#
+# No loop: the commit this job pushes only touches CHANGELOG.md, which
+# `paths-ignore` filters out. Pushes made with GITHUB_TOKEN don't start
+# workflows either, but that stops being true if this ever moves to a PAT or
+# an app token -- the filter is the guard that survives that.
+#
+# If main is protected, github-actions[bot] needs to be allowed to bypass the
+# rule, or the push of the release commit is rejected.
+name: Release
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - CHANGELOG.md
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Releases are serial: two merges in quick succession must not both pick the
+# same next version. Never cancel one halfway through a push.
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          # git-cliff walks the whole history and needs every tag.
+          fetch-depth: 0
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@21a544727d0c62386e78b4befe52d19ad12692e3 # v14
+
+      # git-cliff comes from the nixpkgs pinned in nix/flake.lock, and reads the
+      # same cliff.toml that home-manager installs for local use.
+      - name: Cut the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GIT_CLIFF_CONFIG: nix/modules/home/vcs/git-cliff/cliff.toml
+        run: |
+          nix build --inputs-from ./nix nixpkgs#git-cliff --out-link "$RUNNER_TEMP/git-cliff"
+          cliff() { "$RUNNER_TEMP/git-cliff/bin/git-cliff" "$@"; }
+
+          current=$(git describe --tags --abbrev=0)
+          # --output - matters: cliff.toml sets `output`, and without an
+          # override --bumped-version truncates CHANGELOG.md.
+          next=$(cliff --bumped-version --output -)
+          if [ "$next" = "$current" ]; then
+            echo "Nothing releasable since $current"
+            exit 0
+          fi
+
+          cliff --bump --output CHANGELOG.md
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit --all --message "chore(release): $next"
+          git tag "$next"
+          git push --atomic origin HEAD:main "$next"
+
+          cliff --latest --strip header --output "$RUNNER_TEMP/notes.md"
+          gh release create "$next" --title "$next" --notes-file "$RUNNER_TEMP/notes.md"
