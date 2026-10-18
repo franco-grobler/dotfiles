@@ -17,6 +17,7 @@ return {
       formatters_by_ft = {
         tf = { "tfmt" },
         terraform = { "tfmt" },
+        ["terraform-vars"] = { "tfmt" },
         hcl = { "tfmt" },
       },
       formatters = {
@@ -25,6 +26,23 @@ return {
           args = { "fmt", "-" },
           stdin = true,
         },
+      },
+    },
+  },
+
+  -- And validate with it too: the extra's `terraform_validate` linter
+  -- hardcodes `terraform`. nvim-lint defines that linter as a function, so a
+  -- table override would replace it outright (parser and all) -- wrap it
+  -- instead and only swap the command.
+  {
+    "mfussenegger/nvim-lint",
+    opts = {
+      linters = {
+        terraform_validate = function()
+          local linter = require("lint.linters.terraform_validate")()
+          linter.cmd = "tofu"
+          return linter
+        end,
       },
     },
   },
