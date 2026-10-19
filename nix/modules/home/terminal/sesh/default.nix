@@ -30,10 +30,14 @@ let
     [
       (lib.getExe scanWorktrees)
       worktreesFile
+      startup
     ]
     ++ cfg.worktreeRoots
   );
   scanning = cfg.worktreeRoots != [ ];
+
+  # Typed into the session's first pane by sesh once the session exists.
+  startup = if cfg.worktreeLayout == null then "clear" else "tmux-layout ${cfg.worktreeLayout}";
 in
 {
   options.dotfiles.sesh = {
@@ -52,6 +56,15 @@ in
       description = ''
         Directories scanned for git repos; every worktree of each one becomes a
         sesh session named <repo>/<worktree>. Absolute paths.
+      '';
+    };
+
+    worktreeLayout = lib.mkOption {
+      type = lib.types.nullOr lib.types.str;
+      default = "worktree";
+      description = ''
+        The dotfiles.layouts entry (see terminal/tmuxinator) a worktree session
+        is built out with when sesh starts it. null leaves it a single window.
       '';
     };
   };

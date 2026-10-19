@@ -1,17 +1,19 @@
 # Writes one sesh session per git worktree found under the given roots.
 #
-#   sesh-worktrees OUT ROOT...
+#   sesh-worktrees OUT STARTUP ROOT...
 #
 # Each repo is keyed by its common git dir, so a bare repo and the worktrees
 # checked out inside it count once however many of them `find` turns up. The
 # session is named <repo>/<worktree>, where <worktree> is the checkout's path
 # inside the repo's container (feat/jq-tasks), or just <repo> for a plain clone.
+# STARTUP is each session's startup_command.
 #
 # The file is replaced atomically and always exists afterwards, because sesh
 # refuses to start at all when an imported config is missing.
 
 out=$1
-shift
+startup=$2
+shift 2
 
 tmp=$(mktemp "${out}.XXXXXX")
 trap 'rm -f "$tmp"' EXIT
@@ -56,7 +58,7 @@ emit_repo() {
             printf '[[session]]\n'
             printf 'name = %s\n' "$(toml "$(session_name "$repo${rel:+/$rel}")")"
             printf 'path = %s\n' "$(toml "$path")"
-            printf 'startup_command = "clear"\n\n'
+            printf 'startup_command = %s\n\n' "$(toml "$startup")"
           } >>"$tmp"
         fi
         path=
