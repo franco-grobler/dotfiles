@@ -17,6 +17,7 @@
       "qmk-toolbox"
       "skim"
       "sonarqube-cli"
+      "tailscale-app"
       "vial"
     ];
   };
