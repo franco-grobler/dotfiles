@@ -6,15 +6,16 @@
   },
   "model": "opus[1m]",
   "enabledPlugins": {
-    "playwright@claude-plugins-official": true,
-    "typescript-lsp@claude-plugins-official": true,
-    "chrome-devtools-mcp@claude-plugins-official": true,
-    "modern-web-guidance@claude-plugins-official": true,
-    "frontend-design@claude-plugins-official": true,
-    "rust-analyzer-lsp@claude-plugins-official": true,
-    "op-secrets@anthropic-plugin-directory": true,
+    "1password@1password": true,
     "1password@anthropic-plugin-directory": true,
-    "1password@1password": true
+    "chrome-devtools-mcp@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true,
+    "lua-lsp@claude-plugins-official": true,
+    "modern-web-guidance@claude-plugins-official": true,
+    "op-secrets@anthropic-plugin-directory": true,
+    "playwright@claude-plugins-official": true,
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "1password": {
@@ -31,6 +32,7 @@
     }
   },
   "theme": "dark",
+  "editorMode": "vim",
   "inputNeededNotifEnabled": true,
   "agentPushNotifEnabled": true,
   "autoMode": {
@@ -47,6 +49,5 @@
       "**Sensitive remote targets**: any host or namespace with `prod`/`production` as a whole name segment",
       "**Protected IaC scopes**: IAM, RBAC, networking, quota, and node-pool resources; anything whose name or tag carries `prod` or `production` as a whole word or name segment"
     ]
-  },
-  "editorMode": "vim"
+  }
 }
