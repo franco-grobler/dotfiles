@@ -16,7 +16,7 @@
 
     casks = [
       "1password"
-      "claude-code@latest"
+      "claude-code"
       "figma"
       "ghostty"
       {
