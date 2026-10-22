@@ -11,6 +11,7 @@
     casks = [
       "adobe-acrobat-reader"
       "claude"
+      "coderabbit" # CLI only; not packaged in nixpkgs
       "microsoft-excel"
       "microsoft-powerpoint"
       "microsoft-teams"
