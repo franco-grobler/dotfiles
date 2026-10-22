@@ -51,6 +51,12 @@ in
     };
   };
 
+  # Both identities sign on this mac -- see vcs/git.nix.
+  xdg.configFile."git/allowed_signers".text = ''
+    franco.grobler@cloudsmiths.ai namespaces="git" ${signingKey}
+    ${personal.email} namespaces="git" ${personal.signingKey}
+  '';
+
   dotfiles = {
     # Each signing key doubles as its account's github auth key. Pinned, so
     # 1Password items listing github.com can't pick or conflict. See core/ssh/.

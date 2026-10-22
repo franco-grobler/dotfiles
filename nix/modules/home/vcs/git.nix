@@ -1,7 +1,7 @@
 # Identity-independent git. `user.*` and the signing key live in the personal /
 # work profiles, so the two macs sign as different people while sharing every
 # alias and default below.
-{ lib, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 let
   inherit (pkgs.stdenv) isDarwin;
 
@@ -43,6 +43,12 @@ in
       github.user = "franco-grobler";
       init.defaultBranch = "main";
       push.default = "tracking";
+
+      # Lets `git log --show-signature` / `git verify-commit` check ssh
+      # signatures locally; without it git reports "No signature" even on
+      # signed commits. GitHub does not read it. The profiles fill the file
+      # with the identities they sign as.
+      gpg.ssh.allowedSignersFile = "${config.xdg.configHome}/git/allowed_signers";
     };
 
     signing = {

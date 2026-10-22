@@ -44,6 +44,11 @@ in
     };
   };
 
+  # See vcs/git.nix.
+  xdg.configFile."git/allowed_signers".text = ''
+    ${identity.email} namespaces="git" ${signingKey}
+  '';
+
   dotfiles = {
     # The key each host authenticates with; see core/ssh/. 1Password items are
     # referenced by id because their titles collide with the login items.
