@@ -13,6 +13,10 @@
     gotools # provides goimports
     golangci-lint
 
+    # templ: the CLI is the generator, the formatter (`templ fmt`) and the
+    # language server (`templ lsp`) -- see nvim/lua/plugins/lang/templ.lua.
+    templ
+
     # The two code actions wired through none-ls in
     # nvim/lua/plugins/lang/go.lua -- add/remove struct tags, and generate
     # interface method stubs.
