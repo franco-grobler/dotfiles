@@ -91,7 +91,7 @@ Host modules also get `home` (the home-manager aggregates) and `mkPkgs`.
 home/
 ├── base.nix            core + shell — what every machine gets
 ├── dev.nix             vcs + code + ai + container
-├── core/               xdg locale fonts unix-tools bat glow nh gpg ssh
+├── core/               xdg locale fonts unix-tools bat glow nh mole gpg ssh
 │                       nix-tools repo state-version
 ├── shell/              zsh bash nushell shell-aliases starship atuin carapace
 │                       direnv just zoxide

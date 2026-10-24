@@ -14,6 +14,7 @@
     bat
     glow
     nh
+    mole
     gpg
     ssh
   ];

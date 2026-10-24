@@ -1,0 +1,8 @@
+# Roots `mo purge` scans for rebuildable project artifacts (node_modules,
+# target, .venv, .nuxt, dist, ...). Once this file exists Mole scans *only*
+# these, so every place projects live has to be listed. Artifacts are found up
+# to six levels below each root -- enough for the
+# Code/<org>/<project>/<repo>/<worktree>/ layout.
+
+~/Code
+~/Documents/University
