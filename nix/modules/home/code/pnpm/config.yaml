@@ -1,1 +1,38 @@
+# Global pnpm settings (pnpm 11 reads these from $XDG_CONFIG_HOME/pnpm).
+# Project-level pnpm-workspace.yaml still wins over anything here.
+
+# Pin exact versions on `pnpm add` -- the lockfile is the source of truth,
+# not a caret range that drifts on the next fresh install.
 saveExact: true
+
+# --- Supply chain ---------------------------------------------------------
+
+# Refuse versions published less than a week ago. Most malicious releases
+# are caught and yanked within hours; a week also covers the slower ones.
+minimumReleaseAge: 10080
+
+# Fail when a dependency wants to run install scripts that haven't been
+# approved (`pnpm approve-builds`), instead of silently running or skipping.
+strictDepBuilds: true
+
+# Fail if a package's trust evidence (provenance / trusted publisher) is
+# weaker than in its earlier releases -- the signature of a hijacked account.
+trustPolicy: no-downgrade
+
+# Transitive deps may not come from git repos or tarball URLs.
+blockExoticSubdeps: true
+
+# --- Disk usage -----------------------------------------------------------
+
+# APFS clones are copy-on-write: node_modules costs no extra space beyond
+# the store. Requires the store and the projects to be on the same volume.
+packageImportMethod: clone-or-copy
+
+# Drop orphaned packages from a project's node_modules after a week rather
+# than keeping them around indefinitely.
+modulesCacheMaxAge: 10080
+
+# Share one virtual store across every project instead of a node_modules/.pnpm
+# per project. Saves inodes and install time; off because some tooling
+# (Next.js, Jest, some bundlers) still trips over deps living outside the repo.
+# enableGlobalVirtualStore: true
