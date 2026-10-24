@@ -21,6 +21,9 @@
     ];
   };
 
+  # Hard-link identical files across the store on a weekly timer.
+  nix.optimise.automatic = true;
+
   environment.localBinInPath = true;
   system.stateVersion = "25.05";
 }

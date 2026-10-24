@@ -49,5 +49,25 @@ in
     '';
   };
 
+  # Hard-link identical files across the store; typically a quarter or more of
+  # it. Scheduled rather than `auto-optimise-store`, which races concurrent
+  # builds on macOS (NixOS/nix#7273). nix-darwin's `nix.optimise` is inert
+  # under `nix.enable = false`, hence the hand-rolled daemon pointing at
+  # Determinate's nix.
+  launchd.daemons.nix-optimise = {
+    command = "/nix/var/nix/profiles/default/bin/nix store optimise";
+    serviceConfig = {
+      StartCalendarInterval = [
+        {
+          Weekday = 1;
+          Hour = 3;
+          Minute = 0;
+        }
+      ];
+      ProcessType = "Background";
+      LowPriorityIO = true;
+    };
+  };
+
   system.stateVersion = 6;
 }
