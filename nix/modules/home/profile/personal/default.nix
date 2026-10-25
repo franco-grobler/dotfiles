@@ -3,6 +3,62 @@
 let
   identity = builtins.fromTOML (builtins.readFile ./identity.toml);
   inherit (identity) signingKey;
+
+  # The homelab's admin key; every box below (and the router) trusts it.
+  bambooAdmin = "op://Homelab/jzepxuqno3oarz7saqor542cfi"; # Bamboo Admin
+
+  # Homelab machines by short name. Each answers to its alias, its FQDN and its
+  # address, so whichever one you type picks up the right user and key -- the
+  # key file is looked up by the name as typed (%n, see core/ssh/).
+  lab = {
+    router = {
+      fqdn = "router.mgmt.lab.bamboo.grobler.fyi";
+      ip = "10.10.10.1";
+      user = "root";
+    };
+    mike = {
+      fqdn = "mike.mgmt.lab.bamboo.grobler.fyi";
+      ip = "10.10.10.10";
+      user = "root";
+    };
+    norm = {
+      fqdn = "norm.mgmt.lab.bamboo.grobler.fyi";
+      ip = "10.10.10.11";
+      user = "root";
+    };
+    cliff = {
+      fqdn = "cliff.mgmt.lab.bamboo.grobler.fyi";
+      ip = "10.10.10.12";
+      user = "root";
+    };
+    sam = {
+      fqdn = "sam.mgmt.lab.bamboo.grobler.fyi";
+      ip = "10.10.10.20";
+      user = "root";
+    };
+    builder = {
+      fqdn = "builder.k8s.lab.bamboo.grobler.fyi";
+      ip = "10.10.50.30";
+      user = "dev";
+    };
+    # Runs coding agents: never hand it the 1Password agent or an X display,
+    # stated outright so a later `Host *` or Match can't turn either on.
+    agents = {
+      fqdn = "agents.agents.lab.bamboo.grobler.fyi";
+      ip = "10.10.60.10";
+      user = "agent";
+      extra = {
+        forwardAgent = false;
+        forwardX11 = false;
+      };
+    };
+  };
+
+  labNames = alias: m: [
+    alias
+    m.fqdn
+    m.ip
+  ];
 in
 { lib, pkgs, ... }:
 {
@@ -41,7 +97,15 @@ in
       };
 
       nixos-laptop.hostname = "192.168.10.249";
-    };
+    }
+    # The alias needs a hostname; the FQDN and the address already are one.
+    // lib.mapAttrs (_: m: { hostname = m.fqdn; }) lab
+    // lib.mapAttrs' (
+      alias: m:
+      lib.nameValuePair (lib.concatStringsSep " " (labNames alias m)) (
+        { inherit (m) user; } // (m.extra or { })
+      )
+    ) lab;
   };
 
   # See vcs/git.nix.
@@ -59,11 +123,12 @@ in
       "github.com" = signingKey;
       "codeberg.org" = "op://Private/fccik27zpnnf24wx4z53wueugy"; # Codeberg
       "gitlab.com" = "op://Private/va5qrbuqdtn5u3roam7skzk4zu"; # GitLab
-      openwrt = "op://Private/aeqvst5p5aogunlkfhrvouxzjy"; # OpenWRT
-      bamboo = "op://Private/aeqvst5p5aogunlkfhrvouxzjy"; # OpenWRT
-      bamboo-rescue = "op://Private/aeqvst5p5aogunlkfhrvouxzjy"; # OpenWRT
+      openwrt = bambooAdmin;
+      bamboo = bambooAdmin;
+      bamboo-rescue = bambooAdmin;
       nixos-laptop = "op://Private/bjsy5ygf4gz2smyjddnxveq564"; # NixOs Laptop
-    };
+    }
+    // lib.genAttrs (lib.concatLists (lib.mapAttrsToList labNames lab)) (_: bambooAdmin);
 
     # The picker; the schema is in terminal/sesh.
     sesh.settings = lib.importTOML ./sesh.toml;
