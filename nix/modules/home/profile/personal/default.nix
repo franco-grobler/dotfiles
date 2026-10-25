@@ -36,6 +36,11 @@ let
       ip = "10.10.10.20";
       user = "root";
     };
+    rob = {
+      fqdn = "rob.lab.bamboo.grobler.fyi";
+      ip = "10.10.10.23";
+      user = "franco-grobler";
+    };
     builder = {
       fqdn = "builder.k8s.lab.bamboo.grobler.fyi";
       ip = "10.10.50.30";
