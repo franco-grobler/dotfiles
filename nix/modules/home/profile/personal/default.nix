@@ -50,6 +50,9 @@ in
   '';
 
   dotfiles = {
+    # The homelab's build box; `docker context use lab` to point the CLI at it.
+    docker.contexts.lab = "ssh://dev@builder.k8s.lab.bamboo.grobler.fyi";
+
     # The key each host authenticates with; see core/ssh/. 1Password items are
     # referenced by id because their titles collide with the login items.
     ssh.keys = {

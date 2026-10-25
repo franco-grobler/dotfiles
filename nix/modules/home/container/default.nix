@@ -3,6 +3,7 @@
 {
   imports = with features; [
     colima
+    docker-contexts
     lazydocker
   ];
 }
