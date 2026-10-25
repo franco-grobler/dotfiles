@@ -43,6 +43,8 @@ in
       github.user = "franco-grobler";
       init.defaultBranch = "main";
       push.default = "tracking";
+      # First push of a new branch sets its upstream, no `-u origin <branch>`.
+      push.autoSetupRemote = true;
 
       # Lets `git log --show-signature` / `git verify-commit` check ssh
       # signatures locally; without it git reports "No signature" even on
