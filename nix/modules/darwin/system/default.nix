@@ -2,6 +2,7 @@
 { features, ... }:
 {
   imports = with features; [
+    host-name
     nix-daemon
     locale
     macos-defaults
