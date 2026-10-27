@@ -4,6 +4,9 @@
 # Python bytecode
 **/__pycache__
 
+# Tool caches
+.cache/
+
 # Nix
 .direnv/
 nix/result
