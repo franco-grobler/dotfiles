@@ -4,5 +4,4 @@
 # line here for any other instance after registering an OAuth2 application on it
 # (Settings -> Applications) with redirect URI http://127.0.0.1:26218/.
 #
-# Homelab; fill in the id once the OAuth2 application exists, then uncomment.
-# forgejo.apps.lab.bamboo.grobler.fyi 00000000-0000-0000-0000-000000000000
+forgejo.apps.lab.bamboo.grobler.fyi c7d3d17e-038e-49be-8f8a-7b43e0fc6529 # Homelab
