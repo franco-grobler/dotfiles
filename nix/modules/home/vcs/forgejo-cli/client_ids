@@ -1,0 +1,8 @@
+# OAuth client ids for `fj auth login`, one `<host> <client id>` per line.
+#
+# fj already knows codeberg.org, code.forgejo.org and a handful of others; add a
+# line here for any other instance after registering an OAuth2 application on it
+# (Settings -> Applications) with redirect URI http://127.0.0.1:26218/.
+#
+# Homelab; fill in the id once the OAuth2 application exists, then uncomment.
+# forgejo.apps.lab.bamboo.grobler.fyi 00000000-0000-0000-0000-000000000000

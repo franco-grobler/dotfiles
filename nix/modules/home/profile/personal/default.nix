@@ -65,8 +65,15 @@ let
     m.ip
   ];
 in
-{ lib, pkgs, ... }:
 {
+  features,
+  lib,
+  pkgs,
+  ...
+}:
+{
+  imports = with features; [ forgejo-cli ];
+
   programs = {
     git = {
       settings.user = {
