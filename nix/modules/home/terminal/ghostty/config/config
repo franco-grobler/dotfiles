@@ -6,7 +6,7 @@ font-feature = -liga
 font-feature = -dlig
 
 # Styling
-theme = catppuccin-mocha.conf
+theme = light:Catppuccin Latte,dark:Catppuccin Mocha
 
 mouse-hide-while-typing = true
 window-decoration = true
@@ -17,13 +17,14 @@ clipboard-paste-protection = true
 clipboard-trim-trailing-spaces = true
 
 # Shell integration
+# ssh-terminfo installs xterm-ghostty's terminfo on remote hosts on first
+# connect; ssh-env falls back to TERM=xterm-256color where that is not possible.
 shell-integration = detect
-shell-integration-features = true
+shell-integration-features = cursor,sudo,title,ssh-env,ssh-terminfo
 
 # Sessions
 fullscreen = true
 quit-after-last-window-closed = true
 
-# Additional config files
+# Additional config files (macos.config is appended by Nix on darwin)
 config-file = "keybindings.config"
-config-file = "macos.config"
