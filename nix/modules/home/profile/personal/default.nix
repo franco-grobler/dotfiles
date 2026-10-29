@@ -6,6 +6,7 @@ let
 
   # The homelab's admin key; every box below (and the router) trusts it.
   bambooAdmin = "op://Homelab/jzepxuqno3oarz7saqor542cfi"; # Bamboo Admin
+  nixosKey = "op://Private/bjsy5ygf4gz2smyjddnxveq564"; # NixOs Laptop
 
   # Homelab machines by short name. Each answers to its alias, its FQDN and its
   # address, so whichever one you type picks up the right user and key -- the
@@ -143,9 +144,11 @@ in
       openwrt = bambooAdmin;
       bamboo = bambooAdmin;
       bamboo-rescue = bambooAdmin;
-      nixos-laptop = "op://Private/bjsy5ygf4gz2smyjddnxveq564"; # NixOs Laptop
+      nixos-laptop = nixosKey;
     }
-    // lib.genAttrs (lib.concatLists (lib.mapAttrsToList labNames lab)) (_: bambooAdmin);
+    // lib.genAttrs (lib.concatLists (lib.mapAttrsToList labNames lab)) (_: bambooAdmin)
+    # The desktop has its own key rather than the admin one.
+    // lib.genAttrs (labNames "nixos" lab.nixos) (_: nixosKey);
 
     # The picker; the schema is in terminal/sesh.
     sesh.settings = lib.importTOML ./sesh.toml;

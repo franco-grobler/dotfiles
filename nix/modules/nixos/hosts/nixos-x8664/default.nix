@@ -33,10 +33,7 @@
     description = "Franco Grobler";
 
     authorizedKeys = [
-      # NixOs Laptop
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIJ9idmuyl8gR255rm13mXTRG/tt2aINtYuSEQG40TKF"
-      # Bamboo Admin -- what every homelab alias authenticates with.
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF87NlIs1zcgwRJC2pD9J+QCkZKFQFUFo3qVEV2qgxjT"
     ];
     modules = with home; [
       base
