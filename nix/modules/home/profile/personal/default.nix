@@ -46,6 +46,11 @@ let
       ip = "10.10.50.30";
       user = "dev";
     };
+    nixos = {
+      fqdn = "nixos-x8664.lab.bamboo.grobler.fyi";
+      ip = "10.10.20.100";
+      user = "francogrobler";
+    };
     # Runs coding agents: never hand it the 1Password agent or an X display,
     # stated outright so a later `Host *` or Match can't turn either on.
     agents = {
