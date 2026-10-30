@@ -37,6 +37,11 @@ let
       ip = "10.10.10.20";
       user = "root";
     };
+    pdm = {
+      fqdn = "pdm.mgmt.lab.bamboo.grobler.fyi";
+      ip = "10.10.10.21";
+      user = "root";
+    };
     rob = {
       fqdn = "rob.lab.bamboo.grobler.fyi";
       ip = "10.10.10.23";
