@@ -23,6 +23,6 @@ in
     run ${glab} config set --global check_update false
     run ${glab} config set --global show_whats_new false
     run ${glab} config set --global duo_cli_auto_download false
-    run ${glab} config set --global orbit_local_auto_download false
+    run ${glab} config set --global orbit_cli_auto_download false
   '';
 }
