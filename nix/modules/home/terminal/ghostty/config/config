@@ -6,7 +6,7 @@ font-feature = -liga
 font-feature = -dlig
 
 # Styling
-theme = light:Catppuccin Latte,dark:Catppuccin Mocha
+theme = Catppuccin Mocha
 
 mouse-hide-while-typing = true
 window-decoration = true
