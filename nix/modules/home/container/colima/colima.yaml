@@ -10,7 +10,7 @@ disk: 100
 
 # Size of the memory in GiB to be allocated to the virtual machine.
 # Default: 2
-memory: 6
+memory: 8
 
 # Architecture of the virtual machine (x86_64, aarch64, host).
 #
@@ -149,14 +149,11 @@ forwardAgent: false
 #
 # Colima default behaviour: buildkit enabled
 # Default: {}
-#
-# BuildKit's cache otherwise grows until the VM disk is full. GC keeps it
-# capped, oldest layers first.
 docker:
   builder:
     gc:
-      enabled: true
       defaultKeepStorage: 20GB
+      enabled: true
 
 # Virtual Machine type (krunkit, qemu, vz)
 # NOTE: this is macOS 13 only. For Linux and macOS <13.0, qemu is always used.
