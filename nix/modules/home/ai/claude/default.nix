@@ -10,7 +10,7 @@
   ...
 }:
 {
-  # macOS gets Claude Code from Homebrew (claude-code@latest cask); install
+  # macOS gets Claude Code from Homebrew (claude-code cask); install
   # the nix build everywhere else.
   home.packages = lib.optionals pkgs.stdenv.isLinux [ pkgs.claude-code ];
 
