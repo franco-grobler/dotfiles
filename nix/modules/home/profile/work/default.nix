@@ -80,7 +80,8 @@ in
   };
 
   home.packages = with pkgs; [
-    google-cloud-sdk
+    # kubectl needs the auth plugin to talk to GKE clusters.
+    (google-cloud-sdk.withExtraComponents [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
     kubectl
     kubernetes-helm
 
