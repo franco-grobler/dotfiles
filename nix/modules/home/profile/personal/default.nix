@@ -52,6 +52,11 @@ let
       ip = "10.10.50.30";
       user = "dev";
     };
+    cache = {
+      fqdn = "cache.k8s.lab.bamboo.grobler.fyi";
+      ip = "10.10.50.31";
+      user = "root";
+    };
     nixos = {
       fqdn = "nixos-x8664.lab.bamboo.grobler.fyi";
       ip = "10.10.20.100";
