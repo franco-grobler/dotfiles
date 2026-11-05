@@ -120,6 +120,12 @@ in
       };
 
       nixos-laptop.hostname = "192.168.10.249";
+
+      # Not in `lab`: its FQDN and address already belong to `builder`, as dev.
+      builder-root = {
+        hostname = lab.builder.ip;
+        user = "root";
+      };
     }
     # The alias needs a hostname; the FQDN and the address already are one.
     // lib.mapAttrs (_: m: { hostname = m.fqdn; }) lab
@@ -149,6 +155,7 @@ in
       openwrt = bambooAdmin;
       bamboo = bambooAdmin;
       bamboo-rescue = bambooAdmin;
+      builder-root = bambooAdmin;
       nixos-laptop = nixosKey;
     }
     // lib.genAttrs (lib.concatLists (lib.mapAttrsToList labNames lab)) (_: bambooAdmin)
