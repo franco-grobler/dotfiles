@@ -37,6 +37,12 @@ let
       ip = "10.10.10.20";
       user = "root";
     };
+    # A container on sam.
+    shares = {
+      fqdn = "shares.trusted.lab.bamboo.grobler.fyi";
+      ip = "10.10.20.10";
+      user = "root";
+    };
     pdm = {
       fqdn = "pdm.mgmt.lab.bamboo.grobler.fyi";
       ip = "10.10.10.21";
@@ -46,6 +52,8 @@ let
       fqdn = "rob.lab.bamboo.grobler.fyi";
       ip = "10.10.10.23";
       user = "franco-grobler";
+      # homelab-infra's scripts/kuma-tunnel.sh connects by this name.
+      otherNames = [ "rob.mgmt.lab.bamboo.grobler.fyi" ];
     };
     builder = {
       fqdn = "builder.k8s.lab.bamboo.grobler.fyi";
@@ -75,11 +83,14 @@ let
     };
   };
 
-  labNames = alias: m: [
-    alias
-    m.fqdn
-    m.ip
-  ];
+  labNames =
+    alias: m:
+    [
+      alias
+      m.fqdn
+      m.ip
+    ]
+    ++ (m.otherNames or [ ]);
 in
 {
   features,
