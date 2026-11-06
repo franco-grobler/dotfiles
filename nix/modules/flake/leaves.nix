@@ -21,6 +21,9 @@
 #     it.
 #   * a host folder is one machine, so only its `default.nix` is an aggregate —
 #     `hardware-configuration.nix` next to it stays private to that host.
+#
+# modules/lib holds modules written for both system classes, so its aggregates
+# are in darwin and nixos alike.
 { lib, ... }:
 let
   collect =
@@ -59,9 +62,9 @@ let
     walk null null dir;
 
   mkClass =
-    label: dir:
+    label: dirs:
     let
-      entries = collect dir;
+      entries = lib.concatMap collect dirs;
       names = map (e: e.name) entries;
       dupes = lib.unique (lib.filter (n: lib.count (x: x == n) names > 1) names);
     in
@@ -72,8 +75,14 @@ let
 in
 {
   flake.modules = {
-    homeManager = mkClass "home" ../home;
-    darwin = mkClass "darwin" ../darwin;
-    nixos = mkClass "nixos" ../nixos;
+    homeManager = mkClass "home" [ ../home ];
+    darwin = mkClass "darwin" [
+      ../darwin
+      ../lib
+    ];
+    nixos = mkClass "nixos" [
+      ../nixos
+      ../lib
+    ];
   };
 }

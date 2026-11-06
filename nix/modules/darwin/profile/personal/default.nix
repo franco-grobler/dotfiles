@@ -1,5 +1,16 @@
 # Personal-only macOS apps, merged into the homebrew baseline.
+{ config, features, ... }:
 {
+  imports = with features; [ samba-mount ];
+
+  dotfiles.sambaMount = {
+    server = "router.trusted.lab.bamboo.grobler.fyi";
+    share = "data";
+    mountPoint = "${
+      config.users.users.${config.system.primaryUser}.home
+    }/Network/Bamboo-Share";
+  };
+
   homebrew = {
     brews = [
       "cocoapods"
