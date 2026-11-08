@@ -71,6 +71,10 @@ in
     # Shared projects (Dotfiles) come from there and need no repetition.
     sessions = { };
 
+    # Bring back the last resurrect snapshot when a new tmux server starts;
+    # see terminal/tmux.
+    tmux.restoreOnStart = true;
+
     # The picker: sesh.toml next to this file, plus a session for every repo +
     # worktree under the roots. The schema is in terminal/sesh.
     sesh = {
