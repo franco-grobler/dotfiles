@@ -1,7 +1,7 @@
 { lib, ... }:
 let
-  # Private @tweedill/* packages live on the homelab Forgejo. Projects map the
-  # scope to this registry in their own .npmrc; only the auth lives here.
+  # Private @tweedill/* packages live on the homelab Forgejo. The scope mapping
+  # and its auth both go in ~/.npmrc, so every project resolves them.
   tweedillRegistry = "//forgejo.apps.lab.bamboo.grobler.fyi/api/packages/tweedill/npm/";
 
   # npm, npx, pnpm and pnpx resolve $TWEEDILL_NPM_TOKEN from its op:// reference
@@ -40,16 +40,19 @@ in
   programs.bash.initExtra = opWrappers;
 
   # ~/.npmrc holds other registries' auth, so leave it unmanaged and only make
-  # sure the line is there. It keeps the literal ${TWEEDILL_NPM_TOKEN}: npm
-  # and pnpm expand it at read time, so the token never touches disk.
+  # sure the lines are there. The auth keeps the literal ${TWEEDILL_NPM_TOKEN}:
+  # npm and pnpm expand it at read time, so the token never touches disk.
   home.activation.tweedillNpmrc = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    line='${tweedillRegistry}:_authToken=''${TWEEDILL_NPM_TOKEN}'
-    if ! grep -qxF "$line" "$HOME/.npmrc" 2>/dev/null; then
-      run touch "$HOME/.npmrc"
-      run chmod 600 "$HOME/.npmrc"
-      if [ -z "''${DRY_RUN:-}" ]; then
-        printf '%s\n' "$line" >>"$HOME/.npmrc"
+    for line in \
+      '@tweedill:registry=https:${tweedillRegistry}' \
+      '${tweedillRegistry}:_authToken=''${TWEEDILL_NPM_TOKEN}'; do
+      if ! grep -qxF "$line" "$HOME/.npmrc" 2>/dev/null; then
+        run touch "$HOME/.npmrc"
+        run chmod 600 "$HOME/.npmrc"
+        if [ -z "''${DRY_RUN:-}" ]; then
+          printf '%s\n' "$line" >>"$HOME/.npmrc"
+        fi
       fi
-    fi
+    done
   '';
 }
