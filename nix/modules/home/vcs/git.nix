@@ -1,7 +1,12 @@
 # Identity-independent git. `user.*` and the signing key live in the personal /
 # work profiles, so the two macs sign as different people while sharing every
 # alias and default below.
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   inherit (pkgs.stdenv) isDarwin;
 
@@ -42,7 +47,7 @@ in
       # switches back to this for ~/Code/Personal and the dotfiles.
       github.user = "franco-grobler";
       init.defaultBranch = "main";
-      push.default = "tracking";
+      push.default = "simple";
       # First push of a new branch sets its upstream, no `-u origin <branch>`.
       push.autoSetupRemote = true;
 
