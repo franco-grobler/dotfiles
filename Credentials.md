@@ -3,12 +3,13 @@
 1Password is the store for everything secret. Nothing sensitive is committed,
 and there is no age or gpg key to carry between machines.
 
-| What                 | Where                                           | Used by                     |
-| -------------------- | ----------------------------------------------- | --------------------------- |
-| git commit signing   | 1Password ssh key, via `op-ssh-sign`            | `home/vcs/git.nix`          |
-| ssh auth             | 1Password ssh agent                             | `home/core/ssh/default.nix` |
-| per-host ssh key     | `dotfiles.ssh.keys`, written by `just ssh-keys` | `home/core/ssh/default.nix` |
-| GitHub token for nix | `op://Personal/Nix GitHub PAT/credential`       | `just nix-token`            |
+| What                 | Where                                           | Used by                      |
+| -------------------- | ----------------------------------------------- | ---------------------------- |
+| git commit signing   | 1Password ssh key, via `op-ssh-sign`            | `home/vcs/git.nix`           |
+| ssh auth             | 1Password ssh agent                             | `home/core/ssh/default.nix`  |
+| per-host ssh key     | `dotfiles.ssh.keys`, written by `just ssh-keys` | `home/core/ssh/default.nix`  |
+| GitHub token for nix | `op://Personal/Nix GitHub PAT/credential`       | `just nix-token`             |
+| @tweedill npm read   | `op://bamboo/Tweedill npm read/credential`      | `home/code/pnpm/default.nix` |
 
 To reference a secret from a module, point at it by `op://` URI and read it at
 the point of use rather than baking in the value:
