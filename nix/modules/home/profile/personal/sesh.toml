@@ -2,9 +2,10 @@
 # default.nix next to it; terminal/sesh renders them to ~/.config/sesh/sesh.toml.
 
 # Session 0 is the throwaway tmux creates when a server starts with no
-# target; it is never worth picking. Top-level keys go above the first table
-# header, or TOML files them under it.
-blacklist = ["0"]
+# target; it is never worth picking. Entries are regexes matched anywhere in the
+# name, so anchor them -- a bare "0" also hid every session with a 0 in it.
+# Top-level keys go above the first table header, or TOML files them under it.
+blacklist = ["^0$"]
 
 [default_session]
 startup_command = "clear"
