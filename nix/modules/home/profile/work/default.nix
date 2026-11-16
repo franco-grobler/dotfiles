@@ -96,7 +96,6 @@ in
     # switch doesn't take them off PATH.
     devbox
     devenv
-    gemini-cli # the homebrew formula is deprecated
     gnumake
     gnused
     hyperfine
