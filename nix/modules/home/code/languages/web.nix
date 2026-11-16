@@ -11,7 +11,11 @@
     nodejs
 
     # TypeScript. 0.3.0, matching upstream exactly.
-    vtsls
+    #
+    # nixpkgs pins vtsls to nodejs-slim_22, which Hydra doesn't cache on
+    # darwin -- so every lockfile bump meant compiling V8 from source. The
+    # default nodejs-slim is cached and runs vtsls just as well.
+    (vtsls.override { nodejs-slim_22 = nodejs-slim; })
 
     # html, cssls, jsonls and eslint -- four servers in one derivation.
     vscode-langservers-extracted
