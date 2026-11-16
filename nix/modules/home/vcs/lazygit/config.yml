@@ -1,11 +1,5 @@
 # Config relating to the Lazygit UI
 gui:
-  # See https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md#custom-author-color
-  authorColors: {}
-
-  # See https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md#custom-branch-color
-  branchColorPatterns: {}
-
   # Custom icons for filenames and file extensions
   # See https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md#custom-files-icon--color
   customIcons:
@@ -91,14 +85,14 @@ gui:
   # - 'top': split the window vertically (side panel on top, main view below)
   enlargedSideViewLocation: left
 
-  # If true, wrap lines in the staging view to the width of the view. This makes
+  # If true, wrap lines in the diff view to the width of the view. This makes
   # it much easier to work with diffs that have long lines, e.g. paragraphs of
   # markdown text.
-  wrapLinesInStagingView: true
+  wrapLinesInDiffView: true
 
   # If true, hunk selection mode will be enabled by default when entering the
-  # staging view.
-  useHunkModeInStagingView: true
+  # diff view.
+  useHunkModeInDiffView: true
 
   # One of 'auto' (default) | 'en' | 'zh-CN' | 'zh-TW' | 'pl' | 'nl' | 'ja' | 'ko'
   # | 'ru' | 'pt'
@@ -115,6 +109,12 @@ gui:
   # Config relating to colors and styles.
   # See https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md#color-attributes
   theme:
+    # See https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md#custom-author-color
+    authorColors: {}
+
+    # See https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md#custom-branch-color
+    branchColorPatterns: {}
+
     # Border color of focused window
     activeBorderColor:
       - green
@@ -286,7 +286,7 @@ gui:
 
 # Config relating to git
 git:
-  # Array of pagers. Each entry has the following format:
+  # Array of diff renderers. Each entry has the following format:
   #
   #   # Value of the --color arg in the git diff command. Some pagers want
   #   # this to be set to 'always' and some want it set to 'never'
@@ -309,7 +309,7 @@ git:
   #
   # See https://github.com/jesseduffield/lazygit/blob/master/docs/Custom_Pagers.md
   # for more information.
-  pagers: []
+  diffRenderers: []
 
   # Config relating to committing
   commit:
@@ -554,7 +554,7 @@ keybinding:
     scrollLeft: H
     scrollRight: L
     gotoTop: <c-g>
-    gotoBottom: <c-G>
+    gotoBottom: ">"
     gotoTop-alt: <home>
     gotoBottom-alt: <end>
     toggleRangeSelect: v
@@ -609,7 +609,8 @@ keybinding:
     prevTab: "["
     nextScreenMode: +
     prevScreenMode: _
-    cyclePagers: "|"
+    cycleDiffRenderers: "|"
+    newWorktree: w
     undo: z
     redo: Z
     filteringMenu: <c-s>
@@ -667,8 +668,6 @@ keybinding:
     setUpstream: u
     fetchRemote: f
     sortOrder: s
-  worktrees:
-    viewWorktreeOptions: w
   commits:
     squashDown: s
     renameCommit: r
@@ -688,7 +687,7 @@ keybinding:
     markCommitAsBaseForRebase: B
     tagCommit: T
     checkoutCommit: <space>
-    resetCherryPick: <c-R>
+    resetCherryPick: <c-r>
     copyCommitAttributeToClipboard: "y"
     openLogMenu: <c-l>
     openInBrowser: o
