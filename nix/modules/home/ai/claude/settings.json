@@ -16,7 +16,8 @@
     "modern-web-guidance@claude-plugins-official": true,
     "playwright@claude-plugins-official": true,
     "rust-analyzer-lsp@claude-plugins-official": true,
-    "typescript-lsp@claude-plugins-official": true
+    "typescript-lsp@claude-plugins-official": true,
+    "mattpocock-skills@claude-plugins-official": true
   },
   "effortLevel": "low",
   "modelSettings": {
@@ -42,5 +43,6 @@
       "**Sensitive remote targets**: any host or namespace with `prod`/`production` as a whole name segment",
       "**Protected IaC scopes**: IAM, RBAC, networking, quota, and node-pool resources; anything whose name or tag carries `prod` or `production` as a whole word or name segment"
     ]
-  }
+  },
+  "switchModelsOnFlag": false
 }
