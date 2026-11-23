@@ -23,6 +23,7 @@
       "claude"
       "drawio"
       "freecad"
+      "google-gemini"
       "inkscape"
       "keka"
       "skim"
