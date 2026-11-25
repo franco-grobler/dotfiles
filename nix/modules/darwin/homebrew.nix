@@ -8,7 +8,7 @@
     enable = true;
 
     brews = [
-      "anomalyco/tap/opencode"
+      "opencode"
       "colima"
       "container"
       "llvm"
