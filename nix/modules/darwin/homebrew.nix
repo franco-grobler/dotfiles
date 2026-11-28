@@ -42,9 +42,5 @@
       autoUpdate = false;
       upgrade = true;
     };
-
-    taps = [
-      "anomalyco/tap"
-    ];
   };
 }
