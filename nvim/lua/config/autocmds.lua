@@ -14,13 +14,17 @@ vim.api.nvim_create_autocmd("User", {
     local repo_dir = vim.env.HOME .. "/dotfiles"
     local lockfile = repo_dir .. "/nvim/lazy-lock.json"
 
+    -- Commit only the lockfile, skipping hooks (pre-commit checks don't apply to it)
     local cmd = {
       "git",
       "-C",
       repo_dir,
-      "add-and-commit",
-      lockfile,
+      "commit",
+      "--no-verify",
+      "-m",
       "chore(nvim): update lazy lockfile",
+      "--",
+      lockfile,
     }
 
     local success, process = pcall(function()
